@@ -887,6 +887,68 @@ h2 {
 .system-card p { margin: 0; color: var(--text-dim); line-height: 1.6; }
 .system-card em { color: var(--gold); font-style: italic; }
 
+/* Page types: a free deck of page kinds, shown as a glyph grid. */
+.pagetypes-section { padding: 96px 0; }
+.pagetypes-count {
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+.pagetypes-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.pagetype {
+  padding: 26px 24px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+  transition: transform 220ms ease, border-color 220ms ease;
+}
+.pagetype:hover { transform: translateY(-6px); border-color: rgba(255, 200, 116, 0.4); }
+.pagetype-glyph {
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  font-size: 1.25rem;
+  color: var(--gold);
+  background: #150f23;
+  box-shadow: inset 0 0 0 1px rgba(255, 200, 116, 0.22);
+}
+.pagetype h3 { margin: 16px 0 8px; font-size: 1.2rem; font-weight: 600; color: var(--paper); }
+.pagetype p { margin: 0; color: var(--text-dim); line-height: 1.55; font-size: 0.95rem; }
+.pagetype em { color: var(--gold); font-style: italic; }
+.pagetype-shot {
+  width: min(54%, 150px);
+  margin: 14px auto 0;
+}
+.pagetype-shot img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+}
+.pagetype-shot figcaption {
+  margin-top: 8px;
+  font-size: 0.74rem;
+  font-style: italic;
+  color: var(--text-dim);
+  text-align: center;
+}
+.pagetypes-more {
+  max-width: 760px;
+  margin: 36px auto 0;
+  text-align: center;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
 /* Editions: a live-rendered mockup of a monthly edition cover, matching the
    real PDF's cover language (dark gradient, gold rule, constellation motif). */
 .edition-preview { display: flex; flex-direction: column; align-items: center; text-align: center; }
@@ -2537,6 +2599,10 @@ em .lore-link, .lore-link em { font-style: italic; }
 }
 
 /* ───────────────────────── responsive ───────────────────────── */
+@media (max-width: 1100px) {
+  .pagetypes-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 @media (max-width: 900px) {
   .nav-links { display: none; }
   .hero { grid-template-columns: 1fr; padding-top: 110px; min-height: auto; }
@@ -2545,6 +2611,7 @@ em .lore-link, .lore-link em { font-style: italic; }
   .braid-proof-section { grid-template-columns: 1fr; }
   .braid-proof-shot { transform: none; }
   .systems-grid { grid-template-columns: 1fr; }
+  .pagetypes-grid { grid-template-columns: 1fr; }
   .anchor-showcase { grid-template-columns: 1fr; }
   .anchor-phone { order: -1; }
   .academy-feature { grid-template-columns: 1fr; }
@@ -2617,4 +2684,103 @@ em .lore-link, .lore-link em { font-style: italic; }
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* ───────────────────────── mobile section drawers ─────────────────────────
+   Desktop: the wrapper divs are transparent (display:contents) and the toggle
+   bar is hidden, so flagged sections render exactly as before. Mobile: the
+   section collapses behind a tap-to-open bar carrying its own title. */
+.drawer-toggle { display: none; }
+.is-drawer .drawer-body,
+.is-drawer .drawer-inner { display: contents; }
+
+@media (max-width: 720px) {
+  section[data-drawer].is-drawer {
+    width: min(var(--maxw), calc(100% - 36px));
+    margin: 0 auto;
+    padding: 0 0 14px;
+  }
+
+  .drawer-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    padding: 20px 20px;
+    margin: 0;
+    color: var(--paper);
+    font: inherit;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    transition: border-color 200ms ease, background 200ms ease;
+  }
+  .drawer-toggle:hover,
+  .drawer-toggle:focus-visible { border-color: rgba(255, 200, 116, 0.4); }
+  .is-drawer.is-open .drawer-toggle {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .drawer-toggle-text { display: flex; flex-direction: column; gap: 4px; }
+  .drawer-toggle-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--gold);
+  }
+  .drawer-toggle-label {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .drawer-chevron {
+    flex: 0 0 auto;
+    width: 11px; height: 11px;
+    border-right: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    transform: rotate(45deg);
+    margin-top: -4px;
+    transition: transform 250ms ease;
+  }
+  .is-drawer.is-open .drawer-chevron { transform: rotate(225deg); margin-top: 4px; }
+
+  /* collapse mechanism: animate the single inner row from 0fr to 1fr */
+  .is-drawer .drawer-body {
+    display: grid;
+    grid-template-rows: 0fr;
+    border: 1px solid transparent;
+    border-top: none;
+    border-radius: 0 0 18px 18px;
+    transition: grid-template-rows 320ms ease;
+  }
+  .is-drawer.is-open .drawer-body {
+    grid-template-rows: 1fr;
+    border-color: var(--line);
+  }
+  .is-drawer .drawer-inner {
+    display: block;
+    overflow: hidden;
+    min-height: 0;
+  }
+  .is-drawer.is-open .drawer-inner { padding: 18px 18px 6px; }
+
+  /* the toggle bar already carries the title, so hide the in-body heading */
+  .is-drawer .section-head { display: none; }
+  /* sections without a .section-head carry their title inside a copy column —
+     hide that block's eyebrow + heading so it isn't duplicated by the bar */
+  .is-drawer .ebook-copy > .eyebrow,
+  .is-drawer .ebook-copy > h2,
+  .is-drawer .privacy-copy > .eyebrow,
+  .is-drawer .privacy-copy > h2 { display: none; }
+}
+
+@media (max-width: 720px) and (prefers-reduced-motion: reduce) {
+  .is-drawer .drawer-body { transition: none; }
+  .drawer-chevron { transition: none; }
 }

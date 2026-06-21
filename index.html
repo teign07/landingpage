@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css?v=4">
   </head>
   <body>
     <canvas id="spell-field" aria-hidden="true"></canvas>
@@ -26,6 +26,7 @@
         <a href="#book">The Book</a>
         <a href="#how">How it works</a>
         <a href="#mechanics">Inside</a>
+        <a href="#pages">Pages</a>
         <a href="#radio">Radio</a>
         <a href="#academy">Academy</a>
         <a href="#chapters">Chapters</a>
@@ -44,7 +45,7 @@
           <h1>Real Life,<br><span class="accent">ReEnchanted</span></h1>
           <p class="hero-tagline">Play with Pages. <span>Keep Some.</span> Read Your Story.</p>
           <p class="hero-lede">
-            An iPhone book that turns the day you actually lived — weather, walks,
+            A free, magical iPhone book that turns the day you actually lived — weather, walks,
             moods, music, the people who pass through — into pages you can keep.
             Keep what's true. Let the rest wait. Watch it braid into a story only you could write.
           </p>
@@ -207,7 +208,7 @@
       </section>
 
       <!-- ──────────────────── EDITIONS ──────────────────── -->
-      <section id="editions" class="systems-section">
+      <section id="editions" class="systems-section" data-drawer>
         <div class="section-head">
           <p class="eyebrow">Bound for keeps</p>
           <h2>Publish your own editions.</h2>
@@ -294,7 +295,7 @@
       </section>
 
       <!-- ──────────────────── MECHANICS ──────────────────── -->
-      <section id="mechanics" class="mechanics-section">
+      <section id="mechanics" class="mechanics-section" data-drawer>
         <div class="section-head">
           <p class="eyebrow">Inside the Book</p>
           <h2>Attention, given a shape.</h2>
@@ -318,8 +319,125 @@
         </div>
       </section>
 
+      <!-- ──────────────────── PAGE TYPES ──────────────────── -->
+      <section id="pages" class="pagetypes-section" data-drawer>
+        <div class="section-head">
+          <p class="eyebrow">Included free — no packs required</p>
+          <h2>Over <span class="pagetypes-count">50</span> kinds of page.</h2>
+          <p class="section-sub">
+            Every day, the Book offers you a deck of different page types to play
+            with and keep. They ship in the base game, free forever — from quiet
+            logs to playful little games. Here are a few of them.
+          </p>
+        </div>
+        <ul class="pagetypes-grid">
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">📖</span>
+            <h3>Book Jumping</h3>
+            <p>At the Academy, students learn to physically jump into books and
+              live them as if they were real. Step into a public-domain classic —
+              <em>The Wizard of Oz</em>, <em>Dracula</em> — and explore it from
+              the inside, one controlled beat at a time. Bring back a souvenir
+              sentence. Just don't go too deep.</p>
+          </li>
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">✦</span>
+            <h3>Quips</h3>
+            <p>A tiny odd fact that tilts the day toward wonder, no work required.
+              <em>"An octopus is what happens when curiosity gets eight hands."</em>
+              <em>"Rust is iron remembering it used to be in the ground."</em>
+              Keep the ones that land.</p>
+          </li>
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">⌖</span>
+            <h3>Playful Missions</h3>
+            <p>One tiny sensory dare — the South = Sense step of a Compass Run,
+              surfaced on its own. <em>"Find the oldest thing near you and smell
+              it. What does age smell like here?"</em> or <em>"Count every blue
+              thing you can see without moving your feet."</em> Done in under
+              three minutes; keep one proof line.</p>
+          </li>
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">❖</span>
+            <h3>Illuminated Photos</h3>
+            <p>Choose a photo from your day — or let Penny find one — and the
+              Book illuminates it, noticing the objects, light, mood, and small
+              jokes already inside, then lettering it like a manuscript page you
+              can keep.</p>
+            <figure class="pagetype-shot">
+              <img src="./assets/screens/real-life-kept.jpg"
+                   alt="An illuminated photo of a sleeping cat's paw, framed with parchment field notes"
+                   loading="lazy" onerror="this.closest('.pagetype-shot').remove()">
+              <figcaption>An ordinary photo of Ron the cat, illuminated.</figcaption>
+            </figure>
+          </li>
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">☼</span>
+            <h3>Inner Weather</h3>
+            <p>How the day actually felt, in your own words and rendered as
+              weather — so a hard afternoon reads as a passing storm and a good
+              one as clear skies. The smallest honest check-in there is.</p>
+          </li>
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">❝</span>
+            <h3>One-Sentence Souvenir</h3>
+            <p>The whole day, distilled into a single line worth keeping —
+              a color, a sound, a tiny mercy — caught before your brain files it
+              under ordinary. The smallest page in the deck.</p>
+          </li>
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">✶</span>
+            <h3>Cast an Enchantment</h3>
+            <p>Take a photo, pick one of 14 spells, and the Book transforms both
+              the image and its main subject. <em>Everything Speaks</em> lets the
+              object answer in its own voice; <em>Everything's a Haiku</em>
+              distills it to three lines; <em>Mirror, Mirror</em> reads a selfie
+              for insight; <em>Everything's Roasted</em> aims a comic burn. Keep
+              the illuminated result.</p>
+          </li>
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">✦</span>
+            <h3>Gossip</h3>
+            <p>What moved while you were elsewhere. The Academy's cast keep
+              scheming, falling out, and warming to one another off-page — and
+              this is the word that reaches you about it.</p>
+          </li>
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">✉︎</span>
+            <h3>Letters</h3>
+            <p>A character who has been watching what you keep writes to you
+              through the margins — a researched, hand-written note that answers
+              something from your real days, addressed to you by name.</p>
+          </li>
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">✦</span>
+            <h3>A Fae Bargain</h3>
+            <p>One of the Book Fae gave you something first — and now a small
+              sensory return is owed. Pay it in the real world and the Book shifts
+              in your favor; leave it, and the debt quietly waits.</p>
+          </li>
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">☾</span>
+            <h3>Today's Sky</h3>
+            <p>The Book reads the night actually overhead — the Moon's real phase
+              and sign, the Sun's sign, and the nearest reason to look up tonight —
+              and keeps it as a page.</p>
+          </li>
+          <li class="pagetype">
+            <span class="pagetype-glyph" aria-hidden="true">📰</span>
+            <h3>The Bleed</h3>
+            <p>Penny Blackletter's pocket newspaper, where the outside world leaks
+              into the margins — odd headlines, an almanac, and an interest column
+              that genuinely reaches out to the live web for what's stirring today.</p>
+          </li>
+        </ul>
+        <p class="pagetypes-more">…and dozens more — Diary, Lore, Story Pages,
+          Cast Members, Outer Stacks rooms, Classes &amp; Clubs, the Book of You,
+          and the rest of the deck, all in the base game.</p>
+      </section>
+
       <!-- ──────────────────── LIVING SYSTEMS ──────────────────── -->
-      <section id="systems" class="systems-section">
+      <section id="systems" class="systems-section" data-drawer>
         <div class="section-head">
           <p class="eyebrow">The book remembers</p>
           <h2>Systems that make it feel alive.</h2>
@@ -405,7 +523,7 @@
       </section>
 
       <!-- ──────────────────── THE ACADEMY (narrative sim) ──────────────────── -->
-      <section id="academy" class="academy-section">
+      <section id="academy" class="academy-section" data-drawer>
         <div class="section-head">
           <p class="eyebrow">Not a chatbot — a world</p>
           <h2>An entire school, running without you.</h2>
@@ -663,7 +781,7 @@
       </section>
 
       <!-- ──────────────────── RADIO ──────────────────── -->
-      <section id="radio" class="radio-section">
+      <section id="radio" class="radio-section" data-drawer>
         <div class="section-head">
           <p class="eyebrow">ReEnchanted Radio</p>
           <h2>Dial in. Let the signal color the day.</h2>
@@ -738,7 +856,7 @@
       </section>
 
       <!-- ──────────────────── WONDER COMPASS EBOOK ──────────────────── -->
-      <section id="ebook" class="ebook-section">
+      <section id="ebook" class="ebook-section" data-drawer>
         <div class="ebook-copy">
           <p class="eyebrow">Included free</p>
           <h2>Feeling <button class="lore-link" data-lore="the-nothing" type="button">grey</button>?</h2>
@@ -773,7 +891,7 @@
       </section>
 
       <!-- ──────────────────── CONTENT PACKS ──────────────────── -->
-      <section id="packs" class="packs-section">
+      <section id="packs" class="packs-section" data-drawer>
         <div class="section-head">
           <p class="eyebrow">The shelf keeps growing</p>
           <h2>Content packs: new everything.</h2>
@@ -816,7 +934,7 @@
       </section>
 
       <!-- ──────────────────── PRIVACY ──────────────────── -->
-      <section id="privacy" class="privacy-section">
+      <section id="privacy" class="privacy-section" data-drawer>
         <div class="privacy-copy">
           <p class="eyebrow">Real device magic</p>
           <h2>Your save is yours.</h2>
@@ -964,6 +1082,6 @@
     </div>
 
     <!-- You looked behind the page. Riddlewind approves. Penny misfiled a receipt marked 97.3. -->
-    <script src="./app.js"></script>
+    <script src="./app.js?v=4"></script>
   </body>
 </html>

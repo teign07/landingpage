@@ -494,6 +494,7 @@ const STATIONS = [
     tracks: [
       { id: "mothlight-the-page-came-through", title: "The Page Came Through", artist: "Mothlight Beats", src: "./assets/audio/mothlight-the-page-came-through.m4a" },
       { id: "mothlight-fae-dust", title: "Fae Dust", artist: "Mothlight Beats", src: "./assets/audio/mothlight-fae-dust.m4a" },
+      { id: "mothlight-lost-candy", title: "Lost Candy", artist: "Mothlight Beats", src: "./assets/audio/mothlight-lost-candy.m4a" },
       { id: "mothlight-afternoon-chapters", title: "Afternoon Chapters", artist: "Mothlight Beats", src: "./assets/audio/mothlight-afternoon-chapters.m4a" },
       { id: "mothlight-porchlight-fading", title: "Porchlight, Fading", artist: "Mothlight Beats", src: null },
     ],
@@ -1862,4 +1863,63 @@ const LORE = {
     if (!modal.hidden && activeGallery.length > 1 && e.key === "ArrowLeft") showGalleryItem(activeGalleryIndex - 1);
     if (!modal.hidden && activeGallery.length > 1 && e.key === "ArrowRight") showGalleryItem(activeGalleryIndex + 1);
   });
+})();
+
+/* ───────────────────────── mobile section drawers ─────────────────────────
+   On narrow screens, long content sections collapse into tap-to-open drawers.
+   Progressive enhancement: the wrappers use display:contents on desktop, so
+   the original layouts render exactly as before. */
+(function setupDrawers() {
+  const sections = Array.from(document.querySelectorAll("section[data-drawer]"));
+  if (!sections.length) return;
+
+  sections.forEach((section, index) => {
+    const heading = section.querySelector("h2");
+    const label = (section.dataset.drawerLabel || heading?.textContent || "Section").trim();
+    const eyebrow = section.querySelector(".eyebrow")?.textContent.trim() || "";
+
+    // Wrap all existing content so it can be collapsed as one unit.
+    const inner = document.createElement("div");
+    inner.className = "drawer-inner";
+    while (section.firstChild) inner.appendChild(section.firstChild);
+    const body = document.createElement("div");
+    body.className = "drawer-body";
+    body.appendChild(inner);
+
+    // The mobile-only toggle bar carries the section's own title.
+    const toggle = document.createElement("button");
+    toggle.type = "button";
+    toggle.className = "drawer-toggle";
+    const bodyId = (section.id || `drawer-${index}`) + "-body";
+    body.id = bodyId;
+    toggle.setAttribute("aria-controls", bodyId);
+    toggle.innerHTML =
+      `<span class="drawer-toggle-text">` +
+      (eyebrow ? `<span class="drawer-toggle-eyebrow">${eyebrow}</span>` : "") +
+      `<span class="drawer-toggle-label">${label}</span>` +
+      `</span><span class="drawer-chevron" aria-hidden="true"></span>`;
+
+    section.classList.add("is-drawer");
+    section.appendChild(toggle);
+    section.appendChild(body);
+
+    const setOpen = (open) => {
+      section.classList.toggle("is-open", open);
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
+    };
+    // First drawer opens by default as a hint that the rest are tappable.
+    setOpen(index === 0);
+    toggle.addEventListener("click", () => setOpen(!section.classList.contains("is-open")));
+  });
+
+  // If the page is opened to a section's anchor, reveal it.
+  const openFromHash = () => {
+    const target = document.querySelector(`section[data-drawer]${location.hash || "#__none"}`);
+    if (target) {
+      target.classList.add("is-open");
+      target.querySelector(".drawer-toggle")?.setAttribute("aria-expanded", "true");
+    }
+  };
+  openFromHash();
+  window.addEventListener("hashchange", openFromHash);
 })();
