@@ -36,7 +36,7 @@ for (const file of filesToScan) {
     addReference(file, match[1]);
   }
 
-  for (const match of source.matchAll(/url\(([^)]+)\)/g)) {
+  for (const match of source.matchAll(/(?<![A-Za-z0-9_-])url\(([^)]+)\)/g)) {
     addReference(file, match[1]);
   }
 
@@ -57,7 +57,7 @@ for (const encoded of references) {
     continue;
   }
 
-  if (!statSync(candidate).isFile()) {
+  if (!statSync(candidate).isFile() && !value.endsWith("/")) {
     missing.push(fromFile + " -> " + value + " is not a file");
   }
 }
@@ -69,4 +69,3 @@ if (missing.length) {
 }
 
 console.log("Checked " + references.size + " local static references. All good.");
-
