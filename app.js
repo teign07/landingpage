@@ -258,6 +258,7 @@ const PAGES = [
     quiet: true,
   },
 ];
+const WEATHER_INDEX = PAGES.findIndex((p) => p.kicker === "Weather Page");
 
 /* ───────────────────────── book controller ───────────────────────── */
 const book = document.querySelector("#the-book");
@@ -1438,9 +1439,11 @@ async function loadRealWeather() {
       place: `Read from ${city} · approximate, never stored — the same doorway the app uses`,
       city,
     };
-    PAGES[0].bodyHTML = weatherPageHTML(weatherCtx);
-    PAGES[0].braid = `The Weather Page opened on ${d.word} over ${city}; I kept the sky exactly as it stood.`;
-    if (index === 0 && book.dataset.state === "open") render();
+    if (WEATHER_INDEX >= 0) {
+      PAGES[WEATHER_INDEX].bodyHTML = weatherPageHTML(weatherCtx);
+      PAGES[WEATHER_INDEX].braid = `The Weather Page opened on ${d.word} over ${city}; I kept the sky exactly as it stood.`;
+      if (index === WEATHER_INDEX && book.dataset.state === "open") render();
+    }
   } catch (_) {
     /* offline / blocked — the Stacks default already reads beautifully */
   }
