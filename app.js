@@ -101,7 +101,7 @@ const PAGES = [
   {
     kicker: "The First Door",
     title: "The cover opens.",
-    body: "You open the app. The first word lifts from the screen and turns to look at you. Ink blooms under the glass, cold as rainwater and impossibly wet. Then the room tips, the screen widens into margins, and stories rush past in layers.",
+    body: "You open the app. The first word lifts from the screen and turns to look at you. Then the sentence breaks its spine. Ink blooms under the glass, cold as rainwater and impossibly wet, and climbs over your fingers. The room tips. Stories rush past in layers: green sea-salt, dragonfire underfoot, a train brake screaming somewhere in another ending. There is not any down. There are only chapters.",
     source: "First-run onboarding · the fall",
     shot: "./assets/screens/home.jpg",
     braid: "The Book opened like weather, and the first impossible word looked back.",
@@ -111,7 +111,7 @@ const PAGES = [
   {
     kicker: "The Great Unwritten",
     title: "Your ordinary world is the chapter.",
-    body: "Zara Finch checks your sleeve for punctuation, then looks behind you for the door that vanished. \"You're from the Great Unwritten,\" she says. \"Supposedly the best chapter. No fixed plot. No narrator tidying things afterward. Everything you do can change what comes next.\"",
+    body: "Zara Finch reaches you first. She checks your sleeve for punctuation, then looks behind you for the door that vanished. \"You're from the Great Unwritten,\" she says. \"Your ordinary world is a chapter of this Book - supposedly the best one. No fixed plot. No narrator tidying things afterward. Everything you do can change what comes next.\" She says it like a warning and a compliment, which is very Zara.",
     source: "Zara Finch · arrival notes",
     shot: "./assets/screens/character-zara-finch.png",
     braid: "Zara named the Great Unwritten, and the ordinary world stopped pretending it was outside the story.",
@@ -121,7 +121,7 @@ const PAGES = [
   {
     kicker: "Zara's First Question",
     title: "The Book learns one small texture.",
-    body: "\"Before the Book starts choosing pages for you, it needs a few human details,\" Zara says. \"Nothing grand. The little things are usually where the magic gets specific.\" She asks what you like to snack on while reading.",
+    body: "\"Before the Book starts choosing pages for you, it needs a few human details,\" Zara says. \"Nothing grand. Grand answers are usually hiding something. The little things are where the magic gets specific.\" She asks what you like to snack on while reading. Not because it is important in the official sense. Because specificity is how doors learn handles.",
     source: "Onboarding · specificity",
     shot: "./assets/screens/margins.jpg",
     braid: "A snack appeared in the margin like a tiny ration for the road.",
@@ -131,7 +131,7 @@ const PAGES = [
   {
     kicker: "The Name the Book Knows",
     title: "Give the page a name it can say kindly.",
-    body: "The Book does not need your legal anything. It wants the name that feels like yours when someone says it carefully. Later, when someone in the Stacks writes to you, this is the name the page will reach for.",
+    body: "The Book does not need your legal anything. Zara taps a blank line and lowers her voice. \"It wants the name that feels like yours when someone says it kindly.\" Later, when someone in the Stacks writes to you, argues with you, misses you, or leaves a note under the wrong door, this is the name the page will reach for.",
     source: "Onboarding · reader name",
     shot: "./assets/screens/book-of-you.jpg",
     braid: "The Book learned the name at the center of the page and darkened the letters so future doors could find it.",
@@ -141,7 +141,7 @@ const PAGES = [
   {
     kicker: "Belief and Glow",
     title: "Name the stubborn light.",
-    body: "At the far end of the aisle, a grey absence worries at the corner of a page. A word vanishes. Then another. \"Belief makes the magic happen,\" Zara says. \"Not certainty. Attention. Care. The stubborn decision that something matters enough to become real again.\"",
+    body: "At the far end of the aisle, a grey absence worries at the corner of a page. One word vanishes. Then another. Zara raises her compass and the erased letters return in wet black ink. \"Belief makes the magic happen,\" she says. \"Not certainty. Attention. Care. The stubborn decision that something matters enough to become real again.\" She offers you hers - every book is a door - and asks for yours.",
     source: "Onboarding · Belief",
     shot: "./assets/screens/belief-cast.jpg",
     braid: "A named belief warmed under the page, small at first and therefore serious.",
@@ -151,7 +151,7 @@ const PAGES = [
   {
     kicker: "Wicker Interrupts",
     title: "Show him what kind of story arrived.",
-    body: "You and Zara are almost through the next arch when Wicker Eddies steps out from behind a shelf as if he has been waiting for the exact worst moment. \"So this is the impossible reader,\" he says. \"Show me what kind of story the Unwritten sent us.\"",
+    body: "You and Zara are almost through the next arch when Wicker Eddies steps out from behind a shelf as if he has been waiting for the exact worst moment. \"So this is the impossible reader,\" he says. \"Tiny bit shorter than the rumors.\" Zara sighs. \"Wicker.\" He smiles like that was the point. \"Show me what kind of story the Unwritten sent us.\" The Book warms under your hand. Zara does not answer for you.",
     source: "Onboarding · Belief roll",
     shot: "./assets/screens/character-wicker-eddies.png",
     braid: "Wicker tested the new belief with a crooked smile, and the page rolled its little thunder.",
@@ -161,7 +161,7 @@ const PAGES = [
   {
     kicker: "The First Page Rises",
     title: "Try keeping one true thing.",
-    body: "A small page slips from the stack and lands in front of you. \"This is the whole trick,\" Zara says. \"Some pages are for today. Some are not. If it catches something true, keep it. If not, let it wait.\"",
+    body: "A small page slips from the stack and lands in front of you. \"This is the whole trick,\" Zara says. \"The Book offers pages. Some notice the weather. Some bring a character, a question, a memory, a small strange invitation. You do not have to keep them all. If it catches something true, keep it. If not, let it wait. The archive should be honest before it is impressive.\"",
     source: "Onboarding · keep / wait rehearsal",
     shot: "./assets/screens/keep-page.jpg",
     braid: "The first practice page rose, and the archive learned the difference between yes and not today.",
@@ -341,18 +341,18 @@ const WICKER_MODES = [
   {
     id: "slice-of-life",
     title: "Slice of Life",
-    detail: "Answer with one concrete ordinary detail.",
+    detail: "Answer him with one concrete ordinary detail.",
     difficulty: 42,
-    success: "Wicker tries to sneer, but the ordinary detail lands too cleanly.",
-    failure: "The detail comes out smaller than you meant. Zara steps beside you before he can pull the thread.",
+    success: "Wicker tries to sneer, but the ordinary detail lands too cleanly. Zara looks pleased despite herself.",
+    failure: "The detail comes out smaller than you meant. Wicker finds the loose thread, but Zara steps beside you before he can pull it.",
   },
   {
     id: "arc",
     title: "Arc",
     detail: "Turn the interruption into a promise of motion.",
     difficulty: 56,
-    success: "You name the direction before Wicker can name the flaw.",
-    failure: "The promise wobbles. Wicker hears it, but the Book keeps the attempt as a beginning.",
+    success: "You name the direction before Wicker can name the flaw. The hall shifts half a degree toward your next door.",
+    failure: "The promise wobbles. Wicker hears it immediately, but the Book keeps the attempt as a beginning.",
   },
   {
     id: "surprise",
@@ -360,7 +360,7 @@ const WICKER_MODES = [
     detail: "Refuse the expected answer and let something odd through.",
     difficulty: 64,
     success: "The answer is so sideways that Wicker forgets to be superior for one entire second.",
-    failure: "The surprise misfires into awkward magic. Zara mutters, \"Useful data,\" which somehow helps.",
+    failure: "The surprise misfires into awkward magic. Wicker enjoys that too much. Zara mutters, \"Useful data,\" which somehow helps.",
   },
 ];
 
@@ -423,21 +423,21 @@ function renderOnboardingPanel(page) {
       onboardingButton(`sleeve:${word}`, word, onboarding.sleeveWord === word, "word")
     ).join("");
     html = `
-      <p class="onboarding-panel-title">Make the fall tactile</p>
+      <p class="onboarding-panel-title">Get your hands into the page</p>
       <div class="onboarding-actions">
-        ${onboardingButton("ink", onboarding.inkWake ? "Ink woke under glass" : "Touch the wet ink", onboarding.inkWake)}
-        ${onboardingButton("steady", onboarding.pageSteady ? "Stone underfoot" : "Steady the page", onboarding.pageSteady)}
+        ${onboardingButton("ink", onboarding.inkWake ? "Ink slicks your fingers" : "Touch the wet ink", onboarding.inkWake)}
+        ${onboardingButton("steady", onboarding.pageSteady ? "Stone catches your knees" : "Brace for the landing", onboarding.pageSteady)}
       </div>
-      <p class="onboarding-prompt">A smaller word catches in your sleeve. Choose the one the Book reads first.</p>
+      <p class="onboarding-prompt">Words flock around you as you fall. One smaller word catches in your sleeve before the Book can read it.</p>
       <div class="onboarding-word-row">${sleeveButtons}</div>
-      <p class="onboarding-result">${onboardingReady(page) ? "The fall has a handhold. Stand up." : "Wake the ink, choose the sleeve word, and steady the page."}</p>
+      <p class="onboarding-result">${onboardingReady(page) ? "The fall has a handhold. Stone meets you in a crumple." : "Wake the ink, choose the sleeve word, and survive the landing."}</p>
     `;
   } else if (page.onboardingStep === "unwritten") {
     html = `
-      <p class="onboarding-panel-title">Tuck the Unwritten into the margin</p>
-      <p class="onboarding-prompt">Zara hands you a torn word: UNWRITTEN. Put it where the Book can keep track of it.</p>
+      <p class="onboarding-panel-title">File the impossible fact</p>
+      <p class="onboarding-prompt">Zara hands you a torn word: UNWRITTEN. It does not behave like paper. Put it where the Book can keep track of it.</p>
       <div class="onboarding-actions">
-        ${onboardingButton("unwritten", onboarding.unwrittenTucked ? "UNWRITTEN tucked safely" : "Tuck UNWRITTEN into the margin", onboarding.unwrittenTucked)}
+        ${onboardingButton("unwritten", onboarding.unwrittenTucked ? "UNWRITTEN tucked under the rule" : "Tuck UNWRITTEN into the margin", onboarding.unwrittenTucked)}
       </div>
     `;
   } else if (page.onboardingStep === "snack") {
@@ -446,7 +446,7 @@ function renderOnboardingPanel(page) {
         <span>Favorite reading snack</span>
         <input type="text" data-onboard-input="snack" maxlength="60" autocomplete="off" value="${snack}" placeholder="sharp apples, tea, gummy bears">
       </label>
-      <p class="onboarding-result">${onboarding.snack ? `The margin writes: ${snack}. Specificity gives doors handles.` : "One small true answer is enough."}</p>
+      <p class="onboarding-result">${onboarding.snack ? `The margin writes: ${snack}. Tiny, serious ink. Specificity gives doors handles.` : "One small true answer is enough. The Book is listening for texture."}</p>
     `;
   } else if (page.onboardingStep === "name") {
     html = `
@@ -454,7 +454,7 @@ function renderOnboardingPanel(page) {
         <span>What should the Book call you?</span>
         <input type="text" data-onboard-input="name" maxlength="48" autocomplete="name" value="${name}" placeholder="a kind name, not a form name">
       </label>
-      <p class="onboarding-result">${onboarding.name ? `Hello, ${name}. The page darkens the letters.` : "Write the name future pages should use."}</p>
+      <p class="onboarding-result">${onboarding.name ? `Hello, ${name}. Zara says it once, carefully, and the page darkens the letters.` : "Write the name future pages should use when they mean you kindly."}</p>
     `;
   } else if (page.onboardingStep === "belief") {
     html = `
@@ -468,10 +468,10 @@ function renderOnboardingPanel(page) {
       </div>
       <p class="onboarding-result">${
         onboarding.plantedBelief === true
-          ? "Glow wakes in the header. The Book is holding a little weight for this belief."
+          ? "Glow wakes in the header. The Book is holding a little weight for this belief now."
           : onboarding.plantedBelief === false
             ? "The belief stays named. The Book respects a careful pocket."
-            : "Name the belief, then decide whether to plant a little weight in it."
+            : "Name the belief, then decide whether to plant a little weight in it. Belief is what you give; Glow is what the Book shows."
       }</p>
     `;
   } else if (page.onboardingStep === "wicker") {
@@ -480,15 +480,15 @@ function renderOnboardingPanel(page) {
     ).join("");
     const rollLine = roll && mode
       ? `${roll.total} vs ${mode.difficulty} - ${roll.succeeded ? mode.success : mode.failure}`
-      : "Choose your answer, then roll Belief.";
+      : "Choose your answer, then roll Belief. Planted Belief gives the page a little more weight.";
     html = `
-      <p class="onboarding-panel-title">Choose your answer to Wicker</p>
+      <p class="onboarding-panel-title">Answer without letting him write you first</p>
       <div class="onboarding-mode-grid">${modeButtons}</div>
       <div class="onboarding-roll">
         ${onboardingButton("roll", roll ? "Roll again" : "Roll Belief", false, "roll")}
         <span>${escapeHTML(rollLine)}</span>
       </div>
-      ${roll ? `<p class="onboarding-result">Raw ${roll.raw}${roll.bonus ? ` + ${roll.bonus} planted Belief` : ""}. ${roll.succeeded ? "Success." : "Complicated success."}</p>` : ""}
+      ${roll ? `<p class="onboarding-result">Raw ${roll.raw}${roll.bonus ? ` + ${roll.bonus} planted Belief` : ""}. ${roll.succeeded ? "Success." : "Complicated success. The Book still keeps the attempt."}</p>` : ""}
     `;
   } else if (page.onboardingStep === "first-page") {
     html = `
@@ -500,8 +500,8 @@ function renderOnboardingPanel(page) {
         choices[index] === "keep"
           ? (onboarding.firstSouvenir ? "Kept. The archive has its first true edge." : "Write the sentence before keeping this page.")
           : choices[index] === "wait"
-            ? "Letting a page wait is still an honest choice."
-            : "Choose Keep or Let it wait below."
+            ? "Good. Letting a weak page pass keeps the archive honest."
+            : "Choose Keep or Let it wait below. Both are real answers."
       }</p>
     `;
   }
