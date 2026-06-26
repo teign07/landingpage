@@ -163,32 +163,35 @@
               <!-- left: the decision page -->
               <div class="leaf leaf-left">
                 <div class="leaf-paper">
-                  <p class="leaf-kicker" id="page-kicker">Weather Page</p>
-                  <h3 class="leaf-title" id="page-title">The Weather Page has opened.</h3>
+                  <p class="leaf-kicker" id="page-kicker">The First Door</p>
+                  <h3 class="leaf-title" id="page-title">The cover opens.</h3>
                   <p class="leaf-body" id="page-body">
-                    <span class="weather-facts" aria-label="Weather details">
-                      <span><strong>Now</strong> 60° · fog</span>
-                      <span><strong>High / Low</strong> 71° / 56°</span>
-                      <span><strong>Wind</strong> E 4 mph</span>
-                      <span><strong>Humidity</strong> 92%</span>
-                    </span>
-                    <span class="private-translation">
-                      <span class="pt-label">✦ Private translation</span>
-                      <span class="pt-line"><strong>Enchanted:</strong> Fog has softened every edge of the world into suggestion. <strong>Plain:</strong> It is foggy.</span>
-                      <span class="pt-moon">Half the moon is lit tonight, like a door left ajar.</span>
-                      <span class="pt-meta">Weather: Now 60° · fog · High 71° / Low 56° · First Quarter</span>
-                    </span>
-                    <span class="weather-place">Over the Stacks · the Book's default sky</span>
+                    You open the app. The first word lifts from the screen and turns to look at you.
+                    Ink blooms under the glass, cold as rainwater and impossibly wet. Then the room
+                    tips, the screen widens into margins, and stories rush past in layers.
                   </p>
-                  <p class="leaf-source" id="page-source">Weather doorway · public forecast</p>
+                  <p class="leaf-source" id="page-source">First-run onboarding · the fall</p>
 
-                  <div class="onboarding-panel" id="onboarding-panel" hidden></div>
+                  <div class="onboarding-panel" id="onboarding-panel">
+                    <p class="onboarding-panel-title">Make the fall tactile</p>
+                    <div class="onboarding-actions">
+                      <button class="onboarding-action" type="button" data-onboard-action="ink">Touch the wet ink</button>
+                      <button class="onboarding-action" type="button" data-onboard-action="steady">Steady the page</button>
+                    </div>
+                    <p class="onboarding-prompt">A smaller word catches in your sleeve. Choose the one the Book reads first.</p>
+                    <div class="onboarding-word-row">
+                      <button class="onboarding-action word" type="button" data-onboard-action="sleeve:GLINT">GLINT</button>
+                      <button class="onboarding-action word" type="button" data-onboard-action="sleeve:MARGIN">MARGIN</button>
+                      <button class="onboarding-action word" type="button" data-onboard-action="sleeve:THRESHOLD">THRESHOLD</button>
+                    </div>
+                    <p class="onboarding-result">Wake the ink, choose the sleeve word, and steady the page.</p>
+                  </div>
 
-                  <div class="keep-controls" id="keep-controls">
+                  <div class="keep-controls" id="keep-controls" hidden>
                     <button class="keep-btn wait" id="btn-wait" type="button">Let it wait</button>
                     <button class="keep-btn keep" id="btn-keep" type="button">Keep this page ✦</button>
                   </div>
-                  <p class="keep-status" id="keep-status">8 pages rising · keep the ones that are true</p>
+                  <p class="keep-status" id="keep-status" hidden>11 pages rising · keep the ones that are true</p>
 
                   <div class="story-choices" id="story-choices" hidden>
                     <p class="story-choices-heading">Choose how the page turns — keep it to brave that future.</p>
@@ -262,7 +265,7 @@
               <!-- right: the screen (peel the corner or tap Next to turn) -->
               <div class="leaf leaf-right" id="leaf-right">
                 <div class="leaf-screen">
-                  <img id="page-shot" src="./assets/screens/story-page-weather-prose.png" alt="ReEnchanted screen">
+                  <img id="page-shot" src="./assets/screens/home.jpg" alt="ReEnchanted screen">
                   <span class="kept-stamp" id="kept-stamp">Kept</span>
                 </div>
                 <span class="page-corner" id="page-corner" aria-hidden="true" title="Drag to turn the page"></span>
@@ -1248,6 +1251,6 @@
     </div>
 
     <!-- You looked behind the page. Riddlewind approves. Penny misfiled a receipt marked 97.3. -->
-    <script src="./app.js?v=29"></script>
+    <script src="./app.js?v=30"></script>
   </body>
 </html>
