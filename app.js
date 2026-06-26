@@ -101,7 +101,7 @@ const PAGES = [
   {
     kicker: "The First Door",
     title: "The cover opens.",
-    body: "You open the app. The first word lifts from the screen and turns to look at you. Then the sentence breaks its spine. Ink blooms under the glass, cold as rainwater and impossibly wet, and climbs over your fingers. The room tips. Stories rush past in layers: green sea-salt, dragonfire underfoot, a train brake screaming somewhere in another ending. There is not any down. There are only chapters.",
+    body: "You open the app. The first word lifts from the screen and turns to look at you. Then the sentence breaks its spine. Ink blooms under the glass, cold as rainwater and impossibly wet, and climbs over your fingers. The room tips. Stories rush past in layers: green sea-salt, dragonfire underfoot, a train brake screaming somewhere in another ending. There is no down. There are only chapters.",
     source: "First-run onboarding · the fall",
     shot: "./assets/screens/home.jpg",
     braid: "The Book opened like weather, and the first impossible word looked back.",
@@ -111,7 +111,7 @@ const PAGES = [
   {
     kicker: "The Great Unwritten",
     title: "Your ordinary world is the chapter.",
-    body: "Zara Finch reaches you first. She checks your sleeve for punctuation, then looks behind you for the door that vanished. \"You're from the Great Unwritten,\" she says. \"Your ordinary world is a chapter of this Book - supposedly the best one. No fixed plot. No narrator tidying things afterward. Everything you do can change what comes next.\" She says it like a warning and a compliment, which is very Zara.",
+    body: "Zara Finch reaches you first. She checks your sleeve for punctuation, then looks behind you for the door that vanished. \"You're from the Great Unwritten,\" she says. \"That means your ordinary world is a chapter of this Book - supposedly the best one. No fixed plot. No narrator cleaning up afterward. What you do next actually matters.\" She says it like a warning and a compliment, which is very Zara.",
     source: "Zara Finch · arrival notes",
     shot: "./assets/screens/character-zara-finch.png",
     braid: "Zara named the Great Unwritten, and the ordinary world stopped pretending it was outside the story.",
@@ -121,7 +121,7 @@ const PAGES = [
   {
     kicker: "Zara's First Question",
     title: "The Book learns one small texture.",
-    body: "\"Before the Book starts choosing pages for you, it needs a few human details,\" Zara says. \"Nothing grand. Grand answers are usually hiding something. The little things are where the magic gets specific.\" She asks what you like to snack on while reading. Not because it is important in the official sense. Because specificity is how doors learn handles.",
+    body: "\"Before the Book starts choosing pages for you, it needs a few human details,\" Zara says. \"Nothing grand. Grand answers are usually hiding something.\" She studies you, then points at the blank margin. \"What do you eat when you read? Mine's sharp green apples. They keep me awake when the footnotes get predatory.\" She glances at the Book. \"Do not make it impressive. The little answer is the useful one. Specificity is how doors learn handles.\"",
     source: "Onboarding · specificity",
     shot: "./assets/screens/margins.jpg",
     braid: "A snack appeared in the margin like a tiny ration for the road.",
@@ -131,7 +131,7 @@ const PAGES = [
   {
     kicker: "The Name the Book Knows",
     title: "Give the page a name it can say kindly.",
-    body: "The Book does not need your legal anything. Zara taps a blank line and lowers her voice. \"It wants the name that feels like yours when someone says it kindly.\" Later, when someone in the Stacks writes to you, argues with you, misses you, or leaves a note under the wrong door, this is the name the page will reach for.",
+    body: "Zara taps a blank line and lowers her voice. \"The Book does not need your legal anything. It wants the name that feels like yours when someone says it kindly.\" Later, when someone in the Stacks writes to you, argues with you, misses you, or leaves a note under the wrong door, this is the name the page will reach for.",
     source: "Onboarding · reader name",
     shot: "./assets/screens/book-of-you.jpg",
     braid: "The Book learned the name at the center of the page and darkened the letters so future doors could find it.",
@@ -141,7 +141,7 @@ const PAGES = [
   {
     kicker: "Belief and Glow",
     title: "Name the stubborn light.",
-    body: "At the far end of the aisle, a grey absence worries at the corner of a page. One word vanishes. Then another. Zara raises her compass and the erased letters return in wet black ink. \"Belief makes the magic happen,\" she says. \"Not certainty. Attention. Care. The stubborn decision that something matters enough to become real again.\" She offers you hers - every book is a door - and asks for yours.",
+    body: "At the far end of the aisle, a grey absence worries at the corner of a page. One word vanishes. Then another. Zara raises her compass and the erased letters return in wet black ink. \"That is the Nothing,\" she says. \"It is what happens when attention leaves and the world turns into wallpaper.\" She offers you her Belief - every book is a door - then nods to the blank line. \"Your turn. What matters enough that you want the Book to notice it?\"",
     source: "Onboarding · Belief",
     shot: "./assets/screens/belief-cast.jpg",
     braid: "A named belief warmed under the page, small at first and therefore serious.",
@@ -151,7 +151,7 @@ const PAGES = [
   {
     kicker: "Wicker Interrupts",
     title: "Show him what kind of story arrived.",
-    body: "You and Zara are almost through the next arch when Wicker Eddies steps out from behind a shelf as if he has been waiting for the exact worst moment. \"So this is the impossible reader,\" he says. \"Tiny bit shorter than the rumors.\" Zara sighs. \"Wicker.\" He smiles like that was the point. \"Show me what kind of story the Unwritten sent us.\" The Book warms under your hand. Zara does not answer for you.",
+    body: "You and Zara are almost through the next arch when Wicker Eddies steps out from behind a shelf as if he has been waiting for the exact worst moment. \"So this is the impossible reader,\" he says. \"Tiny bit shorter than the rumors.\" Zara sighs. \"Wicker.\" He smiles like that was the point. \"Show me what kind of story the Unwritten sent us.\" The Book warms under your hand. Zara looks at you, not him. \"Answer in your own shape.\"",
     source: "Onboarding · Belief roll",
     shot: "./assets/screens/character-wicker-eddies.png",
     braid: "Wicker tested the new belief with a crooked smile, and the page rolled its little thunder.",
@@ -161,7 +161,7 @@ const PAGES = [
   {
     kicker: "The First Page Rises",
     title: "Try keeping one true thing.",
-    body: "A small page slips from the stack and lands in front of you. \"This is the whole trick,\" Zara says. \"The Book offers pages. Some notice the weather. Some bring a character, a question, a memory, a small strange invitation. You do not have to keep them all. If it catches something true, keep it. If not, let it wait. The archive should be honest before it is impressive.\"",
+    body: "A small page slips from the stack and lands in front of you. \"This is the whole trick,\" Zara says. \"The Book offers pages from your real day: weather, people, memories, questions, little strange invitations. You do not have to keep them all. If a page catches something true, keep it. If it is not for today, let it wait. The archive should be honest before it is impressive.\"",
     source: "Onboarding · keep / wait rehearsal",
     shot: "./assets/screens/keep-page.jpg",
     braid: "The first practice page rose, and the archive learned the difference between yes and not today.",
