@@ -1694,6 +1694,141 @@ h2 {
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
+.onboarding-panel {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 14px;
+  border: 1px solid rgba(42, 32, 20, 0.14);
+  border-radius: 12px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 248, 222, 0.18)),
+    rgba(255, 200, 116, 0.12);
+  box-shadow: inset 0 0 24px rgba(120, 90, 50, 0.07);
+}
+.onboarding-panel[hidden] { display: none; }
+.onboarding-panel-title,
+.onboarding-prompt,
+.onboarding-result {
+  margin: 0;
+}
+.onboarding-panel-title {
+  color: #221a10;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+.onboarding-prompt,
+.onboarding-result {
+  color: rgba(42, 32, 20, 0.68);
+  font-size: 0.84rem;
+  line-height: 1.42;
+}
+.onboarding-result {
+  font-family: var(--serif);
+  font-style: italic;
+}
+.onboarding-actions,
+.onboarding-word-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.onboarding-action {
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(42, 32, 20, 0.20);
+  border-radius: 10px;
+  color: rgba(42, 32, 20, 0.76);
+  background: rgba(255, 255, 255, 0.34);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
+}
+.onboarding-action:hover {
+  transform: translateY(-1px);
+  border-color: rgba(28, 108, 105, 0.34);
+  background: rgba(255, 255, 255, 0.48);
+}
+.onboarding-action.chosen {
+  border-color: rgba(28, 108, 105, 0.46);
+  color: #18342a;
+  background: rgba(76, 192, 189, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(76, 192, 189, 0.13);
+}
+.onboarding-action.word {
+  min-width: 96px;
+  letter-spacing: 0.08em;
+}
+.onboarding-field {
+  display: grid;
+  gap: 7px;
+}
+.onboarding-field span {
+  color: #18342a;
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+.onboarding-field input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1px solid rgba(42, 32, 20, 0.18);
+  border-radius: 10px;
+  color: #221a10;
+  background: rgba(255, 255, 255, 0.52);
+  font: 700 0.92rem var(--sans);
+}
+.onboarding-field input:focus {
+  outline: 2px solid rgba(28, 108, 105, 0.30);
+  outline-offset: 2px;
+}
+.onboarding-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+.onboarding-action.mode {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  min-height: 86px;
+  padding: 10px;
+  text-align: left;
+  line-height: 1.2;
+}
+.onboarding-action.mode strong {
+  color: #221a10;
+  font-family: var(--serif);
+  font-size: 0.94rem;
+}
+.onboarding-action.mode span {
+  color: rgba(42, 32, 20, 0.62);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.onboarding-roll {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+}
+.onboarding-action.roll {
+  color: #2a1d0a;
+  border-color: var(--gold-deep);
+  background: linear-gradient(180deg, var(--gold-soft), var(--gold));
+}
+.onboarding-roll span {
+  color: rgba(42, 32, 20, 0.72);
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  line-height: 1.32;
+}
 .keep-controls {
   display: flex;
   gap: 12px;
@@ -1701,6 +1836,8 @@ h2 {
   padding-top: clamp(14px, 2.2vw, 22px);
   flex-shrink: 0;
 }
+.keep-controls[hidden],
+.keep-status[hidden] { display: none; }
 .keep-btn {
   flex: 1;
   min-height: 48px;
@@ -1725,6 +1862,7 @@ h2 {
 
 .leaf-screen { position: relative; height: 100%; background: #0b0811; }
 .leaf-screen img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.leaf-screen.is-onboarding img { object-position: top center; }
 .leaf-screen.is-character img { object-fit: contain; object-position: top center; }
 .leaf-screen.is-enchantment img { object-fit: contain; object-position: center; background: #070611; }
 .leaf-screen.is-wonder img { object-fit: contain; object-position: center; background: #070611; }
@@ -3856,6 +3994,9 @@ em .lore-link, .lore-link em { font-style: italic; }
   .leaf-right { border-radius: 0 0 14px 14px; }
   .spread::after { display: none; }
   .leaf-screen { aspect-ratio: 9 / 13; }
+  .onboarding-mode-grid { grid-template-columns: 1fr; }
+  .onboarding-roll { grid-template-columns: 1fr; }
+  .onboarding-action.mode { min-height: 0; }
   .character-options { grid-template-columns: 1fr; }
   .enchantment-spells { grid-template-columns: 1fr; }
   .braid-end { aspect-ratio: 9 / 13; align-items: center; text-align: center; }

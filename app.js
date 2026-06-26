@@ -99,6 +99,75 @@ let readerLine = "";
    to the braided "Book of You" if the reader keeps it.                  */
 const PAGES = [
   {
+    kicker: "The First Door",
+    title: "The cover opens.",
+    body: "You open the app. The first word lifts from the screen and turns to look at you. Ink blooms under the glass, cold as rainwater and impossibly wet. Then the room tips, the screen widens into margins, and stories rush past in layers.",
+    source: "First-run onboarding · the fall",
+    shot: "./assets/screens/home.jpg",
+    braid: "The Book opened like weather, and the first impossible word looked back.",
+    decision: false,
+    onboardingStep: "fall",
+  },
+  {
+    kicker: "The Great Unwritten",
+    title: "Your ordinary world is the chapter.",
+    body: "Zara Finch checks your sleeve for punctuation, then looks behind you for the door that vanished. \"You're from the Great Unwritten,\" she says. \"Supposedly the best chapter. No fixed plot. No narrator tidying things afterward. Everything you do can change what comes next.\"",
+    source: "Zara Finch · arrival notes",
+    shot: "./assets/screens/character-zara-finch.png",
+    braid: "Zara named the Great Unwritten, and the ordinary world stopped pretending it was outside the story.",
+    decision: false,
+    onboardingStep: "unwritten",
+  },
+  {
+    kicker: "Zara's First Question",
+    title: "The Book learns one small texture.",
+    body: "\"Before the Book starts choosing pages for you, it needs a few human details,\" Zara says. \"Nothing grand. The little things are usually where the magic gets specific.\" She asks what you like to snack on while reading.",
+    source: "Onboarding · specificity",
+    shot: "./assets/screens/margins.jpg",
+    braid: "A snack appeared in the margin like a tiny ration for the road.",
+    decision: false,
+    onboardingStep: "snack",
+  },
+  {
+    kicker: "The Name the Book Knows",
+    title: "Give the page a name it can say kindly.",
+    body: "The Book does not need your legal anything. It wants the name that feels like yours when someone says it carefully. Later, when someone in the Stacks writes to you, this is the name the page will reach for.",
+    source: "Onboarding · reader name",
+    shot: "./assets/screens/book-of-you.jpg",
+    braid: "The Book learned the name at the center of the page and darkened the letters so future doors could find it.",
+    decision: false,
+    onboardingStep: "name",
+  },
+  {
+    kicker: "Belief and Glow",
+    title: "Name the stubborn light.",
+    body: "At the far end of the aisle, a grey absence worries at the corner of a page. A word vanishes. Then another. \"Belief makes the magic happen,\" Zara says. \"Not certainty. Attention. Care. The stubborn decision that something matters enough to become real again.\"",
+    source: "Onboarding · Belief",
+    shot: "./assets/screens/belief-cast.jpg",
+    braid: "A named belief warmed under the page, small at first and therefore serious.",
+    decision: false,
+    onboardingStep: "belief",
+  },
+  {
+    kicker: "Wicker Interrupts",
+    title: "Show him what kind of story arrived.",
+    body: "You and Zara are almost through the next arch when Wicker Eddies steps out from behind a shelf as if he has been waiting for the exact worst moment. \"So this is the impossible reader,\" he says. \"Show me what kind of story the Unwritten sent us.\"",
+    source: "Onboarding · Belief roll",
+    shot: "./assets/screens/character-wicker-eddies.png",
+    braid: "Wicker tested the new belief with a crooked smile, and the page rolled its little thunder.",
+    decision: false,
+    onboardingStep: "wicker",
+  },
+  {
+    kicker: "The First Page Rises",
+    title: "Try keeping one true thing.",
+    body: "A small page slips from the stack and lands in front of you. \"This is the whole trick,\" Zara says. \"Some pages are for today. Some are not. If it catches something true, keep it. If not, let it wait.\"",
+    source: "Onboarding · keep / wait rehearsal",
+    shot: "./assets/screens/keep-page.jpg",
+    braid: "The first practice page rose, and the archive learned the difference between yes and not today.",
+    onboardingStep: "first-page",
+  },
+  {
     kicker: "Weather Page",
     title: "The Weather Page has opened.",
     bodyHTML: weatherPageHTML(FALLBACK_WEATHER),
@@ -204,6 +273,7 @@ const elStatus = document.querySelector("#keep-status");
 const keepControls = document.querySelector("#keep-controls");
 const btnKeep = document.querySelector("#btn-keep");
 const btnWait = document.querySelector("#btn-wait");
+const onboardingPanel = document.querySelector("#onboarding-panel");
 const sentencePolisher = document.querySelector("#sentence-polisher");
 const readerLineInput = document.querySelector("#reader-line");
 const stacksRadio = document.querySelector("#stacks-radio");
@@ -250,6 +320,208 @@ const closeBookBtn = document.querySelector("#close-book-btn");
 let index = 0;
 let animating = false;
 const choices = new Array(PAGES.length).fill(null); // null | "keep" | "wait"
+
+const onboarding = {
+  inkWake: false,
+  sleeveWord: "",
+  pageSteady: false,
+  unwrittenTucked: false,
+  snack: "",
+  name: "",
+  belief: "",
+  plantedBelief: null,
+  wickerMode: "",
+  wickerRoll: null,
+  firstSouvenir: "",
+};
+
+const SLEEVE_WORDS = ["GLINT", "MARGIN", "THRESHOLD"];
+const WICKER_MODES = [
+  {
+    id: "slice-of-life",
+    title: "Slice of Life",
+    detail: "Answer with one concrete ordinary detail.",
+    difficulty: 42,
+    success: "Wicker tries to sneer, but the ordinary detail lands too cleanly.",
+    failure: "The detail comes out smaller than you meant. Zara steps beside you before he can pull the thread.",
+  },
+  {
+    id: "arc",
+    title: "Arc",
+    detail: "Turn the interruption into a promise of motion.",
+    difficulty: 56,
+    success: "You name the direction before Wicker can name the flaw.",
+    failure: "The promise wobbles. Wicker hears it, but the Book keeps the attempt as a beginning.",
+  },
+  {
+    id: "surprise",
+    title: "Surprise",
+    detail: "Refuse the expected answer and let something odd through.",
+    difficulty: 64,
+    success: "The answer is so sideways that Wicker forgets to be superior for one entire second.",
+    failure: "The surprise misfires into awkward magic. Zara mutters, \"Useful data,\" which somehow helps.",
+  },
+];
+
+function cleanOnboardingValue(value) {
+  return String(value || "").trim().replace(/\s+/g, " ");
+}
+
+function wickerMode() {
+  return WICKER_MODES.find((mode) => mode.id === onboarding.wickerMode);
+}
+
+function onboardingReady(page = PAGES[index]) {
+  switch (page?.onboardingStep) {
+    case "fall":
+      return onboarding.inkWake && onboarding.sleeveWord && onboarding.pageSteady;
+    case "unwritten":
+      return onboarding.unwrittenTucked;
+    case "snack":
+      return Boolean(cleanOnboardingValue(onboarding.snack));
+    case "name":
+      return Boolean(cleanOnboardingValue(onboarding.name));
+    case "belief":
+      return Boolean(cleanOnboardingValue(onboarding.belief)) && onboarding.plantedBelief !== null;
+    case "wicker":
+      return Boolean(onboarding.wickerRoll);
+    case "first-page":
+      return choices[index] === "wait" || (choices[index] === "keep" && Boolean(cleanOnboardingValue(onboarding.firstSouvenir)));
+    default:
+      return true;
+  }
+}
+
+function updateOnboardingNav() {
+  if (btnNext) btnNext.disabled = !onboardingReady();
+}
+
+function onboardingButton(action, label, selected = false, extraClass = "") {
+  return `<button class="onboarding-action ${extraClass}${selected ? " chosen" : ""}" type="button" data-onboard-action="${action}">${label}</button>`;
+}
+
+function renderOnboardingPanel(page) {
+  if (!onboardingPanel) return true;
+  if (!page.onboardingStep) {
+    onboardingPanel.hidden = true;
+    onboardingPanel.innerHTML = "";
+    return true;
+  }
+
+  onboardingPanel.hidden = false;
+  const snack = escapeHTML(onboarding.snack);
+  const name = escapeHTML(onboarding.name);
+  const belief = escapeHTML(onboarding.belief);
+  const firstSouvenir = escapeHTML(onboarding.firstSouvenir);
+  const mode = wickerMode();
+  const roll = onboarding.wickerRoll;
+  let html = "";
+
+  if (page.onboardingStep === "fall") {
+    const sleeveButtons = SLEEVE_WORDS.map((word) =>
+      onboardingButton(`sleeve:${word}`, word, onboarding.sleeveWord === word, "word")
+    ).join("");
+    html = `
+      <p class="onboarding-panel-title">Make the fall tactile</p>
+      <div class="onboarding-actions">
+        ${onboardingButton("ink", onboarding.inkWake ? "Ink woke under glass" : "Touch the wet ink", onboarding.inkWake)}
+        ${onboardingButton("steady", onboarding.pageSteady ? "Stone underfoot" : "Steady the page", onboarding.pageSteady)}
+      </div>
+      <p class="onboarding-prompt">A smaller word catches in your sleeve. Choose the one the Book reads first.</p>
+      <div class="onboarding-word-row">${sleeveButtons}</div>
+      <p class="onboarding-result">${onboardingReady(page) ? "The fall has a handhold. Stand up." : "Wake the ink, choose the sleeve word, and steady the page."}</p>
+    `;
+  } else if (page.onboardingStep === "unwritten") {
+    html = `
+      <p class="onboarding-panel-title">Tuck the Unwritten into the margin</p>
+      <p class="onboarding-prompt">Zara hands you a torn word: UNWRITTEN. Put it where the Book can keep track of it.</p>
+      <div class="onboarding-actions">
+        ${onboardingButton("unwritten", onboarding.unwrittenTucked ? "UNWRITTEN tucked safely" : "Tuck UNWRITTEN into the margin", onboarding.unwrittenTucked)}
+      </div>
+    `;
+  } else if (page.onboardingStep === "snack") {
+    html = `
+      <label class="onboarding-field">
+        <span>Favorite reading snack</span>
+        <input type="text" data-onboard-input="snack" maxlength="60" autocomplete="off" value="${snack}" placeholder="sharp apples, tea, gummy bears">
+      </label>
+      <p class="onboarding-result">${onboarding.snack ? `The margin writes: ${snack}. Specificity gives doors handles.` : "One small true answer is enough."}</p>
+    `;
+  } else if (page.onboardingStep === "name") {
+    html = `
+      <label class="onboarding-field">
+        <span>What should the Book call you?</span>
+        <input type="text" data-onboard-input="name" maxlength="48" autocomplete="name" value="${name}" placeholder="a kind name, not a form name">
+      </label>
+      <p class="onboarding-result">${onboarding.name ? `Hello, ${name}. The page darkens the letters.` : "Write the name future pages should use."}</p>
+    `;
+  } else if (page.onboardingStep === "belief") {
+    html = `
+      <label class="onboarding-field">
+        <span>I believe...</span>
+        <input type="text" data-onboard-input="belief" maxlength="90" autocomplete="off" value="${belief}" placeholder="in second chances, green places, showing up">
+      </label>
+      <div class="onboarding-actions">
+        ${onboardingButton("plant-belief", "Plant 3 Belief", onboarding.plantedBelief === true)}
+        ${onboardingButton("hold-belief", "Hold it for now", onboarding.plantedBelief === false)}
+      </div>
+      <p class="onboarding-result">${
+        onboarding.plantedBelief === true
+          ? "Glow wakes in the header. The Book is holding a little weight for this belief."
+          : onboarding.plantedBelief === false
+            ? "The belief stays named. The Book respects a careful pocket."
+            : "Name the belief, then decide whether to plant a little weight in it."
+      }</p>
+    `;
+  } else if (page.onboardingStep === "wicker") {
+    const modeButtons = WICKER_MODES.map((item) =>
+      onboardingButton(`wicker:${item.id}`, `<strong>${item.title}</strong><span>${item.detail}</span>`, onboarding.wickerMode === item.id, "mode")
+    ).join("");
+    const rollLine = roll && mode
+      ? `${roll.total} vs ${mode.difficulty} - ${roll.succeeded ? mode.success : mode.failure}`
+      : "Choose your answer, then roll Belief.";
+    html = `
+      <p class="onboarding-panel-title">Choose your answer to Wicker</p>
+      <div class="onboarding-mode-grid">${modeButtons}</div>
+      <div class="onboarding-roll">
+        ${onboardingButton("roll", roll ? "Roll again" : "Roll Belief", false, "roll")}
+        <span>${escapeHTML(rollLine)}</span>
+      </div>
+      ${roll ? `<p class="onboarding-result">Raw ${roll.raw}${roll.bonus ? ` + ${roll.bonus} planted Belief` : ""}. ${roll.succeeded ? "Success." : "Complicated success."}</p>` : ""}
+    `;
+  } else if (page.onboardingStep === "first-page") {
+    html = `
+      <label class="onboarding-field">
+        <span>If you keep it, write one true sentence</span>
+        <input id="onboarding-first-sentence" type="text" data-onboard-input="firstSouvenir" maxlength="120" autocomplete="off" value="${firstSouvenir}" placeholder="The light in this room is doing something I almost missed.">
+      </label>
+      <p class="onboarding-result">${
+        choices[index] === "keep"
+          ? (onboarding.firstSouvenir ? "Kept. The archive has its first true edge." : "Write the sentence before keeping this page.")
+          : choices[index] === "wait"
+            ? "Letting a page wait is still an honest choice."
+            : "Choose Keep or Let it wait below."
+      }</p>
+    `;
+  }
+
+  onboardingPanel.innerHTML = html;
+  return onboardingReady(page);
+}
+
+function resetOnboarding() {
+  onboarding.inkWake = false;
+  onboarding.sleeveWord = "";
+  onboarding.pageSteady = false;
+  onboarding.unwrittenTucked = false;
+  onboarding.snack = "";
+  onboarding.name = "";
+  onboarding.belief = "";
+  onboarding.plantedBelief = null;
+  onboarding.wickerMode = "";
+  onboarding.wickerRoll = null;
+  onboarding.firstSouvenir = "";
+}
 
 let glow = 0;
 const glowEarned = new Set();
@@ -408,6 +680,71 @@ document.addEventListener("keydown", (event) => {
 });
 updateGlowUI();
 
+onboardingPanel?.addEventListener("input", (event) => {
+  const key = event.target?.dataset?.onboardInput;
+  if (!key || !(key in onboarding)) return;
+  onboarding[key] = event.target.value;
+  if (key === "belief" && cleanOnboardingValue(onboarding.belief)) {
+    earnGlow("belief-named", 1, "A belief has been named. The header Glow wakes.");
+  }
+  updateOnboardingNav();
+});
+
+onboardingPanel?.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-onboard-action]");
+  if (!button) return;
+  const action = button.dataset.onboardAction;
+
+  if (action === "ink") {
+    onboarding.inkWake = true;
+    hint.textContent = "Ink answered under the glass.";
+  } else if (action === "steady") {
+    onboarding.pageSteady = true;
+    hint.textContent = "Stone met your feet. The page can hold you.";
+  } else if (action?.startsWith("sleeve:")) {
+    onboarding.sleeveWord = action.split(":")[1] || "";
+    hint.textContent = `${onboarding.sleeveWord} caught in your sleeve.`;
+  } else if (action === "unwritten") {
+    onboarding.unwrittenTucked = true;
+    hint.textContent = "The Great Unwritten is tucked into the margin.";
+  } else if (action === "plant-belief") {
+    if (!cleanOnboardingValue(onboarding.belief)) {
+      onboardingPanel.querySelector("[data-onboard-input='belief']")?.focus();
+      hint.textContent = "Name the belief first.";
+      return;
+    }
+    onboarding.plantedBelief = true;
+    earnGlow("belief-planted", 3, "Three Belief planted. Glow gathers where attention lands.");
+    hint.textContent = "Belief planted. Wicker will have to deal with that.";
+  } else if (action === "hold-belief") {
+    if (!cleanOnboardingValue(onboarding.belief)) {
+      onboardingPanel.querySelector("[data-onboard-input='belief']")?.focus();
+      hint.textContent = "Name the belief first.";
+      return;
+    }
+    onboarding.plantedBelief = false;
+    hint.textContent = "Belief named and held for now.";
+  } else if (action?.startsWith("wicker:")) {
+    onboarding.wickerMode = action.split(":")[1] || "";
+    onboarding.wickerRoll = null;
+    hint.textContent = "Answer chosen. Roll Belief.";
+  } else if (action === "roll") {
+    const mode = wickerMode();
+    if (!mode) {
+      hint.textContent = "Choose how you answer Wicker first.";
+      return;
+    }
+    const raw = Math.ceil(Math.random() * 100);
+    const bonus = onboarding.plantedBelief ? 8 : 0;
+    const total = raw + bonus;
+    onboarding.wickerRoll = { raw, bonus, total, succeeded: total >= mode.difficulty };
+    earnGlow("wicker-roll", 1, "Wicker forced a roll. The Book pays attention to pressure.");
+    hint.textContent = onboarding.wickerRoll.succeeded ? "Wicker blinks first. Turn the page." : "The roll complicates things. The page still moves.";
+  }
+
+  render();
+});
+
 function isDecisionPage(page) {
   return page.decision !== false;
 }
@@ -478,10 +815,12 @@ function render() {
   }
   elSource.textContent = p.source;
   elShot.src = p.shot;
+  const canAdvance = renderOnboardingPanel(p);
 
   const decisionPage = isDecisionPage(p);
   const choice = choices[index];
   screenWrap.classList.toggle("is-kept", choice === "keep");
+  screenWrap.classList.toggle("is-onboarding", Boolean(p.onboardingStep));
   screenWrap.classList.toggle("is-character", Boolean(p.characterPrompt));
   screenWrap.classList.toggle("is-enchantment", Boolean(p.enchantmentPrompt));
   screenWrap.classList.toggle("is-wonder", Boolean(p.wonderPrompt));
@@ -502,6 +841,7 @@ function render() {
 
   navCount.textContent = `Page ${index + 1} of ${PAGES.length}`;
   btnPrev.disabled = index === 0;
+  btnNext.disabled = !canAdvance;
   btnNext.textContent = index === PAGES.length - 1 ? "Braid it ✦" : "Next ›";
   progressFill.style.width = `${((index + 1) / PAGES.length) * 100}%`;
 
@@ -521,6 +861,11 @@ function flip(dir, after) {
 }
 
 function go(delta) {
+  if (delta > 0 && !onboardingReady()) {
+    hint.textContent = "Finish this page's small ritual first.";
+    updateOnboardingNav();
+    return;
+  }
   const target = index + delta;
   if (target < 0) return;
   if (target >= PAGES.length) { showBraid(); return; }
@@ -531,6 +876,11 @@ function choose(kind) {
   if (!isDecisionPage(PAGES[index])) return;
   if (kind === "keep" && PAGES[index].sentencePrompt && readerLineInput && !readerLine) {
     readerLineInput.focus();
+    hint.textContent = "Write one true sentence first — then keep it.";
+    return;
+  }
+  if (kind === "keep" && PAGES[index].onboardingStep === "first-page" && !cleanOnboardingValue(onboarding.firstSouvenir)) {
+    document.querySelector("#onboarding-first-sentence")?.focus();
     hint.textContent = "Write one true sentence first — then keep it.";
     return;
   }
@@ -582,6 +932,9 @@ function buildBraid() {
   const keptLines = keptIndices.map((i) => {
     if (PAGES[i].sentencePrompt && readerLine) {
       return `I wrote one true line and the ink kept its pulse: <em class="reader-own">${escapeHTML(readerLine)}</em>`;
+    }
+    if (PAGES[i].onboardingStep === "first-page" && onboarding.firstSouvenir) {
+      return `The first practice page kept one true line: <em class="reader-own">${escapeHTML(onboarding.firstSouvenir)}</em>`;
     }
     return PAGES[i].braid;
   });
@@ -764,6 +1117,11 @@ function pageChoiceLabel(i) {
 
 function pageSummary(page, i) {
   if (page.sentencePrompt && readerLine) return `Reader line: ${readerLine}`;
+  if (page.onboardingStep === "snack" && onboarding.snack) return `Reading snack: ${onboarding.snack}`;
+  if (page.onboardingStep === "name" && onboarding.name) return `Reader name: ${onboarding.name}`;
+  if (page.onboardingStep === "belief" && onboarding.belief) return `Belief: ${onboarding.belief}`;
+  if (page.onboardingStep === "wicker" && onboarding.wickerRoll) return `Wicker roll: ${onboarding.wickerRoll.total} vs ${wickerMode()?.difficulty || "?"}`;
+  if (page.onboardingStep === "first-page" && onboarding.firstSouvenir) return `First true sentence: ${onboarding.firstSouvenir}`;
   return plainText(page.bodyHTML || page.body || page.braid || `Page ${i + 1}`);
 }
 
@@ -970,6 +1328,7 @@ function backFromBraid() {
 
 function replay() {
   choices.fill(null);
+  resetOnboarding();
   readerLine = "";
   if (readerLineInput) readerLineInput.value = "";
   resetRadio();
