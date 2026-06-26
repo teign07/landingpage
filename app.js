@@ -241,8 +241,8 @@ const PAGES = [
   },
   {
     kicker: "Wonder Compass",
-    title: "Choose a chapter for the day.",
-    body: "The Wonder Compass is my most practical ritual: North to notice, East to embark, South to sense, West to write. Pick today's chapter and let it walk you out of routine and back into wonder.",
+    title: "The Wonder Compass: A Field Guide to Finding Magic in the Mess",
+    body: "Included free, to pull you out of routine and into Wonder any day. Pick a chapter below and let it walk you back into the world with sharper attention.",
     source: "Wonder Compass · free field guide",
     shot: "./assets/screens/wonder-compass.jpg",
     braid: "The Compass clicked in my pocket, and the gray commute opened one green eye.",
@@ -323,9 +323,7 @@ let animating = false;
 const choices = new Array(PAGES.length).fill(null); // null | "keep" | "wait"
 
 const onboarding = {
-  inkWake: false,
-  sleeveWord: "",
-  pageSteady: false,
+  fallChoice: "",
   unwrittenTucked: false,
   snack: "",
   name: "",
@@ -336,7 +334,22 @@ const onboarding = {
   firstSouvenir: "",
 };
 
-const SLEEVE_WORDS = ["GLINT", "MARGIN", "THRESHOLD"];
+const FALL_CHOICES = [
+  {
+    id: "ink",
+    label: "Touch the wet ink",
+    chosen: "Ink slicks your fingers",
+    braid: "wet ink climbed over my fingers",
+    hint: "Ink answered under the glass.",
+  },
+  {
+    id: "landing",
+    label: "Brace for the landing",
+    chosen: "Stone catches your knees",
+    braid: "stone caught me at the bottom of the fall",
+    hint: "Stone met your knees. The page can hold you.",
+  },
+];
 const WICKER_MODES = [
   {
     id: "slice-of-life",
@@ -372,10 +385,14 @@ function wickerMode() {
   return WICKER_MODES.find((mode) => mode.id === onboarding.wickerMode);
 }
 
+function fallChoice() {
+  return FALL_CHOICES.find((choice) => choice.id === onboarding.fallChoice);
+}
+
 function onboardingReady(page = PAGES[index]) {
   switch (page?.onboardingStep) {
     case "fall":
-      return onboarding.inkWake && onboarding.sleeveWord && onboarding.pageSteady;
+      return Boolean(onboarding.fallChoice);
     case "unwritten":
       return onboarding.unwrittenTucked;
     case "snack":
@@ -419,18 +436,14 @@ function renderOnboardingPanel(page) {
   let html = "";
 
   if (page.onboardingStep === "fall") {
-    const sleeveButtons = SLEEVE_WORDS.map((word) =>
-      onboardingButton(`sleeve:${word}`, word, onboarding.sleeveWord === word, "word")
+    const fallButtons = FALL_CHOICES.map((choice) =>
+      onboardingButton(`fall:${choice.id}`, onboarding.fallChoice === choice.id ? choice.chosen : choice.label, onboarding.fallChoice === choice.id)
     ).join("");
     html = `
       <p class="onboarding-panel-title">Get your hands into the page</p>
-      <div class="onboarding-actions">
-        ${onboardingButton("ink", onboarding.inkWake ? "Ink slicks your fingers" : "Touch the wet ink", onboarding.inkWake)}
-        ${onboardingButton("steady", onboarding.pageSteady ? "Stone catches your knees" : "Brace for the landing", onboarding.pageSteady)}
-      </div>
-      <p class="onboarding-prompt">Words flock around you as you fall. One smaller word catches in your sleeve before the Book can read it.</p>
-      <div class="onboarding-word-row">${sleeveButtons}</div>
-      <p class="onboarding-result">${onboardingReady(page) ? "The fall has a handhold. Stone meets you in a crumple." : "Wake the ink, choose the sleeve word, and survive the landing."}</p>
+      <p class="onboarding-prompt">The screen is becoming a doorway. Choose the one thing you do as the Book pulls you through.</p>
+      <div class="onboarding-actions">${fallButtons}</div>
+      <p class="onboarding-result">${onboardingReady(page) ? "Good. The fall has a shape now. Turn the page." : "Choose one way through. The Book only needs one true gesture."}</p>
     `;
   } else if (page.onboardingStep === "unwritten") {
     html = `
@@ -511,9 +524,7 @@ function renderOnboardingPanel(page) {
 }
 
 function resetOnboarding() {
-  onboarding.inkWake = false;
-  onboarding.sleeveWord = "";
-  onboarding.pageSteady = false;
+  onboarding.fallChoice = "";
   onboarding.unwrittenTucked = false;
   onboarding.snack = "";
   onboarding.name = "";
@@ -696,15 +707,9 @@ onboardingPanel?.addEventListener("click", (event) => {
   if (!button) return;
   const action = button.dataset.onboardAction;
 
-  if (action === "ink") {
-    onboarding.inkWake = true;
-    hint.textContent = "Ink answered under the glass.";
-  } else if (action === "steady") {
-    onboarding.pageSteady = true;
-    hint.textContent = "Stone met your feet. The page can hold you.";
-  } else if (action?.startsWith("sleeve:")) {
-    onboarding.sleeveWord = action.split(":")[1] || "";
-    hint.textContent = `${onboarding.sleeveWord} caught in your sleeve.`;
+  if (action?.startsWith("fall:")) {
+    onboarding.fallChoice = action.split(":")[1] || "";
+    hint.textContent = fallChoice()?.hint || "The fall has a shape now.";
   } else if (action === "unwritten") {
     onboarding.unwrittenTucked = true;
     hint.textContent = "The Great Unwritten is tucked into the margin.";
@@ -902,6 +907,23 @@ function choose(kind) {
     : "That's the last page — braid your book ✦";
 }
 
+function onboardingBraidLead() {
+  const pieces = [];
+  const fall = fallChoice();
+  if (fall) pieces.push(`I entered the Book by the way ${fall.braid}`);
+  const name = cleanOnboardingValue(onboarding.name);
+  const snack = cleanOnboardingValue(onboarding.snack);
+  const belief = cleanOnboardingValue(onboarding.belief);
+  if (name) pieces.push(`Zara wrote my name as <em class="reader-own">${escapeHTML(name)}</em>`);
+  if (snack) pieces.push(`she tucked <em class="reader-own">${escapeHTML(snack)}</em> into the margin`);
+  if (belief) pieces.push(`my Belief pointed at <em class="reader-own">${escapeHTML(belief)}</em>`);
+  if (onboarding.wickerRoll) {
+    pieces.push(`Wicker tested it and the page rolled ${onboarding.wickerRoll.total}`);
+  }
+  if (!pieces.length) return "";
+  return `${pieces.join("; ")}.`;
+}
+
 function openBook() {
   if (book.dataset.state !== "closed") return;
   book.dataset.state = "open";
@@ -949,7 +971,9 @@ function buildBraid() {
 
   // The reader's own true line, if they wrote one, leads the passage in their voice.
   const own = readerLine && !sentencePageKept ? `<em class="reader-own">${escapeHTML(readerLine)}</em>` : "";
-  const lead = own ? `${own}  ` : "";
+  const tutorialLead = onboardingBraidLead();
+  const lead = [tutorialLead, own].filter(Boolean).join("  ");
+  const leadText = lead ? `${lead}  ` : "";
   const woven = keptLines.join("  ");
   const fuelKept = FUEL_INDEX >= 0 && choices[FUEL_INDEX] === "keep";
   const innerWeatherKept = INNER_WEATHER_INDEX >= 0 && choices[INNER_WEATHER_INDEX] === "keep";
@@ -961,28 +985,28 @@ function buildBraid() {
   if (keptLines.length === 0) {
     if (own) {
       braidIntro.textContent = "Only one true line — and the Book kept it anyway.";
-      return `${own}  Nothing else demanded binding today, and that is its own kind of honest month. The shelf is patient.`;
+      return `${leadText}Nothing else demanded binding today, and that is its own kind of honest month. The shelf is patient.`;
     }
     braidIntro.textContent = everyPageAnswered ? "You let every page wait." : "You kept no page before the binding.";
-    return "An honest month: nothing demanded to be kept, and the Book waited with you. The shelf is patient. Come back when something catches a real edge.";
+    return `${leadText}An honest month: nothing demanded to be kept, and the Book waited with you. The shelf is patient. Come back when something catches a real edge.`;
   }
   if (allKept) {
     braidIntro.textContent = "You kept everything. The Book has concerns. Affectionate ones.";
-    return `${lead}${woven}${supportGuildSurprise}  In the final margin, a small hand wrote in brown ink: sentimental, perhaps, but the shelf was warm where you touched it.`;
+    return `${leadText}${woven}${supportGuildSurprise}  In the final margin, a small hand wrote in brown ink: sentimental, perhaps, but the shelf was warm where you touched it.`;
   }
   if (alternating) {
     braidIntro.textContent = "A Riddlewind pattern appeared between yes and not yet.";
-    return `${lead}${woven}  Every other door stayed shut; together, the open ones breathed keyhole-cold and spelled a question the Book would not translate.`;
+    return `${leadText}${woven}  Every other door stayed shut; together, the open ones breathed keyhole-cold and spelled a question the Book would not translate.`;
   }
   if (quietPagesOnly) {
     braidIntro.textContent = "The Book noticed what kind of pages you chose.";
-    return `${lead}${woven}  No spectacle asked to be remembered. The ordinary things pricked holes in the dark and made a small constellation anyway.`;
+    return `${leadText}${woven}  No spectacle asked to be remembered. The ordinary things pricked holes in the dark and made a small constellation anyway.`;
   }
   braidIntro.textContent = own
     ? `Braided from your own line and the ${keptLines.length} page${keptLines.length === 1 ? "" : "s"} you kept.`
     : `Braided from the ${keptLines.length} page${keptLines.length === 1 ? "" : "s"} you kept.`;
   // each kept line is already a complete sentence — weave them into one passage
-  return `${lead}${woven}${supportGuildSurprise}`;
+  return `${leadText}${woven}${supportGuildSurprise}`;
 }
 
 /* ── the Book of You edition: theme, stats, and The Reader's Sky ── */
@@ -2374,14 +2398,10 @@ function updateWonderUI() {
 function applyWonderChapter(chapter) {
   if (!chapter || WONDER_INDEX < 0) return;
   const page = PAGES[WONDER_INDEX];
-  page.title = chapter.pageTitle;
-  page.body = chapter.body;
   page.source = chapter.source;
   page.shot = chapter.shot;
   page.braid = chapter.braid;
   if (index === WONDER_INDEX) {
-    elTitle.textContent = page.title;
-    elBody.textContent = page.body;
     elSource.textContent = page.source;
     elShot.src = page.shot;
   }
@@ -2645,6 +2665,25 @@ const STATIONS = [
         caption: "Filed this morning, off Today's Sky: the grey lost three feet of ground. Somebody noticed one true particular and wrote it down. That's the whole arithmetic of this place." },
       { id: "faefi-news-festival", category: "news", src: "./assets/audio/fae-fi-penny-news-festival.m4a",
         caption: "Festival weather incoming. I'll be in the corner, cataloguing joy as it happens, which is, I'm told, not the point of joy. Bring a souvenir." },
+      { id: "faefi-psa-timetable", category: "news", src: "./assets/audio/fae-fi-psa-timetable.m4a",
+        caption: "Public notice from the records desk, since someone has to keep it straight. The Academy runs on bells: morning classes at nine, afternoon classes at one, and clubs gather at seven, lamps up. Five days of classes, a Saturday field run, and a Sunday that opens in another book entirely. It's all chalked on the board by the Inkworks. I keep the master copy. Naturally." },
+      { id: "faefi-psa-curriculum", category: "news", src: "./assets/audio/fae-fi-psa-curriculum.m4a",
+        caption: "For new readers wondering what's actually taught here: the whole curriculum is one compass. North is Notice - Boggle's Art of the Glint, finding the one odd detail. East is Embark - Momort's Wayfinding, crossing a small threshold on purpose. South is Sense - Euphony's Synesthetic Resonance, reading a room through the body. West is Write - Villanelle's Ink-Binding, one true sentence that keeps. And the Center is Rest - Stonebrook's Quiet Hours. Not a direction. The ground the other four stand on. Filed, cross-referenced, and only mildly poetic." },
+      { id: "faefi-psa-week-grid", category: "news", src: "./assets/audio/fae-fi-psa-week-grid.m4a",
+        caption: "The week, for the record, as briefly as I can manage. Mondays: the Glint, then Ink-Binding. Tuesdays: Wayfinding, then Resonance. Wednesdays: the Glint again, then Quiet Hours. Thursdays: Wayfinding, then Ink-Binding. Fridays: Resonance, then Basic Enchantments. Saturdays we run the full Compass in the field. Sundays open in the Vault of Doors, with Book Jumping. Clubs after dark. Don't make me repeat it - I'll only be more accurate." },
+      { id: "faefi-psa-clubs", category: "news", src: "./assets/audio/fae-fi-psa-clubs.m4a",
+        conditions: { timeOfDay: ["dusk", "night"] },
+        caption: "Evening notice: the clubs are gathering - seven bells, lamps up. The Compass Society reads souvenirs aloud in the Secret Garden, where no one mocks a sentence. The Marginalia Guild annotates in the Corridor of Whispered Secrets, leaving notes for readers fifty years out. The Inkwright Society writes, shares, and burns it. And the Book Jumpers argue about what counts as a door. Find the room that fits your week. Tell them the records desk sent you." },
+      { id: "faefi-psa-bleed-editions", category: "news", src: "./assets/audio/fae-fi-psa-bleed-editions.m4a",
+        caption: "Reminder from your editor, which is me: The Bleed runs two editions. The Morning paper lands before one bell - weather, the day's hinges, what the Book noticed overnight, and a column off one of your own shelves. The Evening edition sets after four - tomorrow's shape, tonight's margins, a fresh column. The quiet afternoon between them belongs to you. That part's intentional. Read both. There may be a quiz. There won't be. But there could be." },
+      { id: "faefi-psa-office-hours", category: "news", src: "./assets/audio/fae-fi-psa-office-hours.m4a",
+        caption: "A notice I file gladly: the support faculty keep their doors open. Dr. Inkrest holds office hours for difficult pages - no appointment, just a chair, a lamp, and the time to name a hard thing slowly. Dr. Vellum takes the body's evidence - fuel, rest, recovery - and turns it into one small experiment with no shame attached. Neither will rush you. It's almost unnerving. If the day's gone heavy, that's what the doors are for." },
+      { id: "faefi-psa-todays-sky", category: "news", src: "./assets/audio/fae-fi-psa-todays-sky.m4a",
+        caption: "Daily service note: Today's Sky posts each morning - the moon's phase and sign, the weather drawing in, and the nearest thing the heavens are up to. It's the one forecast that reads the inner weather as much as the outer. I check it before I file anything. The sky, annoyingly, is usually right." },
+      { id: "faefi-psa-festivals-wheel", category: "news", src: "./assets/audio/fae-fi-psa-festivals-wheel.m4a",
+        caption: "Since readers keep asking what we celebrate: the Academy keeps the eight feasts of the Wheel. Imbolc, the First Stir, when the dark first turns. Ostara and Mabon, the two Rebalancings at the equinoxes. Beltane's Greenfire and Litha's Longest Day in the bright half. Lughnasadh, the First Harvest. And in the dark half - Samhain, the Thinning, and Yule, the Darkest Class, taught by candlelight. Eight feasts, one turning year. I keep the calendar. The calendar, for once, keeps itself." },
+      { id: "faefi-psa-moons-showers", category: "news", src: "./assets/audio/fae-fi-psa-moons-showers.m4a",
+        caption: "Also on the calendar, for the record: the moons and the falling stars. Every Full Moon is a Luminous Gathering - classes cancelled after sunset, everyone out reading by moonlight. Every New Moon, the Quiet Hours: candles only, the words holding their breath. And twice a year the ceiling goes clear for the meteors - the Perseids in August, the Falling Letters; the Geminids in December, the Winter Stars, when hot chocolate turns up in your hands unasked. I have not determined who delivers it. The investigation remains open." },
     ],
   },
   {
@@ -2751,6 +2790,45 @@ const STATIONS = [
         src: "./assets/audio/thornwave-wicker-news-pact-dispatch.m4a",
         conditions: { timeOfDay: ["dusk", "night"] },
         caption: "Pact Dispatch is busy tonight. Three bargains struck, two already regretted, one that'll change a life. I can usually tell which is which — it's my whole talent. Tonight? Can't call it. That's how you know it's real. More Thornwave, after this." },
+      { id: "thornwave-talisman-dusk-thorn", category: "news",
+        src: "./assets/audio/thornwave-wicker-talisman-dusk-thorn.m4a",
+        conditions: { timeOfDay: ["dusk", "night"] },
+        caption: "Let's talk about my Chapter's talisman, since no one else will at this hour. The Dusk Thorn. Duskthorn. It only draws blood from a story that's already gone numb - never from a living one. Its belief is four words, and I happen to agree with every one of them: no conflict, no story. The grey wants your days smooth and quiet and forgettable. The Thorn wants them to cost something. So do I. That's not cruelty. That's plot." },
+      { id: "thornwave-talisman-ember-seal", category: "gossip",
+        src: "./assets/audio/thornwave-wicker-talisman-ember-seal.m4a",
+        caption: "Emberheart's talisman is the Ember Seal - warm, insistent, bright at the edges, and impatient with waiting, which is the most honest thing in this building. It leaves faint scorch marks on your hesitations. Good. You should be able to see where you flinched. Its doctrine is the only line of Academy scripture I'd actually sign: you are the author, the protagonist, and the pen. So stop waiting for permission that was never coming. Write the next line yourself." },
+      { id: "thornwave-class-book-jumping", category: "gossip",
+        src: "./assets/audio/thornwave-wicker-class-book-jumping.m4a",
+        caption: "You've been jumping into stories. Permancer's class - the Vault of Doors. He'll teach you that a genre is weather, not wallpaper, and that every door you open owes a return. All true. He lays out three bookmarks and rejects the prettiest one because it has no exit protocol. Me? I've never met a door I needed a bookmark to walk back through. That's the difference between us - and the reason he's right and I'm interesting. Keep the bookmark. For now." },
+      { id: "thornwave-cast-finn", category: "gossip",
+        src: "./assets/audio/thornwave-wicker-cast-finn.m4a",
+        caption: "Finn Bridges chalked another challenge in red this week. Clean line, no theatrics - prove it by moving, don't cheapen the effort. He respects Momort's class most on the days it stops sounding like an escape route and starts sounding like discipline. I like Finn. He's one of the few who tests himself harder than I'd bother to. If he's marked a line for you, reader - don't argue it. Cross it. He'll respect that more than winning." },
+      { id: "thornwave-cast-damien", category: "gossip",
+        src: "./assets/audio/thornwave-wicker-cast-damien.m4a",
+        conditions: { timeOfDay: ["night"] },
+        caption: "A word about one of my own. Damien Nights still stands at my shoulder when the crew organizes - but his eyes keep drifting to you, reader. He keeps a pressed trail leaf hidden in a book. A man doesn't hide something gentle unless he's deciding which side he's on. I taught him doubt should protect something, not merely wound it. Looks like he was listening. Good. I'd rather lose him to the truth than keep him for the theatre." },
+      { id: "thornwave-cast-thorne", category: "news",
+        src: "./assets/audio/thornwave-wicker-cast-thorne.m4a",
+        conditions: { timeOfDay: ["dusk", "night"] },
+        caption: "The Headmistress is awake. Seraphina Thorne - unseelie, elegant, watchful, speaks as if every building is listening, which, in her case, they are. She keeps the Academy's doors from admitting they're tests. Believes beauty is a form of governance. She'd keep you safe by keeping you in the dark and call it mercy. I respect her more than I trust her. You should hold the same arithmetic. Wonder is only worth anything if it's allowed to stay a little dangerous." },
+      { id: "thornwave-club-inkwright", category: "gossip",
+        src: "./assets/audio/thornwave-wicker-club-inkwright.m4a",
+        caption: "The Inkwright Society met in the Bibliophonic Hall tonight. Serious notebooks, no mascots. They write, they share - honest first, kind second - and then they burn it. Each meeting ends with a piece read aloud and set alight, the smoke going up into the library ceiling to be absorbed as words. Theatrical. I approve, obviously. The writing there is meant. If you've something true and dangerous to say, that's the only room in the building that can hold it." },
+      { id: "thornwave-network-grey", category: "network",
+        src: "./assets/audio/thornwave-wicker-network-grey.m4a",
+        conditions: { timeOfDay: ["dusk", "night"] },
+        caption: "One thing the whole band agrees on, and we agree on almost nothing: this is the sound the grey can't get into. ReEnchanted Radio. Keep believing out loud - it's the only thing that's ever worked, and I've spent my whole life trying to prove otherwise. Spin on." },
+      { id: "thornwave-psa-clubs-night", category: "news",
+        src: "./assets/audio/thornwave-wicker-psa-clubs-night.m4a",
+        conditions: { timeOfDay: ["dusk", "night"] },
+        caption: "It's after the bells, which means the clubs are awake - seven to ten, lamps up, doors open. The Compass Society reads souvenirs aloud like confessions, and no one in that garden mocks a sentence - more discipline than most of you manage. The Inkwright Society writes it true, then burns it; the smoke goes up into the library ceiling. The Marginalia Guild leaves threats to future readers, lovingly. And the Book Jumpers argue about doors until someone finds the one with a way back. Pick a room. Or don't. But the doors only open at this hour." },
+      { id: "thornwave-psa-beltane", category: "news",
+        src: "./assets/audio/thornwave-wicker-psa-beltane.m4a",
+        caption: "One feast even I won't sharpen my teeth on: Beltane. The Greenfire. The first of May, when the courtyard goes reckless with bloom and the vines climb the shelves with tiny books for leaves. The bees in the Compass Rose are helpful and, frankly, a little drunk. Find the most alive green thing near you and talk to it like it can hear you. It can. That isn't me going soft - it's just true, and true is the only thing I deal in. Greenfire. Don't miss it." },
+      { id: "thornwave-psa-fullmoon", category: "news",
+        src: "./assets/audio/thornwave-wicker-psa-fullmoon.m4a",
+        conditions: { timeOfDay: ["dusk", "night"] },
+        caption: "When the moon comes full, the Academy does the one thing it almost never does - cancels class after sunset. The Luminous Gathering. Everyone spills into the courtyard to read by moonlight, and strangers actually speak to each other. The sentences glow. I've watched it happen and failed to find the trick. So write your souvenir under a full moon some night - they call it Moonwrite - and watch the page light up. Believe it out loud. I dare you. The moon's already holding still for you." },
     ],
   },
   {
