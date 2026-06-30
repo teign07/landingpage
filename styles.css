@@ -355,6 +355,67 @@ h2 {
   .header-radio-select { display: none; } /* keep play/pause; full picker lives in the radio section */
 }
 
+/* One-time callout pointing at the header radio controls. */
+.radio-hint {
+  position: fixed;
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  z-index: 29;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: min(92vw, 380px);
+  padding: 12px 12px 12px 15px;
+  border: 1px solid rgba(255, 200, 116, 0.35);
+  border-radius: 14px;
+  background: rgba(20, 16, 30, 0.94);
+  box-shadow: 0 22px 54px rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(14px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 360ms ease, transform 360ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.radio-hint.is-open { opacity: 1; transform: translateX(-50%) translateY(0); pointer-events: auto; }
+.radio-hint::before {
+  content: "";
+  position: absolute;
+  top: -7px;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%) rotate(45deg);
+  background: rgba(20, 16, 30, 0.94);
+  border-left: 1px solid rgba(255, 200, 116, 0.35);
+  border-top: 1px solid rgba(255, 200, 116, 0.35);
+}
+.radio-hint-text { margin: 0; font-size: 0.9rem; line-height: 1.4; color: var(--paper); }
+.radio-hint-dismiss {
+  flex: none;
+  align-self: flex-start;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 200, 116, 0.4);
+  background: rgba(255, 200, 116, 0.12);
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 160ms ease;
+}
+.radio-hint-dismiss:hover { background: rgba(255, 200, 116, 0.22); }
+.header-radio.hint-pulse {
+  animation: radioHintPulse 1.6s ease-in-out infinite;
+  border-color: rgba(255, 200, 116, 0.5);
+}
+@keyframes radioHintPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 200, 116, 0); }
+  50% { box-shadow: 0 0 0 4px rgba(255, 200, 116, 0.22); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header-radio.hint-pulse { animation: none; }
+}
+
 .nav-links { display: none; }
 .nav-links a { position: relative; transition: color 160ms; }
 .nav-links a:hover { color: var(--gold); }

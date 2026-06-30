@@ -4533,27 +4533,6 @@ function initHeroWrite() {
 }
 initHeroWrite();
 
-/* ───────────────────────── opening radio ─────────────────────────
- * Tune the real dial radio to Thornwave on first load so music plays under
- * the hero intro - and every radio control (dial, power, volume, tracks)
- * governs it from there. Autoplay is blocked until a gesture, so attempt it
- * now and, if silent, resume on the first interaction. */
-function initOpeningRadio() {
-  if (typeof window.startRadioBroadcast !== "function") return;
-  window.startRadioBroadcast("thornwave");
-
-  const kick = () => {
-    window.ensureRadioPlaying?.();
-    window.removeEventListener("pointerdown", kick);
-    window.removeEventListener("keydown", kick);
-    window.removeEventListener("scroll", kick);
-  };
-  window.addEventListener("pointerdown", kick, { passive: true });
-  window.addEventListener("keydown", kick);
-  window.addEventListener("scroll", kick, { passive: true });
-}
-initOpeningRadio();
-
 /* ───────────────────────── header radio controls ─────────────────────────
  * Play/pause and a station dropdown in the top bar, governing the same dial
  * radio - so the music is easy to play with from anywhere on the page. */
@@ -4592,6 +4571,49 @@ function initHeaderRadio() {
   render();
 }
 initHeaderRadio();
+
+/* ───────────────────────── radio hint ─────────────────────────
+ * A one-time callout nudging visitors toward the header radio controls,
+ * since there's no autoplay. Remembered so it doesn't nag on return. */
+function initRadioHint() {
+  const hint = document.querySelector("#radio-hint");
+  const dismiss = document.querySelector("#radio-hint-dismiss");
+  const headerRadio = document.querySelector(".header-radio");
+  const toggle = document.querySelector("#header-radio-toggle");
+  const select = document.querySelector("#header-radio-station");
+  if (!hint || !headerRadio || !toggle) return;
+
+  const KEY = "reenchanted-radio-hint-dismissed";
+  try { if (localStorage.getItem(KEY)) return; } catch (_) {}
+
+  let shown = false;
+  let hideTimer = null;
+  function close(persist) {
+    clearTimeout(hideTimer);
+    hint.classList.remove("is-open");
+    headerRadio.classList.remove("hint-pulse");
+    setTimeout(() => { hint.hidden = true; }, 380);
+    if (persist) { try { localStorage.setItem(KEY, "1"); } catch (_) {} }
+  }
+  function open() {
+    if (shown) return;
+    shown = true;
+    hint.hidden = false;
+    requestAnimationFrame(() => {
+      hint.classList.add("is-open");
+      headerRadio.classList.add("hint-pulse");
+    });
+    hideTimer = setTimeout(() => close(true), 14000); // fades itself out
+  }
+
+  dismiss?.addEventListener("click", () => close(true));
+  toggle.addEventListener("click", () => close(true));
+  select?.addEventListener("change", () => close(true));
+
+  // Appear once the hero intro has mostly written in.
+  setTimeout(open, reduceMotion ? 1800 : 6500);
+}
+initRadioHint();
 
 /* ───────────────────────── hidden lore marginalia ─────────────────────────
  * Words across the page are quietly clickable. Each opens a scrap of the
