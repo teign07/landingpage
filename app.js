@@ -1265,7 +1265,26 @@ function buildBraid() {
 }
 
 /* ── the Book of You edition: theme, stats, and The Reader's Sky ── */
-const PAGE_WORDS = ["Weather", "Chart", "Music", "Fuel", "Weather", "Sentence", "Character", "Light", "Wonder", "Light"];
+const PAGE_WORDS = [
+  "Door",
+  "Unwritten",
+  "Snack",
+  "Name",
+  "Belief",
+  "Wicker",
+  "Sentence",
+  "Weather",
+  "Chart",
+  "Music",
+  "Archive",
+  "Fuel",
+  "Inner Weather",
+  "Sentence",
+  "Character",
+  "Light",
+  "Wonder",
+  "Light",
+];
 
 function hashStr(s) {
   let h = 0;
@@ -1405,9 +1424,79 @@ function pageSummary(page, i) {
   return plainText(page.bodyHTML || page.body || page.braid || `Page ${i + 1}`);
 }
 
+function pageBindingNote(page, i) {
+  if (page.fuelPrompt) {
+    return fuelEstimateLine
+      ? `Vellum's margin keeps the estimate humane: ${fuelEstimateLine}. The numbers are present, but the binding treats them as pattern evidence, not judgment.`
+      : "Vellum's margin is here to prove the care pages belong in the same book as the uncanny ones: food, rest, medicine, and ordinary upkeep can all become story material without becoming a score.";
+  }
+  if (page.innerWeatherPrompt) {
+    const weather = INNER_WEATHER_OPTIONS.find((w) => w.id === selectedInnerWeatherId);
+    return weather
+      ? `Inkrest files ${weather.label.toLowerCase()} as weather, not identity. The binding keeps the feeling visible while leaving the reader room to move.`
+      : "Inkrest's page keeps feeling as context. It gives the Book a gentler way to remember the day than triumph, failure, or blankness.";
+  }
+  if (page.sentencePrompt) {
+    return "One exact sentence acts like a stitch: small enough to keep, specific enough to pull a whole day back through the binding.";
+  }
+  if (page.radioPrompt) {
+    return "The chosen station colors the final voice of the book. Music is not decoration here; it is weather the archive can hear.";
+  }
+  if (page.searchPrompt) {
+    return "Search proves the private archive is semantic, not merely sorted. The Book can retrieve a feeling, a half-image, or a thread the reader barely knows how to name.";
+  }
+  if (page.storyPrompt) {
+    return "A choice page lets the reader shape the fiction and then carry that shape into the braid, so play leaves a visible thread.";
+  }
+  if (page.characterPrompt) {
+    return "Cast pages give the archive social gravity. A person, rival, guide, or marginal voice can return later with memory attached.";
+  }
+  if (page.enchantmentPrompt) {
+    return "The spell page turns one ordinary image into close reading. It shows how the app treats real life as inspectable, not replaceable.";
+  }
+  if (page.wonderPrompt) {
+    return "The Compass page is the bridge back out of the screen: a short practice, a small errand, a reason to notice the real world again.";
+  }
+  if (page.onboardingStep) {
+    return "This threshold beat teaches the Book one stable rule about the reader before the demo begins asking them to keep or release pages.";
+  }
+  if (i === WEATHER_INDEX) {
+    return "The Weather Page grounds the fantasy in public conditions, letting the day's sky become a factual door into the story.";
+  }
+  return "This page contributes texture to the sample edition: a source, a choice state, and a thread the final braid can either carry or leave waiting.";
+}
+
+function bindingFolioGroups() {
+  return [
+    { title: "Threshold Folio", subtitle: "The Book learns how the reader arrived.", indices: [0, 1, 2] },
+    { title: "Name, Belief, and the First Test", subtitle: "The demo's onboarding threads, condensed for binding.", indices: [3, 4, 5, 6] },
+    { title: "Weather, Story, and Radio", subtitle: "World signals that can color a Book of You entry.", indices: [7, 8, 9] },
+    { title: "Archive and Care Pages", subtitle: "Search, fuel, and inner weather kept on the same shelf.", indices: [10, 11, 12] },
+    { title: "Personal Threads", subtitle: "A sentence, a cast member, and one enchanted image.", indices: [13, 14, 15] },
+    { title: "Wonder and the Quiet Proof", subtitle: "The field guide and the ordinary scene it helps keep.", indices: [16, 17] },
+  ].map((group) => ({
+    ...group,
+    indices: group.indices.filter((i) => PAGES[i]),
+  })).filter((group) => group.indices.length);
+}
+
+function folioParagraphs(group) {
+  return group.indices.flatMap((i) => {
+    const page = PAGES[i];
+    const choice = pageChoiceLabel(i);
+    const threadLabel = choices[i] === "keep" ? "Thread braided" : "Thread available";
+    return [
+      `${i + 1}. ${page.kicker || page.title} - ${choice}`,
+      `Opened from ${page.source || "the demo"}: ${pageSummary(page, i)}`,
+      `Binding note: ${pageBindingNote(page, i)}`,
+      `${threadLabel}: ${plainText(page.braid)}`,
+    ];
+  });
+}
+
 function bindingPages() {
   const data = lastEdition || editionData();
-  const passage = pdfClean(braidText.textContent || buildBraid());
+  const passage = pdfClean(braidText.textContent || plainText(buildBraid()));
   const my = monthYear();
   const place = [weatherCtx.city || "the Stacks", weatherCtx.cond].filter(Boolean).join(" - ");
   const kept = PAGES.map((_, i) => i).filter((i) => choices[i] === "keep");
@@ -1420,25 +1509,29 @@ function bindingPages() {
     subtitle: "A one-day sample binding",
     paragraphs: [
       "This little edition was bound from the interactive book demo: every page you opened, every page you kept, and every page you let wait.",
-      "The real monthly binding gathers many days. This sample keeps the same promise in miniature: ordinary choices, given a cover, a contents page, and a final braid."
+      "The real monthly binding gathers many days. This sample keeps the same promise in miniature: ordinary choices, given a cover, a contents page, and a final braid.",
+      "Short practical pages are gathered into folios instead of left thin on the page. Fuel, inner weather, search, and sentence work now sit beside the larger story beats where their context can breathe."
     ],
   });
   pages.push({
     title: "Contents",
     subtitle: `${PAGES.length} pages offered - ${kept.length} kept - ${answered.length} answered`,
-    paragraphs: PAGES.map((page, i) => `${i + 1}. ${page.kicker || page.title} - ${pageChoiceLabel(i)}`),
+    paragraphs: [
+      ...bindingFolioGroups().map((group) => {
+        const range = `${group.indices[0] + 1}-${group.indices[group.indices.length - 1] + 1}`;
+        return `${range}. ${group.title} - ${group.indices.length} demo page${group.indices.length === 1 ? "" : "s"}`;
+      }),
+      "Braid. The final passage printed in full",
+      data.words.length ? "Reader's Sky. The noticed constellations" : "Reader's Sky. No constellations claimed this sample",
+      "Colophon. Binding facts and imprint"
+    ],
   });
 
-  PAGES.forEach((page, i) => {
-    const paragraphs = [
-      `${pageChoiceLabel(i)} - ${page.source || "Demo"}`,
-      pageSummary(page, i),
-    ];
-    if (choices[i] === "keep") paragraphs.push(`Binding line: ${plainText(page.braid)}`);
+  bindingFolioGroups().forEach((group) => {
     pages.push({
-      title: page.title || `Page ${i + 1}`,
-      subtitle: `Page ${i + 1} - ${page.kicker || "Book page"}`,
-      paragraphs,
+      title: group.title,
+      subtitle: group.subtitle,
+      paragraphs: folioParagraphs(group),
     });
   });
 
@@ -1452,7 +1545,11 @@ function bindingPages() {
     pages.push({
       title: "The Reader's Sky",
       subtitle: "Constellations the Book noticed in this sample.",
-      paragraphs: data.words.map((w) => `${w.label} - ${w.count} sighting${w.count === 1 ? "" : "s"}`),
+      paragraphs: [
+        "These are not personality labels. They are the stars this small binding used to navigate: repeated textures, page-types, and kinds of attention that showed up while the reader turned the demo.",
+        ...data.words.map((w) => `${w.label} - ${w.count} sighting${w.count === 1 ? "" : "s"}`),
+        "In a real monthly edition, this sky grows stranger and more useful. Weather can lean toward music; fuel can sit beside rest; a sentence can become the hinge that explains why a whole week kept opening to the same question."
+      ],
     });
   }
 
@@ -1462,7 +1559,8 @@ function bindingPages() {
     paragraphs: [
       `Bound as a demo PDF on ${new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}.`,
       `${data.keptCount} kept page${data.keptCount === 1 ? "" : "s"} - ${place || "weather default"} - ${data.theme}`,
-      "A real month braids many days. This one kept the shape of a promise."
+      "The final braid is included here as the binding thread, not as an afterword. It is the passage the kept pages become when the Book stops sorting and starts remembering.",
+      "A real month braids many days. This one kept the shape of a promise: every practical note, story choice, weather signal, and small true sentence can belong in the same volume."
     ],
   });
   return pages;
@@ -3882,29 +3980,70 @@ function initField() {
     [76, 192, 189],
     [138, 114, 196],
   ];
+  const PIXIE_COLOR = [255, 224, 170];
   const letters = [];
+  const sparks = [];
   let width = 0;
   let height = 0;
   let dpr = 1;
 
-  function makeLetter() {
+  const TAU = Math.PI * 2;
+  const rand = (a, b) => a + Math.random() * (b - a);
+  function wrap(v, max) {
+    if (v < 0) return v + max;
+    if (v > max) return v - max;
+    return v;
+  }
+
+  function makeLetter(seedPos) {
     const color = colors[Math.floor(Math.random() * colors.length)];
     return {
       glyph: glyphs[Math.floor(Math.random() * glyphs.length)],
-      x: Math.random(),
-      y: Math.random(),
+      x: seedPos ? Math.random() * Math.max(width, 1) : 0,
+      y: seedPos ? Math.random() * Math.max(height, 1) : 0,
+      vx: rand(-9, 9),
+      vy: rand(-9, 9),
       depth: 0.35 + Math.random() * 0.9,
       size: 5 + Math.random() * 7,
-      drift: 0.04 + Math.random() * 0.1,
-      orbit: Math.random() * Math.PI * 2,
-      spin: (Math.random() - 0.5) * 0.22,
-      alpha: 0.08 + Math.random() * 0.18,
+      angle: Math.random() * TAU,
+      spinV: (Math.random() - 0.5) * 0.5,
+      seed: Math.random() * TAU,
+      baseAlpha: 0.12 + Math.random() * 0.22,
+      flash: 0,            // brightening from a bump or the pixie's gather
+      cooldown: 0,         // throttles per-letter spark spawns
       color,
     };
   }
 
+  // A winged mote that wanders the field and periodically gathers nearby
+  // letters toward itself, trailing sparks - kin to the punctuation pixies.
+  const pixie = {
+    x: 0, y: 0, vx: 12, vy: -8,
+    wing: 0,
+    state: "wander",
+    timer: rand(4, 8),
+    trail: [],
+    glow: 0,
+  };
+
+  function spawnSpark(x, y, color, strength) {
+    if (sparks.length > 140) return;
+    const a = Math.random() * TAU;
+    const sp = rand(12, 46) * (strength || 1);
+    sparks.push({
+      x, y,
+      vx: Math.cos(a) * sp,
+      vy: Math.sin(a) * sp - 6,
+      life: 0,
+      maxLife: rand(0.4, 0.95),
+      size: rand(0.7, 1.9),
+      color,
+    });
+  }
+
   function resize() {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const hadSize = width > 0;
     width = window.innerWidth;
     height = window.innerHeight;
     canvas.width = Math.floor(width * dpr);
@@ -3913,40 +4052,246 @@ function initField() {
     canvas.style.height = `${height}px`;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-    const target = Math.min(180, Math.max(80, Math.floor((width * height) / 12000)));
-    while (letters.length < target) letters.push(makeLetter());
+    if (!hadSize) {
+      pixie.x = width * 0.5;
+      pixie.y = height * 0.4;
+    }
+    const target = Math.min(170, Math.max(70, Math.floor((width * height) / 13000)));
+    while (letters.length < target) letters.push(makeLetter(true));
     letters.length = target;
   }
 
+  function steerPixie(dt, time) {
+    pixie.timer -= dt;
+    if (pixie.timer <= 0) {
+      if (pixie.state === "wander" && letters.length) {
+        pixie.target = letters[Math.floor(Math.random() * letters.length)];
+        pixie.state = "gather";
+        pixie.timer = rand(2.4, 4.2);
+      } else {
+        pixie.target = null;
+        pixie.state = "wander";
+        pixie.timer = rand(5, 9);
+      }
+    }
+
+    // Base wander: a slow, looping current that never touches the cursor.
+    let ax = Math.cos(time * 0.21 + 1.3) * 9 + Math.sin(time * 0.07) * 5;
+    let ay = Math.sin(time * 0.18) * 9 + Math.cos(time * 0.05 + 2.1) * 5;
+
+    if (pixie.state === "gather" && pixie.target) {
+      const dx = pixie.target.x - pixie.x;
+      const dy = pixie.target.y - pixie.y;
+      const d = Math.hypot(dx, dy) || 1;
+      ax += (dx / d) * 26;
+      ay += (dy / d) * 26;
+      pixie.glow = Math.min(1, pixie.glow + dt * 1.6);
+    } else {
+      pixie.glow = Math.max(0, pixie.glow - dt * 1.2);
+    }
+
+    // Keep her on stage with soft edge repulsion.
+    const m = 70;
+    if (pixie.x < m) ax += (m - pixie.x) * 0.6;
+    if (pixie.x > width - m) ax -= (pixie.x - (width - m)) * 0.6;
+    if (pixie.y < m) ay += (m - pixie.y) * 0.6;
+    if (pixie.y > height - m) ay -= (pixie.y - (height - m)) * 0.6;
+
+    pixie.vx = (pixie.vx + ax * dt) * 0.985;
+    pixie.vy = (pixie.vy + ay * dt) * 0.985;
+    const sp = Math.hypot(pixie.vx, pixie.vy);
+    const max = 58;
+    if (sp > max) { pixie.vx = pixie.vx / sp * max; pixie.vy = pixie.vy / sp * max; }
+    pixie.x += pixie.vx * dt;
+    pixie.y += pixie.vy * dt;
+    pixie.wing += dt * 22;
+
+    pixie.trail.unshift({ x: pixie.x, y: pixie.y, life: 1 });
+    if (pixie.trail.length > 18) pixie.trail.pop();
+    for (const p of pixie.trail) p.life -= dt * 1.4;
+    while (pixie.trail.length && pixie.trail[pixie.trail.length - 1].life <= 0) pixie.trail.pop();
+    if (pixie.glow > 0.2 && Math.random() < pixie.glow * 0.5) {
+      spawnSpark(pixie.x + rand(-4, 4), pixie.y + rand(-4, 4), PIXIE_COLOR, 0.5);
+    }
+  }
+
+  function collide(dt) {
+    for (let i = 0; i < letters.length; i++) {
+      const a = letters[i];
+      for (let j = i + 1; j < letters.length; j++) {
+        const b = letters[j];
+        const dx = b.x - a.x;
+        const dy = b.y - a.y;
+        const minD = (a.size * a.depth + b.size * b.depth) * 0.5 + 5;
+        const d2 = dx * dx + dy * dy;
+        if (d2 > minD * minD || d2 === 0) continue;
+        const d = Math.sqrt(d2) || 1;
+        const nx = dx / d;
+        const ny = dy / d;
+        // Soft elastic push apart.
+        const overlap = (minD - d) * 0.5;
+        a.x -= nx * overlap; a.y -= ny * overlap;
+        b.x += nx * overlap; b.y += ny * overlap;
+        const relax = (b.vx - a.vx) * nx + (b.vy - a.vy) * ny;
+        if (relax < 0) {
+          const imp = relax * 0.9;
+          a.vx += nx * imp; a.vy += ny * imp;
+          b.vx -= nx * imp; b.vy -= ny * imp;
+        }
+        a.flash = Math.min(1, a.flash + 0.6);
+        b.flash = Math.min(1, b.flash + 0.6);
+        if (a.cooldown <= 0 && b.cooldown <= 0) {
+          const mxp = (a.x + b.x) * 0.5;
+          const myp = (a.y + b.y) * 0.5;
+          const n = 2 + (Math.random() * 3 | 0);
+          for (let k = 0; k < n; k++) spawnSpark(mxp, myp, Math.random() < 0.5 ? a.color : b.color, 0.8);
+          a.cooldown = b.cooldown = 0.5;
+        }
+      }
+    }
+  }
+
+  let last = 0;
   function draw(t) {
+    const time = t * 0.001;
+    const dt = last ? Math.min(0.05, time - last) : 0;
+    last = time;
+
     ctx.clearRect(0, 0, width, height);
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    const mx = parseFloat(root.style.getPropertyValue("--mx") || 0);
-    const my = parseFloat(root.style.getPropertyValue("--my") || 0);
-    const scrollDrift = window.scrollY * 0.018;
-    const time = t * 0.001;
-
+    // ── update letters ──
     for (const letter of letters) {
-      const orbitX = Math.cos(time * letter.drift + letter.orbit) * 28 * letter.depth;
-      const orbitY = Math.sin(time * letter.drift * 0.8 + letter.orbit) * 18 * letter.depth;
-      const x = ((letter.x * width + orbitX + mx * 42 * letter.depth) % (width + 80)) - 40;
-      const y = ((letter.y * height + orbitY + scrollDrift * letter.depth - my * 34 * letter.depth) % (height + 80)) - 40;
-      const [r, g, b] = letter.color;
+      // gentle self-propelled wander, no cursor input
+      letter.vx += Math.cos(time * 0.3 + letter.seed) * 5 * dt;
+      letter.vy += Math.sin(time * 0.27 + letter.seed * 1.3) * 5 * dt;
 
+      if (pixie.glow > 0.15) {
+        const dx = pixie.x - letter.x;
+        const dy = pixie.y - letter.y;
+        const d = Math.hypot(dx, dy);
+        const R = 150;
+        if (d < R && d > 1) {
+          const pull = (1 - d / R) * pixie.glow * 90;
+          letter.vx += (dx / d) * pull * dt;
+          letter.vy += (dy / d) * pull * dt;
+          letter.flash = Math.min(1, letter.flash + (1 - d / R) * dt * 2.2);
+        }
+      }
+
+      letter.vx *= 0.985;
+      letter.vy *= 0.985;
+      const sp = Math.hypot(letter.vx, letter.vy);
+      const max = 42;
+      if (sp > max) { letter.vx = letter.vx / sp * max; letter.vy = letter.vy / sp * max; }
+
+      letter.x = wrap(letter.x + letter.vx * dt, width);
+      letter.y = wrap(letter.y + letter.vy * dt, height);
+      letter.angle += letter.spinV * dt;
+      if (letter.flash > 0) letter.flash = Math.max(0, letter.flash - dt * 2.4);
+      if (letter.cooldown > 0) letter.cooldown -= dt;
+    }
+
+    collide(dt);
+    steerPixie(dt, time);
+
+    const scrollDrift = window.scrollY * 0.018;
+
+    // ── draw letters ──
+    for (const letter of letters) {
+      const x = wrap(letter.x + 40, width + 80) - 40;
+      const y = wrap(letter.y + scrollDrift * letter.depth + 40, height + 80) - 40;
+      const [r, g, b] = letter.color;
+      const alpha = Math.min(0.62, letter.baseAlpha + letter.flash * 0.5);
       ctx.save();
       ctx.translate(x, y);
-      ctx.rotate(Math.sin(time * letter.drift + letter.orbit) * letter.spin);
-      ctx.font = `${letter.size * letter.depth}px Fraunces, Georgia, serif`;
-      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${letter.alpha})`;
-      ctx.shadowColor = `rgba(${r}, ${g}, ${b}, ${letter.alpha * 0.35})`;
-      ctx.shadowBlur = 4 * letter.depth;
+      ctx.rotate(Math.sin(letter.angle) * 0.22 + letter.flash * 0.3);
+      ctx.font = `${letter.size * letter.depth * (1 + letter.flash * 0.25)}px Fraunces, Georgia, serif`;
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+      ctx.shadowColor = `rgba(${r}, ${g}, ${b}, ${(0.35 + letter.flash * 0.5)})`;
+      ctx.shadowBlur = (4 + letter.flash * 10) * letter.depth;
       ctx.fillText(letter.glyph, 0, 0);
       ctx.restore();
     }
 
+    // ── draw + update sparks ──
+    for (let i = sparks.length - 1; i >= 0; i--) {
+      const s = sparks[i];
+      s.life += dt;
+      if (s.life >= s.maxLife) { sparks.splice(i, 1); continue; }
+      s.vy += 26 * dt;
+      s.vx *= 0.96;
+      s.x += s.vx * dt;
+      s.y += s.vy * dt;
+      const k = 1 - s.life / s.maxLife;
+      const [r, g, b] = s.color;
+      ctx.save();
+      ctx.globalCompositeOperation = "lighter";
+      ctx.beginPath();
+      ctx.arc(s.x, s.y + scrollDrift * 0.6, s.size * k + 0.4, 0, TAU);
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${0.85 * k})`;
+      ctx.shadowColor = `rgba(${r}, ${g}, ${b}, ${k})`;
+      ctx.shadowBlur = 8 * k;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // ── draw pixie ──
+    drawPixie(time);
+
     requestAnimationFrame(draw);
+  }
+
+  function drawPixie(time) {
+    const px = pixie.x;
+    const py = pixie.y + window.scrollY * 0.018 * 0.5;
+    const [r, g, b] = PIXIE_COLOR;
+    ctx.save();
+    ctx.globalCompositeOperation = "lighter";
+
+    // trail
+    for (let i = pixie.trail.length - 1; i >= 0; i--) {
+      const p = pixie.trail[i];
+      const py2 = p.y + window.scrollY * 0.018 * 0.5;
+      const a = Math.max(0, p.life) * 0.5;
+      ctx.beginPath();
+      ctx.arc(p.x, py2, 1.4 * p.life + 0.4, 0, TAU);
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`;
+      ctx.fill();
+    }
+
+    // wings
+    const flap = Math.sin(pixie.wing) * 0.6 + 0.7;
+    const heading = Math.atan2(pixie.vy, pixie.vx);
+    ctx.translate(px, py);
+    ctx.rotate(heading + Math.PI / 2);
+    for (const side of [-1, 1]) {
+      ctx.save();
+      ctx.scale(side * flap, 1);
+      ctx.beginPath();
+      ctx.ellipse(4.5, -1, 4.2, 2.3, -0.5, 0, TAU);
+      ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${0.16 + pixie.glow * 0.18})`;
+      ctx.fill();
+      ctx.restore();
+    }
+    ctx.rotate(-(heading + Math.PI / 2));
+
+    // body glow + core
+    const halo = 7 + pixie.glow * 6 + Math.sin(time * 6) * 0.8;
+    const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, halo);
+    grad.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${0.9})`);
+    grad.addColorStop(0.4, `rgba(${r}, ${g}, ${b}, ${0.4 + pixie.glow * 0.3})`);
+    grad.addColorStop(1, "rgba(255, 224, 170, 0)");
+    ctx.beginPath();
+    ctx.arc(0, 0, halo, 0, TAU);
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(0, 0, 1.7, 0, TAU);
+    ctx.fillStyle = "rgba(255, 248, 232, 0.95)";
+    ctx.fill();
+    ctx.restore();
   }
 
   window.addEventListener("resize", resize, { passive: true });
