@@ -4405,9 +4405,13 @@ function initHeroWrite() {
     s.addEventListener("animationend", () => s.remove());
   }
 
-  // Wrap every character of a node (recursing into <span>, skipping <br>)
-  // in its own .hw-letter so each can swirl in independently.
+  // Wrap every character of a node (recursing into <span>, skipping <br>) in
+  // its own .hw-letter so each can swirl in independently. The segment's real
+  // colour is pinned inline per letter, so multi-colour lines (the tagline's
+  // accent words, the headline accent) keep their hues - and wrapping every
+  // glyph in a <span> can't let a `.parent span` rule repaint them all.
   function splitLetters(node, out) {
+    const segColor = getComputedStyle(node).color;
     const kids = Array.from(node.childNodes);
     for (const child of kids) {
       if (child.nodeType === 3) {
@@ -4418,6 +4422,7 @@ function initHeroWrite() {
           } else {
             const span = document.createElement("span");
             span.className = "hw-letter";
+            span.style.color = segColor;
             span.textContent = ch;
             frag.appendChild(span);
             out.push(span);
