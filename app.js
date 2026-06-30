@@ -4452,6 +4452,13 @@ function initHeroWrite() {
     clone.style.display = "inline-block";
     clone.style.textAlign = "left";
     clone.style.maxWidth = Math.ceil(finalRect.width) + "px";
+    // Match the final line's exact typography, even where it's inherited
+    // (e.g. the hero-problem spans take their font from the parent paragraph).
+    const cs = getComputedStyle(el);
+    ["fontFamily", "fontSize", "fontWeight", "fontStyle", "lineHeight",
+      "letterSpacing", "textTransform", "color"].forEach((p) => {
+      clone.style[p] = cs[p];
+    });
     stage.appendChild(clone);
 
     const letters = [];
