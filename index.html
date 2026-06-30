@@ -22,6 +22,13 @@
         <span class="brand-mark" aria-hidden="true">✦</span>
         <span class="brand-name">ReEnchanted</span>
       </a>
+      <div class="header-radio" role="group" aria-label="Radio">
+        <button class="header-radio-toggle" id="header-radio-toggle" type="button" aria-pressed="false" aria-label="Play radio" title="Play radio">
+          <span class="hr-icon" aria-hidden="true">▶</span>
+        </button>
+        <label class="sr-only" for="header-radio-station">Radio station</label>
+        <select class="header-radio-select" id="header-radio-station" aria-label="Radio station"></select>
+      </div>
       <button class="glow-pill" id="glow-pill" type="button" aria-controls="glow-menu" aria-expanded="false">
         <span class="glow-orb" aria-hidden="true"></span>
         <span class="glow-copy">
@@ -88,21 +95,6 @@
       <!-- ───────────────────────── HERO ───────────────────────── -->
       <section class="hero">
         <div class="hero-copy">
-          <div class="hero-intro" aria-hidden="true">
-            <span class="intro-pixie"></span>
-            <span class="intro-spark s1">S</span>
-            <span class="intro-spark s2">R</span>
-            <span class="intro-spark s3">E</span>
-            <span class="intro-spark s4">?</span>
-            <span class="intro-spark s5">Y</span>
-            <span class="intro-spark s6">o</span>
-            <span class="intro-spark s7">u</span>
-            <span class="intro-spark s8">r</span>
-            <span class="intro-spark s9">L</span>
-            <span class="intro-spark s10">i</span>
-            <span class="intro-spark s11">f</span>
-            <span class="intro-spark s12">e</span>
-          </div>
           <p class="hero-problem hero-reveal-group">
             <span class="hero-problem-line hero-reveal hero-reveal-1">
               Same commute. Same gray hours. Another day slipping past
@@ -323,7 +315,7 @@
                       <span class="radio-wave" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
                       <span class="radio-now" id="radio-now">Nothing playing yet - tap a station.</span>
                     </div>
-                    <audio id="radio-audio" preload="none" loop></audio>
+                    <audio id="radio-audio" preload="none"></audio>
                   </div>
 
                   <div class="sentence-polisher" id="sentence-polisher" hidden>
@@ -1377,6 +1369,6 @@
         });
       })();
     </script>
-    <script src="./app.js?v=38"></script>
+    <script src="./app.js?v=43"></script>
   </body>
 </html>
