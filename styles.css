@@ -104,50 +104,30 @@ h2 {
 
 .hero-copy > :not(.hero-intro) {
   opacity: 0;
-  animation: heroFinalReveal 900ms ease-out 10.8s forwards;
+  transform: translateY(18px);
+  filter: blur(7px);
+  animation: heroTextWrite 2200ms ease forwards;
+}
+.hero-copy > .hero-problem { animation-delay: 0.9s; }
+.hero-copy > .eyebrow { animation-delay: 4.0s; }
+.hero-copy > .return-note { animation-delay: 4.0s; }
+.hero-copy > h1 { animation-delay: 5.0s; }
+.hero-copy > .hero-tagline { animation-delay: 7.8s; }
+.hero-copy > .hero-lede { animation-delay: 10.3s; }
+.hero-copy > .hero-actions { animation-delay: 13.0s; }
+.hero-copy > .trust-row { animation-delay: 13.45s; }
+.hero-copy > .return-note[hidden] {
+  animation: none;
 }
 
 .hero-intro {
   position: absolute;
-  inset: 0 auto auto 0;
-  width: min(100%, 620px);
-  min-height: 360px;
-  display: grid;
-  place-items: center;
+  inset: 46px auto auto 0;
+  width: min(100%, 600px);
+  height: 520px;
   pointer-events: none;
   opacity: 1;
-  animation: heroIntroLeave 900ms ease 10.2s forwards;
-}
-.intro-line {
-  position: absolute;
-  max-width: 600px;
-  margin: 0;
-  padding: 0 8px;
-  text-align: center;
-  text-wrap: balance;
-  font-family: var(--serif);
-  font-weight: 700;
-  line-height: 1.18;
-  color: var(--paper);
-  text-shadow: 0 0 34px rgba(255, 200, 116, 0.2), 0 0 18px rgba(76, 192, 189, 0.13);
-  opacity: 0;
-  transform: translateY(12px) scale(0.98);
-}
-.intro-line-1 {
-  font-size: clamp(1.55rem, 3vw, 2.55rem);
-  color: color-mix(in srgb, var(--text-dim) 82%, var(--paper));
-  animation: heroIntroLine 3s ease-in-out 0.4s both;
-}
-.intro-line-2 {
-  font-size: clamp(1.7rem, 3.4vw, 2.85rem);
-  font-style: italic;
-  color: var(--paper);
-  animation: heroIntroLine 3s ease-in-out 3.25s both;
-}
-.intro-line-3 {
-  font-size: clamp(1.55rem, 3vw, 2.5rem);
-  color: var(--gold);
-  animation: heroIntroLine 3.1s ease-in-out 6.25s both;
+  animation: heroIntroLeave 900ms ease 14.2s forwards;
 }
 .intro-pixie {
   position: absolute;
@@ -157,7 +137,7 @@ h2 {
   background: radial-gradient(circle at 35% 30%, #fff, var(--gold) 45%, var(--teal) 78%);
   box-shadow: 0 0 18px rgba(255, 200, 116, 0.75), 0 0 34px rgba(76, 192, 189, 0.35);
   opacity: 0;
-  animation: heroPixieWrite 9.5s cubic-bezier(0.45, 0, 0.25, 1) 0.25s both;
+  animation: heroPixieWrite 14s cubic-bezier(0.45, 0, 0.25, 1) 0.35s both;
 }
 .intro-pixie::before,
 .intro-pixie::after {
@@ -179,59 +159,65 @@ h2 {
   color: var(--gold);
   opacity: 0;
   text-shadow: 0 0 16px rgba(255, 200, 116, 0.8);
-  animation: introSpark 2.4s ease-out infinite;
+  animation: introSpark 3.8s ease-out both;
 }
-.intro-spark.s1 { left: 18%; top: 30%; animation-delay: 0.6s; }
-.intro-spark.s2 { right: 20%; top: 36%; color: var(--teal); animation-delay: 1.3s; }
-.intro-spark.s3 { left: 42%; bottom: 22%; animation-delay: 2.05s; }
-.intro-spark.s4 { right: 36%; bottom: 28%; color: var(--paper); animation-delay: 2.8s; }
+.intro-spark.s1 { left: 4%; top: 9%; animation-delay: 1.0s; }
+.intro-spark.s2 { left: 15%; top: 12%; color: var(--teal); animation-delay: 1.35s; }
+.intro-spark.s3 { left: 29%; top: 10%; animation-delay: 1.7s; }
+.intro-spark.s4 { left: 46%; top: 15%; color: var(--paper); animation-delay: 2.05s; }
+.intro-spark.s5 { left: 11%; top: 29%; animation-delay: 3.4s; }
+.intro-spark.s6 { left: 24%; top: 32%; color: var(--teal); animation-delay: 3.75s; }
+.intro-spark.s7 { left: 37%; top: 30%; animation-delay: 4.1s; }
+.intro-spark.s8 { left: 51%; top: 34%; color: var(--paper); animation-delay: 4.45s; }
+.intro-spark.s9 { left: 6%; top: 58%; animation-delay: 7.2s; }
+.intro-spark.s10 { left: 18%; top: 64%; color: var(--teal); animation-delay: 7.55s; }
+.intro-spark.s11 { left: 34%; top: 62%; animation-delay: 7.9s; }
+.intro-spark.s12 { left: 53%; top: 66%; color: var(--paper); animation-delay: 8.25s; }
 
-@keyframes heroIntroLine {
-  0% { opacity: 0; transform: translateY(14px) scale(0.98); filter: blur(6px); }
-  18%, 74% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
-  100% { opacity: 0; transform: translateY(-12px) scale(1.015); filter: blur(5px); }
-}
 @keyframes heroIntroLeave {
   to { opacity: 0; visibility: hidden; }
 }
-@keyframes heroFinalReveal {
-  from { opacity: 0; transform: translateY(12px); filter: blur(5px); }
-  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+@keyframes heroTextWrite {
+  0% { opacity: 0; transform: translateY(20px); filter: blur(8px); }
+  45% { opacity: 0.85; filter: blur(2px); }
+  100% { opacity: 1; transform: translateY(0); filter: blur(0); }
 }
 @keyframes heroPixieWrite {
-  0% { opacity: 0; transform: translate(8px, 170px) scale(0.72); }
+  0% { opacity: 0; transform: translate(8px, 34px) scale(0.72); }
   8% { opacity: 1; }
-  24% { transform: translate(490px, 130px) scale(0.92); }
-  35% { transform: translate(160px, 178px) scale(0.86); }
-  49% { transform: translate(515px, 166px) scale(1); }
-  61% { transform: translate(120px, 210px) scale(0.9); }
-  78% { transform: translate(470px, 190px) scale(1.02); }
+  18% { transform: translate(482px, 62px) scale(0.92); }
+  28% { transform: translate(84px, 126px) scale(0.86); }
+  42% { transform: translate(526px, 156px) scale(1); }
+  55% { transform: translate(96px, 250px) scale(0.9); }
+  70% { transform: translate(520px, 314px) scale(1.02); }
+  84% { transform: translate(118px, 408px) scale(0.9); }
   92% { opacity: 1; }
-  100% { opacity: 0; transform: translate(548px, 120px) scale(0.72); }
+  100% { opacity: 0; transform: translate(548px, 444px) scale(0.72); }
 }
 @keyframes introSpark {
-  0%, 22%, 100% { opacity: 0; transform: translate(0, 0) scale(0.5) rotate(0deg); }
-  32% { opacity: 0.9; transform: translate(6px, -10px) scale(1) rotate(16deg); }
-  48% { opacity: 0.15; transform: translate(-5px, -20px) scale(0.72) rotate(-18deg); }
+  0%, 100% { opacity: 0; transform: translate(0, 0) scale(0.45) rotate(0deg); }
+  20% { opacity: 0.95; transform: translate(8px, -8px) scale(1) rotate(16deg); }
+  48% { opacity: 0.4; transform: translate(24px, -18px) scale(0.75) rotate(-12deg); }
+  72% { opacity: 0; transform: translate(38px, -28px) scale(0.5) rotate(24deg); }
 }
 
 @media (max-width: 640px) {
   .hero-intro {
-    min-height: 280px;
-  }
-  .intro-line {
-    max-width: min(92vw, 360px);
+    inset: 22px auto auto 0;
+    width: 100%;
+    height: 430px;
   }
   @keyframes heroPixieWrite {
-    0% { opacity: 0; transform: translate(18px, 132px) scale(0.72); }
+    0% { opacity: 0; transform: translate(18px, 40px) scale(0.72); }
     8% { opacity: 1; }
-    24% { transform: translate(290px, 98px) scale(0.92); }
-    35% { transform: translate(70px, 142px) scale(0.86); }
-    49% { transform: translate(306px, 132px) scale(1); }
-    61% { transform: translate(54px, 166px) scale(0.9); }
-    78% { transform: translate(270px, 150px) scale(1.02); }
+    18% { transform: translate(290px, 66px) scale(0.92); }
+    28% { transform: translate(60px, 118px) scale(0.86); }
+    42% { transform: translate(306px, 150px) scale(1); }
+    55% { transform: translate(48px, 220px) scale(0.9); }
+    70% { transform: translate(290px, 276px) scale(1.02); }
+    84% { transform: translate(66px, 348px) scale(0.9); }
     92% { opacity: 1; }
-    100% { opacity: 0; transform: translate(310px, 92px) scale(0.72); }
+    100% { opacity: 0; transform: translate(310px, 386px) scale(0.72); }
   }
 }
 
