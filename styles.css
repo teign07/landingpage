@@ -978,6 +978,19 @@ h2 {
   font-size: 0.84rem;
 }
 
+.hero-bridge-quote {
+  width: min(860px, calc(100% - 40px));
+  margin: clamp(8px, 2vw, 24px) auto clamp(44px, 7vw, 82px);
+  color: var(--paper);
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3vw, 2.45rem);
+  font-weight: 650;
+  line-height: 1.18;
+  text-align: center;
+  text-wrap: balance;
+  text-shadow: 0 0 34px rgba(255, 200, 116, 0.16);
+}
+
 .hero-art {
   position: relative;
   aspect-ratio: 4 / 5;
