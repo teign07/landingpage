@@ -74,7 +74,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css?v=25">
+    <link rel="stylesheet" href="./styles.css?v=26">
   </head>
   <body>
     <canvas id="spell-field" aria-hidden="true"></canvas>
@@ -1418,34 +1418,34 @@
           <button class="feedback-close" id="feedback-close" type="button" aria-label="Close feedback board">×</button>
         </div>
         <p class="feedback-intro">
-          Mostly for the app: report a rough edge, vote for what should get attention, or send a note
-          from your own copy of the Book. GitHub keeps it tied to the repo; email works too.
+          Send feedback about the ReEnchanted app. GitHub is best for bugs and feature ideas.
+          Email is best if you need a reply or TestFlight help.
         </p>
         <div class="feedback-lanes" aria-label="Feedback lanes">
           <a class="feedback-lane" href="https://github.com/teign07/ReEnchanted/issues/new?title=App%20bug%3A%20&body=Where%20in%20the%20app%3A%0A%0AWhat%20happened%3A%0A%0AWhat%20I%20expected%3A%0A%0ADevice%20%2F%20iOS%20version%3A%0A" target="_blank" rel="noopener">
             <span>01</span>
-            <strong>App bug</strong>
-            <small>Crashes, confusing behavior, broken pages, audio, widgets, or saves.</small>
+            <strong>Report a bug</strong>
+            <small>Something in the app broke, crashed, disappeared, or acted wrong.</small>
           </a>
           <a class="feedback-lane" href="https://github.com/teign07/ReEnchanted/issues/new?title=App%20feature%20wish%3A%20&body=I%20wish%20ReEnchanted%20could%3A%0A%0AWhy%20it%20would%20matter%3A%0A%0AWhere%20I%20expected%20to%20find%20it%20in%20the%20app%3A%0A" target="_blank" rel="noopener">
             <span>02</span>
-            <strong>Feature wish</strong>
-            <small>A vote for the next useful page, spell, privacy tool, or polish pass.</small>
+            <strong>Suggest a feature</strong>
+            <small>You want the app to add, change, or improve something.</small>
           </a>
           <a class="feedback-lane" href="mailto:hello@reenchanted.app?subject=ReEnchanted%20TestFlight%20or%20app%20feedback&body=What%20I%20need%20help%20with%3A%0A%0ADevice%20%2F%20iOS%20version%3A%0A%0AAnything%20else%3A%0A">
             <span>03</span>
-            <strong>TestFlight help</strong>
-            <small>Email hello@reenchanted.app about installing, testing, or getting unstuck.</small>
+            <strong>Get TestFlight help</strong>
+            <small>Email me if you need an invite, install help, or a private reply.</small>
           </a>
           <a class="feedback-lane" href="https://github.com/teign07/ReEnchanted/issues/new?title=Website%20feedback%3A%20&body=This%20part%20worked%20for%20me%20%2F%20lost%20me%3A%0A%0AThe%20line%20or%20section%3A%0A%0AWhat%20I%20wanted%20next%3A%0A" target="_blank" rel="noopener">
             <span>04</span>
-            <strong>Website note</strong>
-            <small>For landing page copy, layout, links, forms, or anything here.</small>
+            <strong>Website feedback</strong>
+            <small>Something on this page is confusing, broken, or could be clearer.</small>
           </a>
         </div>
         <form class="feedback-draft" id="feedback-draft">
-          <label for="feedback-note">Draft an app note</label>
-          <textarea id="feedback-note" rows="4" maxlength="900" placeholder="In the app, I was trying to... and I wanted..."></textarea>
+          <label for="feedback-note">Write a note</label>
+          <textarea id="feedback-note" rows="4" maxlength="900" placeholder="What happened? What did you expect?"></textarea>
           <div class="feedback-actions">
             <span id="feedback-count">0 / 900</span>
             <a class="feedback-submit" id="feedback-submit" href="https://github.com/teign07/ReEnchanted/issues/new" target="_blank" rel="noopener">Open draft on GitHub</a>
@@ -1538,6 +1538,6 @@
         });
       })();
     </script>
-    <script src="./app.js?v=51"></script>
+    <script src="./app.js?v=52"></script>
   </body>
 </html>

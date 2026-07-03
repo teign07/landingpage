@@ -1962,11 +1962,13 @@ wireEmailForms();
       ? `App feedback: ${text.split(/\s+/).slice(0, 7).join(" ")}`
       : "App feedback: ";
     const body = [
-      "App feedback note:",
+      "What happened or what would you like?",
       "",
       text || "(Write the note here.)",
       "",
       "Where in the app:",
+      "",
+      "What did you expect?",
       "",
       "Device / iOS version:",
       "",
