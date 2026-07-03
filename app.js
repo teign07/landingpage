@@ -1949,26 +1949,39 @@ wireEmailForms();
   const note = document.querySelector("#feedback-note");
   const count = document.querySelector("#feedback-count");
   const submit = document.querySelector("#feedback-submit");
+  const email = document.querySelector("#feedback-email");
   if (!tab || !board) return;
 
   const storageKey = "reenchanted-feedback-draft";
   let returnFocus = null;
 
   function buildIssueURL() {
-    if (!submit) return;
+    if (!submit && !email) return;
     const text = (note?.value || "").trim();
     const titleText = text
-      ? `Landing page feedback: ${text.split(/\s+/).slice(0, 7).join(" ")}`
-      : "Landing page feedback: ";
+      ? `App feedback: ${text.split(/\s+/).slice(0, 7).join(" ")}`
+      : "App feedback: ";
     const body = [
-      "Feedback note:",
+      "App feedback note:",
       "",
       text || "(Write the note here.)",
       "",
-      `Page: ${location.href}`,
-      `Viewport: ${window.innerWidth}x${window.innerHeight}`,
+      "Where in the app:",
+      "",
+      "Device / iOS version:",
+      "",
+      "Contact email, if you want a reply:",
+      "",
+      `Sent from: ${location.href}`,
     ].join("\n");
-    submit.href = `https://github.com/teign07/ReEnchanted/issues/new?title=${encodeURIComponent(titleText)}&body=${encodeURIComponent(body)}`;
+    const encodedTitle = encodeURIComponent(titleText);
+    const encodedBody = encodeURIComponent(body);
+    if (submit) {
+      submit.href = `https://github.com/teign07/ReEnchanted/issues/new?title=${encodedTitle}&body=${encodedBody}`;
+    }
+    if (email) {
+      email.href = `mailto:hello@reenchanted.app?subject=${encodedTitle}&body=${encodedBody}`;
+    }
   }
 
   function updateDraft() {
@@ -2006,6 +2019,9 @@ wireEmailForms();
   note?.addEventListener("input", updateDraft);
   submit?.addEventListener("click", () => {
     earnGlow("opened-feedback-issue", 1, "A public note is a kind of keeping.");
+  });
+  email?.addEventListener("click", () => {
+    earnGlow("opened-feedback-email", 1, "The note found the mailbox by lamplight.");
   });
   document.addEventListener("click", (event) => {
     if (board.hidden) return;
