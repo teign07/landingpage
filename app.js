@@ -1941,6 +1941,84 @@ function wireEmailForms() {
 }
 wireEmailForms();
 
+/* ── feedback board: a small public inbox without needing a backend ── */
+(function wireFeedbackBoard() {
+  const tab = document.querySelector("#feedback-tab");
+  const board = document.querySelector("#feedback-board");
+  const closeBtn = document.querySelector("#feedback-close");
+  const note = document.querySelector("#feedback-note");
+  const count = document.querySelector("#feedback-count");
+  const submit = document.querySelector("#feedback-submit");
+  if (!tab || !board) return;
+
+  const storageKey = "reenchanted-feedback-draft";
+  let returnFocus = null;
+
+  function buildIssueURL() {
+    if (!submit) return;
+    const text = (note?.value || "").trim();
+    const titleText = text
+      ? `Landing page feedback: ${text.split(/\s+/).slice(0, 7).join(" ")}`
+      : "Landing page feedback: ";
+    const body = [
+      "Feedback note:",
+      "",
+      text || "(Write the note here.)",
+      "",
+      `Page: ${location.href}`,
+      `Viewport: ${window.innerWidth}x${window.innerHeight}`,
+    ].join("\n");
+    submit.href = `https://github.com/teign07/ReEnchanted/issues/new?title=${encodeURIComponent(titleText)}&body=${encodeURIComponent(body)}`;
+  }
+
+  function updateDraft() {
+    const value = note?.value || "";
+    if (count) count.textContent = `${value.length} / ${note?.maxLength || 900}`;
+    try { localStorage.setItem(storageKey, value); } catch (_) {}
+    buildIssueURL();
+  }
+
+  function openBoard() {
+    returnFocus = document.activeElement;
+    board.hidden = false;
+    tab.setAttribute("aria-expanded", "true");
+    earnGlow("opened-feedback-board", 1, "The margin heard you had notes.");
+    setTimeout(() => note?.focus(), 0);
+  }
+
+  function closeBoard() {
+    if (board.hidden) return;
+    board.hidden = true;
+    tab.setAttribute("aria-expanded", "false");
+    if (returnFocus instanceof HTMLElement) returnFocus.focus();
+  }
+
+  try {
+    const saved = localStorage.getItem(storageKey);
+    if (saved && note) note.value = saved;
+  } catch (_) {}
+
+  tab.addEventListener("click", () => {
+    if (board.hidden) openBoard();
+    else closeBoard();
+  });
+  closeBtn?.addEventListener("click", closeBoard);
+  note?.addEventListener("input", updateDraft);
+  submit?.addEventListener("click", () => {
+    earnGlow("opened-feedback-issue", 1, "A public note is a kind of keeping.");
+  });
+  document.addEventListener("click", (event) => {
+    if (board.hidden) return;
+    if (board.contains(event.target) || tab.contains(event.target)) return;
+    closeBoard();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeBoard();
+  });
+  window.addEventListener("resize", buildIssueURL, { passive: true });
+  updateDraft();
+})();
+
 applyDaypart();
 
 cover.addEventListener("click", openBook);
