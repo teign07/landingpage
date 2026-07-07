@@ -896,6 +896,14 @@ h2 {
   text-shadow: 0 0 34px rgba(255, 200, 116, 0.16);
 }
 
+.hero-waitlist {
+  width: min(860px, calc(100% - 40px));
+  margin: clamp(8px, 2vw, 24px) auto clamp(18px, 3vw, 34px);
+}
+.hero-waitlist .email-capture {
+  margin: 0 auto;
+}
+
 .hero-art {
   position: relative;
   aspect-ratio: 4 / 5;
