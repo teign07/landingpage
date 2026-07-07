@@ -898,7 +898,7 @@ h2 {
 
 .hero-waitlist {
   width: min(860px, calc(100% - 40px));
-  margin: clamp(8px, 2vw, 24px) auto clamp(18px, 3vw, 34px);
+  margin: clamp(8px, 2vw, 24px) auto clamp(40px, 5vw, 72px);
 }
 .hero-waitlist .email-capture {
   margin: 0 auto;
