@@ -978,6 +978,12 @@ h2 {
   place-items: center;
   transform: translateY(calc(var(--my) * 8px));
 }
+@media (min-width: 961px) {
+  .hero-art {
+    align-self: start;
+    margin-top: 18px;
+  }
+}
 .hero-glow {
   position: absolute;
   inset: 8% 10%;
