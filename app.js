@@ -135,7 +135,7 @@ function buildSkyAddress(w, context) {
     showers: "Showers come and go because some feelings can't sit still.",
     "snow showers": "Small snow keeps arriving, like the sky remembered one more thing.",
     storm: "The storm is loud because it's full. I won't call that wrong.",
-  }[w.cond] || "The weather is being itself. I think that is hard work.";
+  }[w.cond] || "The weather is being itself. I think that's hard work.";
   const moonLine = {
     "New Moon": "The moon isn't missing. It's resting where I can't see.",
     "Waxing Crescent": "The moon is a small silver beginning.",
@@ -2613,7 +2613,7 @@ const BOOK_CHARACTERS = [
     body: "Marginalia Goblin lives where the page almost stops looking. It files ridiculous evidence, prices attention like currency, and points at the corner your eyes kept sliding past.",
     source: "Book Fae dossier · overlooked evidence",
     shot: "./assets/screens/character-marginalia-goblin.jpg",
-    card: "A mercantile little witness to the unchosen detail: the gap between what a thing is called and what it is.",
+    card: "A mercantile little witness to the unchosen detail: the gap between what people call a thing and what it is.",
     braid: "A Marginalia Goblin joined the cast from the page-corner and offered the Unspoken Pen; the bargain price was three seconds of attention paid to the thing I kept almost noticing.",
   },
 ];
@@ -2985,7 +2985,7 @@ document.addEventListener("keydown", (e) => {
 render();
 
 /* ───────────────────────── the Book reads the visitor ─────────────────────────
-   The first thing on the page is the Book speaking - composed from signals that
+   Beneath the plain-language promise, the Book speaks back - composed from signals that
    never leave the device (clock, moon, month, pointer, a localStorage bookmark).
    The one networked read - the sky - is offered, never taken: the Book asks,
    the visitor consents, and the answer is spoken once and not stored. */
@@ -3150,22 +3150,22 @@ render();
     greeting,
     noticing,
     problem: pick([
-      "Same alarms, same hours - the day pretending it has nothing inside it.",
-      "The ordinary world is persuasive. It says: later, not this, nothing happened. I don't think it means to lie. I think it's tired.",
-      "Routine is good at hiding. It can make a whole day quiet while wearing your shoes.",
-      "A day can stand beside you all afternoon, hoping to be seen, and still leave without a name.",
+      "Work, dinner, chores, scrolling, bed. Then someone asks about your week and every real detail hides behind 'fine.'",
+      "You scroll because you're too tired to choose anything else. An hour goes by. Somehow you feel emptier than when you started.",
+      "'How was your day?' shouldn't be a hard question. So why can you never think of anything to say?",
+      "You finally get an hour to yourself, then spend half of it feeling guilty and the other half trying to decide what you want.",
     ], 47),
     absolution: pick([
-      "Every blank book made that feel like your fault. It wasn't. Blank pages can be lonely and proud.",
-      "You didn't fail all those blank books. They gave you silence and forgot to offer a hand.",
-      "Starting from nothing is hard. Give me one true crumb and I'll try to find the trail.",
-      "The page should meet you halfway. More than halfway, on hard days. I can come closer.",
+      "You're not boring. Your life isn't empty. Familiar things are just very easy to stop seeing.",
+      "You didn't fail at journaling. A blank page asked you to do all the work and then sat there judging you.",
+      "You're not lazy, boring, or bad at appreciating things. Your days have simply gotten good at blending together.",
+      "Nothing has to be terribly wrong for life to start feeling flat. It isn't your fault.",
     ], 53),
     vow: pick([
-      "The days you don't keep don't disappear. They go somewhere neither of us can read.",
-      "I can't save every hour. I can hold out my hands and ask which one still feels warm.",
-      "Let the dull parts go, if they need to. But if one bright splinter catches, hand it here. I'll be careful.",
-      "Today doesn't need to become impressive. It only needs one honest place to open.",
+      "Give me one true detail from today - a sound, a sentence, some weird light. I'll help you keep it.",
+      "Give me sixty seconds. Not to understand the whole thing. Just to feel one ordinary moment become keepable.",
+      "I can't fix your life. I can help you be there for more of it.",
+      "Today doesn't need to be impressive. One true sentence is enough.",
     ], 59),
   };
 
@@ -4267,7 +4267,7 @@ const STATIONS = [
 
   audio.addEventListener("error", () => {
     if (!tuned?.hidden) return;
-    powerOffBroadcast("The frequency is open, but the intercepted recording has not crossed through yet.");
+    powerOffBroadcast("The frequency is open, but the intercepted recording hasn't crossed through yet.");
   });
 
   function tuneTo(station, betweenFreq) {
@@ -5169,7 +5169,7 @@ const LORE = {
     kind: "cast",
     art: { src: "./assets/art/cast-gwendolyn-mythwright.jpg", alt: "Illustrated dossier of Gwendolyn Mythwright, cryptid researcher" },
     body: [
-      "She does her own research, passionately and at length, on things she has not yet proven. Her notebooks run ahead of her evidence - which is either a flaw or the entire point, depending on the week.",
+      "She does her own research, passionately and at length, on things she hasn't yet proven. Her notebooks run ahead of her evidence - which is either a flaw or the entire point, depending on the week.",
       "I keep her because a world needs people who chase the thing in the hedge before anyone agrees it's there. Half of what I know, I learned from someone who refused to wait for permission.",
     ],
   },
