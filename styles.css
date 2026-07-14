@@ -102,7 +102,7 @@ h2 {
   text-wrap: balance;
 }
 
-/* ── the Book's address: it speaks first, and it read the room ── */
+/* ── the Book's address: it reads the room before the interactive demo ── */
 .book-address {
   max-width: 620px;
   margin: 0 0 26px;
@@ -111,7 +111,18 @@ h2 {
   line-height: 1.38;
   color: color-mix(in srgb, var(--text-dim) 80%, #8b93a4);
 }
-.trust-row + .book-address { margin-top: 28px; }
+.book-demo-address {
+  width: min(680px, 100%);
+  max-width: none;
+  margin: -10px auto clamp(36px, 5vw, 58px);
+  padding: clamp(22px, 3.5vw, 34px);
+  border: 1px solid rgba(255, 200, 116, 0.18);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 8% 0%, rgba(255, 200, 116, 0.10), transparent 42%),
+    rgba(255, 255, 255, 0.025);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.18);
+}
 .address-line { margin: 0 0 10px; }
 .address-line em {
   color: var(--gold-soft);

@@ -3175,13 +3175,17 @@ render();
     if (text) el.innerHTML = text;
   });
 
-  /* ── ink the lines in, one at a time ── */
+  /* ── ink the lines in, one at a time, when the reader reaches the demo ── */
   const honesty = document.querySelector("#address-honesty");
   wrap.classList.add("is-addressing");
-  if (reduceMotion) {
-    lineEls.forEach((el) => el.classList.add("is-inked"));
-    if (honesty) honesty.hidden = false;
-  } else {
+  const revealAddress = () => {
+    if (wrap.dataset.addressStarted === "1") return;
+    wrap.dataset.addressStarted = "1";
+    if (reduceMotion) {
+      lineEls.forEach((el) => el.classList.add("is-inked"));
+      if (honesty) honesty.hidden = false;
+      return;
+    }
     lineEls.forEach((el, i) => {
       setTimeout(() => el.classList.add("is-inked"), 300 + i * 1050);
     });
@@ -3191,6 +3195,16 @@ render();
         requestAnimationFrame(() => honesty.classList.add("is-inked"));
       }
     }, 300 + lineEls.length * 1050 + 500);
+  };
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    const addressObserver = new IntersectionObserver((entries) => {
+      if (!entries.some((entry) => entry.isIntersecting)) return;
+      addressObserver.disconnect();
+      revealAddress();
+    }, { threshold: 0.2 });
+    addressObserver.observe(wrap);
+  } else {
+    revealAddress();
   }
 
   /* ── the sky, read only by consent ── */

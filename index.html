@@ -74,7 +74,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css?v=33">
+    <link rel="stylesheet" href="./styles.css?v=34">
   </head>
   <body>
     <canvas id="spell-field" aria-hidden="true"></canvas>
@@ -202,30 +202,6 @@
             <li>No Accounts</li>
             <li>iPhone &amp; iPad</li>
           </ul>
-          <div class="book-address" id="book-address">
-            <p class="address-line address-greeting" data-address="greeting">Oh. Hello. A real person.</p>
-            <p class="address-line" data-address="noticing">Quick question before we do anything weird.</p>
-            <p class="address-line" data-address="problem">
-              Does today feel a lot like yesterday? Did this week disappear somewhere
-              between work, dinner, scrolling, and bed?
-            </p>
-            <p class="address-line" data-address="absolution">
-              That doesn't mean your life is boring. And it doesn't mean you're doing it wrong.
-            </p>
-            <p class="address-line address-vow" data-address="vow">
-              Give me one true detail from today. I'll help you keep it.
-            </p>
-            <div class="address-honesty" id="address-honesty" hidden>
-              <p class="address-honesty-copy" id="address-honesty-copy">
-                I only know little things from here - the clock, the moon, the
-                shape of your window. I could ask the air for your sky too: once,
-                then let the facts go. May I?
-              </p>
-              <button type="button" class="address-sky-btn" id="address-sky-btn">Read my sky ✦</button>
-              <p class="address-sky-reading" id="address-sky-reading" aria-live="polite" hidden></p>
-            </div>
-            <p class="address-whisper" id="address-whisper" aria-live="polite" hidden></p>
-          </div>
         </div>
 
         <div class="hero-art" aria-hidden="true">
@@ -315,6 +291,31 @@
             catch a real edge, let the others wait - then bind your choices into a
             <em>Book of You</em>.
           </p>
+        </div>
+
+        <div class="book-address book-demo-address" id="book-address">
+          <p class="address-line address-greeting" data-address="greeting">Oh. Hello. A real person.</p>
+          <p class="address-line" data-address="noticing">Quick question before we do anything weird.</p>
+          <p class="address-line" data-address="problem">
+            Does today feel a lot like yesterday? Did this week disappear somewhere
+            between work, dinner, scrolling, and bed?
+          </p>
+          <p class="address-line" data-address="absolution">
+            That doesn't mean your life is boring. And it doesn't mean you're doing it wrong.
+          </p>
+          <p class="address-line address-vow" data-address="vow">
+            Give me one true detail from today. I'll help you keep it.
+          </p>
+          <div class="address-honesty" id="address-honesty" hidden>
+            <p class="address-honesty-copy" id="address-honesty-copy">
+              I only know little things from here - the clock, the moon, the
+              shape of your window. I could ask the air for your sky too: once,
+              then let the facts go. May I?
+            </p>
+            <button type="button" class="address-sky-btn" id="address-sky-btn">Read my sky ✦</button>
+            <p class="address-sky-reading" id="address-sky-reading" aria-live="polite" hidden></p>
+          </div>
+          <p class="address-whisper" id="address-whisper" aria-live="polite" hidden></p>
         </div>
 
         <div class="book-stage">
@@ -1671,6 +1672,6 @@
         });
       })();
     </script>
-    <script src="./app.js?v=60"></script>
+    <script src="./app.js?v=61"></script>
   </body>
 </html>
