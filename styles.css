@@ -914,6 +914,16 @@ h2 {
   padding: 130px 0 60px;
 }
 .hero-copy { position: relative; z-index: 2; }
+.campaign-headline {
+  max-width: 720px;
+  font-size: clamp(3rem, 5.15vw, 4.55rem);
+  line-height: 1;
+}
+.campaign-headline > span { display: block; }
+.campaign-headline .campaign-answer {
+  margin-top: 0.12em;
+  color: var(--paper);
+}
 .hero-tagline {
   margin: 22px 0 0;
   font-family: var(--serif);
@@ -4949,7 +4959,7 @@ em .lore-link, .lore-link em { font-style: italic; }
 }
 
 @media (max-width: 680px) {
-  .hero h1 { font-size: clamp(2.7rem, 13.5vw, 4rem); }
+  .hero h1 { font-size: clamp(2.45rem, 11.5vw, 3.65rem); }
   .hero h1 br { display: none; }
   .systems-grid { grid-template-columns: 1fr; }
   .edition-spec-list { grid-template-columns: 1fr; }
