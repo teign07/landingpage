@@ -932,7 +932,7 @@ h2 {
 }
 .campaign-headline > span { display: block; }
 .campaign-headline .campaign-answer {
-  margin-top: 0.12em;
+  margin: 0.46em 0 0.68em;
   color: var(--paper);
 }
 .hero-tagline {
