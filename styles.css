@@ -925,6 +925,7 @@ h2 {
   padding: 130px 0 60px;
 }
 .hero-copy { position: relative; z-index: 2; }
+.hero-copy > .eyebrow { margin-bottom: clamp(28px, 3vw, 40px); }
 .campaign-headline {
   max-width: 720px;
   font-size: clamp(3rem, 5.15vw, 4.55rem);
@@ -934,6 +935,7 @@ h2 {
 .campaign-headline .campaign-answer {
   margin: 0.46em 0 0.68em;
   color: var(--paper);
+  font-style: italic;
 }
 .hero-tagline {
   margin: 22px 0 0;
