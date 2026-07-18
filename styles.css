@@ -922,18 +922,18 @@ h2 {
   grid-template-columns: 1.05fr 0.95fr;
   align-items: center;
   gap: clamp(24px, 4vw, 60px);
-  padding: 130px 0 60px;
+  padding: 108px 0 60px;
 }
 .hero-copy { position: relative; z-index: 2; }
-.hero-copy > .eyebrow { margin-bottom: clamp(28px, 3vw, 40px); }
+.hero-copy > .eyebrow { margin-bottom: clamp(16px, 1.6vw, 22px); }
 .campaign-headline {
   max-width: 720px;
-  font-size: clamp(3rem, 5.15vw, 4.55rem);
+  font-size: clamp(3rem, 4.8vw, 4.2rem);
   line-height: 1;
 }
 .campaign-headline > span { display: block; }
 .campaign-headline .campaign-answer {
-  margin: 0.46em 0 0.68em;
+  margin: 0.3em 0 0.34em;
   color: var(--paper);
   font-style: italic;
 }
@@ -949,15 +949,31 @@ h2 {
 
 .hero-lede {
   max-width: 540px;
-  margin: 18px 0 0;
+  margin: 12px 0 0;
   color: var(--text-dim);
   font-size: clamp(1.05rem, 1.5vw, 1.22rem);
-  line-height: 1.6;
+  line-height: 1.55;
 }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 22px; }
+.hero-payoff {
+  max-width: 540px;
+  margin: 22px 0 0;
+  color: var(--paper);
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+.hero-payoff span { color: var(--gold-soft); }
+.hero-assurance {
+  margin: 10px 0 0;
+  color: var(--text-dim);
+  font-size: 0.84rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
 .trust-row {
   display: flex; flex-wrap: wrap; gap: 10px;
-  margin: 28px 0 0; padding: 0; list-style: none;
+  margin: 18px 0 0; padding: 0; list-style: none;
 }
 .trust-row li {
   padding: 7px 14px;
