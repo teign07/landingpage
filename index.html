@@ -8,6 +8,7 @@
       content="Your life is full of hidden magic. ReEnchanted helps you notice it, keep it, and turn the life you're already living into a private storybook that remembers you."
     >
     <meta name="theme-color" content="#070611">
+    <meta name="reenchanted-community-api" content="https://community-api.reenchanted.app/v1">
     <link rel="canonical" href="https://reenchanted.app/">
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
     <meta property="og:type" content="website">
@@ -167,6 +168,7 @@
         <li><a href="#editions" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">Editions</span></a></li>
         <li><a href="#contents" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">Contents</span></a></li>
         <li><a href="#search" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">Search the Stacks</span></a></li>
+        <li><a href="#community" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">Public Margins</span></a></li>
         <li><a href="#privacy" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">Your Save</span></a></li>
         <li><a href="#download" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">The Door</span></a></li>
       </ul>
@@ -1420,6 +1422,68 @@
         </div>
       </section>
 
+      <section id="community" class="community-section" aria-labelledby="community-title">
+        <div class="community-heading">
+          <p class="eyebrow">The Public Margins</p>
+          <h2 id="community-title">A private Book. A small public window.</h2>
+          <p>
+            Official dispatches from the Doobaleedoos, quiet choices made together,
+            and one-sentence souvenirs readers deliberately offered beyond their covers.
+            No profiles. No leaderboard. No private pages.
+          </p>
+        </div>
+
+        <div class="community-grid" data-community-state="loading">
+          <article class="community-panel community-broadcasts" aria-labelledby="broadcasts-title">
+            <div class="community-panel-heading">
+              <span class="community-glyph" aria-hidden="true">𝕏</span>
+              <div>
+                <p class="community-kicker">The public bell</p>
+                <h3 id="broadcasts-title">From @Enchantifyink</h3>
+              </div>
+            </div>
+            <div id="community-broadcast-list" class="community-post-list" aria-live="polite">
+              <p class="community-quiet">Listening for the next dispatch…</p>
+            </div>
+          </article>
+
+          <article class="community-panel community-souvenirs" aria-labelledby="souvenirs-title">
+            <div class="community-panel-heading">
+              <span class="community-glyph" aria-hidden="true">✦</span>
+              <div>
+                <p class="community-kicker">Left here on purpose</p>
+                <h3 id="souvenirs-title">One-sentence souvenirs</h3>
+              </div>
+            </div>
+            <blockquote id="community-souvenir" class="community-souvenir">
+              The margin is quiet just now.
+            </blockquote>
+            <p id="community-count" class="community-count"></p>
+          </article>
+
+          <article class="community-panel community-details" aria-labelledby="details-title">
+            <div class="community-panel-heading">
+              <span class="community-glyph" aria-hidden="true">◌</span>
+              <div>
+                <p class="community-kicker">Tiny communal weather</p>
+                <h3 id="details-title">What people chose</h3>
+              </div>
+            </div>
+            <div id="community-tallies" class="community-tallies">
+              <p class="community-quiet">No public choices yet.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="community-consent-note">
+          <strong>Two doors, both closed by default.</strong>
+          You may invite public material into your Book without sending anything out.
+          You may ask to be offered contribution moments without importing a feed.
+          Every outgoing sentence gets its own exact public preview and confirmation.
+          <a href="./privacy.html#public-margins">Read the privacy details.</a>
+        </div>
+      </section>
+
       <section id="privacy" class="privacy-section" data-drawer>
         <div class="privacy-copy">
           <p class="eyebrow">The magic stays yours</p>
@@ -1681,6 +1745,6 @@
         });
       })();
     </script>
-    <script src="./app.js?v=62"></script>
+    <script src="./app.js?v=63"></script>
   </body>
 </html>

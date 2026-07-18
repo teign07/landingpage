@@ -185,6 +185,108 @@ const FALLBACK_WEATHER = (() => {
   };
 })();
 
+/* ───────────────────────── Public Margins ─────────────────────────
+   Read-only on the website. Contributions begin in the app, where the reader
+   sees the exact public sentence and confirms it separately. */
+(function setupPublicMargins() {
+  const root = document.querySelector(".community-grid");
+  if (!root) return;
+
+  const apiBase = document.querySelector('meta[name="reenchanted-community-api"]')?.content;
+  if (!apiBase) return;
+  const broadcastList = document.getElementById("community-broadcast-list");
+  const souvenir = document.getElementById("community-souvenir");
+  const count = document.getElementById("community-count");
+  const tallies = document.getElementById("community-tallies");
+
+  const element = (tag, className, text) => {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text != null) node.textContent = text;
+    return node;
+  };
+
+  const renderBroadcast = (post) => {
+    const link = element("a", "community-x-post");
+    link.href = post.permalink;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.setAttribute("aria-label", `View post by ${post.authorName} on X`);
+
+    const author = element("div", "community-x-author");
+    if (post.authorAvatarURL) {
+      const avatar = element("img", "community-x-avatar");
+      avatar.src = post.authorAvatarURL;
+      avatar.alt = "";
+      avatar.loading = "lazy";
+      author.appendChild(avatar);
+    }
+    const identity = element("span", "community-x-identity");
+    identity.appendChild(element("span", "community-x-name", post.authorName));
+    const handle = String(post.authorUsername || "").replace(/^@/, "");
+    identity.appendChild(element("span", "community-x-handle", `@${handle}`));
+    author.appendChild(identity);
+    author.appendChild(element("span", "community-x-mark", "𝕏"));
+    link.appendChild(author);
+    link.appendChild(element("p", "community-x-text", post.text));
+    const timestamp = Number.isNaN(Date.parse(post.createdAt))
+      ? post.createdAt
+      : new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(post.createdAt));
+    link.appendChild(element("time", "community-x-time", timestamp));
+    return link;
+  };
+
+  fetch(`${apiBase.replace(/\/$/, "")}/community/snapshot`, {
+    headers: { accept: "application/json" }
+  })
+    .then((response) => {
+      if (!response.ok) throw new Error(`Public Margins returned ${response.status}`);
+      return response.json();
+    })
+    .then((snapshot) => {
+      root.dataset.communityState = "ready";
+
+      if (Array.isArray(snapshot.broadcasts) && snapshot.broadcasts.length) {
+        broadcastList.replaceChildren(...snapshot.broadcasts.slice(0, 3).map(renderBroadcast));
+      } else {
+        broadcastList.replaceChildren(element("p", "community-quiet", "The public bell is quiet just now."));
+      }
+
+      const sentences = Array.isArray(snapshot.souvenirs) ? snapshot.souvenirs : [];
+      if (sentences.length) {
+        let index = 0;
+        const show = () => {
+          souvenir.textContent = `“${sentences[index % sentences.length].text}”`;
+          index += 1;
+        };
+        show();
+        if (sentences.length > 1 && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+          window.setInterval(show, 9000);
+        }
+      }
+      const total = Number(snapshot.contributionCount || 0);
+      count.textContent = total
+        ? `${total.toLocaleString()} deliberate public contribution${total === 1 ? "" : "s"}; no attempt is made to identify or count people.`
+        : "No reader contribution is public yet.";
+
+      if (Array.isArray(snapshot.tallies) && snapshot.tallies.length) {
+        tallies.replaceChildren(...snapshot.tallies.slice(0, 6).map((item) => {
+          const row = element("div", "community-tally");
+          row.appendChild(element("span", "community-tally-label", item.label));
+          row.appendChild(element("span", "community-tally-count", String(item.count)));
+          return row;
+        }));
+      } else {
+        tallies.replaceChildren(element("p", "community-quiet", "No public choices yet."));
+      }
+    })
+    .catch(() => {
+      root.dataset.communityState = "quiet";
+      broadcastList.replaceChildren(element("p", "community-quiet", "The public bell is out of earshot. The rest of the site still works."));
+      count.textContent = "The community window is temporarily quiet.";
+    });
+})();
+
 let weatherCtx = { ...FALLBACK_WEATHER };
 let readerLine = "";
 
