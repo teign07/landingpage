@@ -303,7 +303,11 @@ const PAGES = [
   {
     kicker: "The Great Unwritten",
     title: "Your ordinary world is the chapter.",
-    body: "Zara Finch reaches you first. She checks your sleeve for punctuation, then looks behind you for the door that vanished. \"You're from the Great Unwritten,\" she says. \"That means your ordinary world is a chapter of this Book - supposedly the best one. No fixed plot. No narrator cleaning up afterward. What you do next actually matters.\" She says it like a warning and a compliment, which is very Zara.",
+    body: "You arrive in the entranceway of an impossible Library. Shelves climb past the reach of sight; staircases revise their destinations overhead. Zara Finch reaches you first. She checks your sleeve for punctuation, then looks behind you for the door that vanished. \"You're from the Great Unwritten,\" she says. \"That means your ordinary world is a chapter of this Book - supposedly the best one. No fixed plot. No narrator cleaning up afterward. What you do next actually matters.\" She says it like a warning and a compliment, which is very Zara.",
+    bodyByFallChoice: {
+      ink: "You crash into the floor in a sprawl at the entranceway of an impossible Library - palms, knees, and dignity arriving separately. Shelves climb past the reach of sight; staircases revise their destinations overhead. Zara Finch reaches you first. She checks your sleeve for punctuation, then looks behind you for the door that vanished. \"You're from the Great Unwritten,\" she says. \"That means your ordinary world is a chapter of this Book - supposedly the best one. No fixed plot. No narrator cleaning up afterward. What you do next actually matters.\" She says it like a warning and a compliment, which is very Zara.",
+      landing: "You land lightly in the entranceway of an impossible Library, knees bent, one hand skimming a floor veined with gold. Shelves climb past the reach of sight; staircases revise their destinations overhead. Zara Finch reaches you first. She checks your sleeve for punctuation, then looks behind you for the door that vanished. \"You're from the Great Unwritten,\" she says. \"That means your ordinary world is a chapter of this Book - supposedly the best one. No fixed plot. No narrator cleaning up afterward. What you do next actually matters.\" She says it like a warning and a compliment, which is very Zara.",
+    },
     source: "Zara Finch · arrival notes",
     shot: "./assets/screens/character-zara-finch.jpg",
     braid: "Zara named the Great Unwritten, and the ordinary world stopped pretending it was outside the story.",
@@ -591,6 +595,10 @@ function wickerMode() {
 
 function fallChoice() {
   return FALL_CHOICES.find((choice) => choice.id === onboarding.fallChoice);
+}
+
+function pageBody(page) {
+  return page?.bodyByFallChoice?.[onboarding.fallChoice] || page?.body;
 }
 
 function onboardingReady(page = PAGES[index]) {
@@ -1165,7 +1173,7 @@ function render() {
   if (p.bodyHTML) {
     elBody.innerHTML = p.bodyHTML;
   } else {
-    elBody.textContent = p.body;
+    elBody.textContent = pageBody(p);
   }
   elSource.textContent = p.source;
   elShot.src = p.shot;
