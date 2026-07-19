@@ -194,7 +194,6 @@ const FALLBACK_WEATHER = (() => {
 
   const apiBase = document.querySelector('meta[name="reenchanted-community-api"]')?.content;
   if (!apiBase) return;
-  const broadcastList = document.getElementById("community-broadcast-list");
   const souvenir = document.getElementById("community-souvenir");
   const count = document.getElementById("community-count");
   const tallies = document.getElementById("community-tallies");
@@ -206,36 +205,6 @@ const FALLBACK_WEATHER = (() => {
     return node;
   };
 
-  const renderBroadcast = (post) => {
-    const link = element("a", "community-x-post");
-    link.href = post.permalink;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.setAttribute("aria-label", `View post by ${post.authorName} on X`);
-
-    const author = element("div", "community-x-author");
-    if (post.authorAvatarURL) {
-      const avatar = element("img", "community-x-avatar");
-      avatar.src = post.authorAvatarURL;
-      avatar.alt = "";
-      avatar.loading = "lazy";
-      author.appendChild(avatar);
-    }
-    const identity = element("span", "community-x-identity");
-    identity.appendChild(element("span", "community-x-name", post.authorName));
-    const handle = String(post.authorUsername || "").replace(/^@/, "");
-    identity.appendChild(element("span", "community-x-handle", `@${handle}`));
-    author.appendChild(identity);
-    author.appendChild(element("span", "community-x-mark", "𝕏"));
-    link.appendChild(author);
-    link.appendChild(element("p", "community-x-text", post.text));
-    const timestamp = Number.isNaN(Date.parse(post.createdAt))
-      ? post.createdAt
-      : new Intl.DateTimeFormat(undefined, { dateStyle: "medium", timeStyle: "short" }).format(new Date(post.createdAt));
-    link.appendChild(element("time", "community-x-time", timestamp));
-    return link;
-  };
-
   fetch(`${apiBase.replace(/\/$/, "")}/community/snapshot`, {
     headers: { accept: "application/json" }
   })
@@ -245,12 +214,6 @@ const FALLBACK_WEATHER = (() => {
     })
     .then((snapshot) => {
       root.dataset.communityState = "ready";
-
-      if (Array.isArray(snapshot.broadcasts) && snapshot.broadcasts.length) {
-        broadcastList.replaceChildren(...snapshot.broadcasts.slice(0, 3).map(renderBroadcast));
-      } else {
-        broadcastList.replaceChildren(element("p", "community-quiet", "The public bell is quiet just now."));
-      }
 
       const sentences = Array.isArray(snapshot.souvenirs) ? snapshot.souvenirs : [];
       if (sentences.length) {
@@ -282,7 +245,6 @@ const FALLBACK_WEATHER = (() => {
     })
     .catch(() => {
       root.dataset.communityState = "quiet";
-      broadcastList.replaceChildren(element("p", "community-quiet", "The public bell is out of earshot. The rest of the site still works."));
       count.textContent = "The community window is temporarily quiet.";
     });
 })();
