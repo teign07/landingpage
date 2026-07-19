@@ -157,17 +157,21 @@
         </p>
         <p>
           Even when outgoing invitations are enabled, nothing is uploaded automatically. For each
-          contribution, the app shows the exact sentence that may appear publicly on this website
-          and in other readers' Books. It sends only after you press the plainly labelled public
-          confirmation button. The submission contains a random request identifier, the public
-          event and contribution type, the sentence or choice you confirmed, and the confirmation
+          contribution, the app shows the exact sentence or fixed choice that may appear publicly
+          on this website and in other readers' Books. It sends only after you press the plainly
+          labelled public confirmation button. The submission contains a random request identifier,
+          the public event and contribution type, the sentence or choice you confirmed, and the confirmation
           time. It does <strong>not</strong> contain an account or device identifier, Book page ID,
           surrounding writing, archive, photos, audio, location, health, Calendar, contacts, Belief,
           Book of You, or local-brain data.
         </p>
         <p>
-          Public contribution text travels over HTTPS, is encrypted at rest, and remains hidden
-          until moderation. The server returns a random deletion receipt to the app; the server
+          Public contribution text travels over HTTPS and is encrypted at rest. Fixed choices are
+          approved automatically because the app can submit only the displayed answers. Sentences
+          are checked automatically for obvious contact details and by a safety classifier; they
+          become public only when those checks pass. If a check is unsafe or unavailable, the
+          sentence is rejected rather than published. No person is expected to read an ordinary
+          submission. The server returns a random deletion receipt to the app; the server
           stores only a one-way hash of that token. The service intentionally does not create a
           stable identity, so it counts contributions rather than claiming to count people. Our
           network provider may transiently process an IP address to deliver the request, as any

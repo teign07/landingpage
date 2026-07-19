@@ -197,6 +197,7 @@ const FALLBACK_WEATHER = (() => {
   const souvenir = document.getElementById("community-souvenir");
   const count = document.getElementById("community-count");
   const tallies = document.getElementById("community-tallies");
+  const choiceQuestion = document.getElementById("community-choice-question");
 
   const element = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -232,8 +233,17 @@ const FALLBACK_WEATHER = (() => {
         ? `${total.toLocaleString()} deliberate public contribution${total === 1 ? "" : "s"}; no attempt is made to identify or count people.`
         : "No reader contribution is public yet.";
 
-      if (Array.isArray(snapshot.tallies) && snapshot.tallies.length) {
-        tallies.replaceChildren(...snapshot.tallies.slice(0, 6).map((item) => {
+      const poll = snapshot.choicePoll && typeof snapshot.choicePoll === "object"
+        ? snapshot.choicePoll
+        : null;
+      const choices = Array.isArray(poll?.options)
+        ? poll.options
+        : (Array.isArray(snapshot.tallies) ? snapshot.tallies : []);
+      if (choiceQuestion) {
+        choiceQuestion.textContent = poll?.question || "Today's quiet question is finding its ink.";
+      }
+      if (choices.length) {
+        tallies.replaceChildren(...choices.slice(0, 6).map((item) => {
           const row = element("div", "community-tally");
           row.appendChild(element("span", "community-tally-label", item.label));
           row.appendChild(element("span", "community-tally-count", String(item.count)));
