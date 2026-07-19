@@ -75,7 +75,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css?v=34">
+    <link rel="stylesheet" href="./styles.css?v=35">
   </head>
   <body>
     <canvas id="spell-field" aria-hidden="true"></canvas>
@@ -165,6 +165,7 @@
         <li><a href="#top" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">Cover</span></a></li>
         <li><a href="#book" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">Open the Book</span></a></li>
         <li><a href="#braid-proof" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">The Braid</span></a></li>
+        <li><a href="#pagewright" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">Pagewright</span></a></li>
         <li><a href="#editions" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">Editions</span></a></li>
         <li><a href="#contents" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">Contents</span></a></li>
         <li><a href="#search" data-ribbon-stop><span class="ribbon-dot" aria-hidden="true"></span><span class="ribbon-label">Search the Stacks</span></a></li>
@@ -563,6 +564,54 @@
             A real Book of You entry, braided from kept pages and on-device context.
           </figcaption>
         </figure>
+      </section>
+
+      <!-- ──────────────────── PAGEWRIGHT ──────────────────── -->
+      <section id="pagewright" class="pagewright-section" aria-labelledby="pagewright-title">
+        <div class="pagewright-copy">
+          <p class="eyebrow">For scrapbookers</p>
+          <h2 id="pagewright-title">The Book makes Pages. You can make one back.</h2>
+          <p class="pagewright-lede">
+            Pagewright is your worktable inside the Book. Pull in scraps from Pages
+            you've already kept, mix them with your own photographs, notes, quotes,
+            paper, tape, and strange little marks, then move everything by hand until
+            the Page feels like yours.
+          </p>
+
+          <ul class="pagewright-tools" aria-label="What you can make with Pagewright">
+            <li><strong>Scrap your own archive.</strong><span>Bring back lines, images, weather, memories, and other pieces the Book already knows.</span></li>
+            <li><strong>Use whole photographs.</strong><span>Your pictures arrive without forced captions, ready to crop, layer, rotate, and decorate.</span></li>
+            <li><strong>Keep the handmade Page.</strong><span>Tuck it back into your private Book, or export a real PNG or PDF to print and share.</span></li>
+          </ul>
+
+          <aside class="pagewright-achievement" aria-labelledby="pagewright-achievement-title">
+            <span class="pagewright-achievement-mark" aria-hidden="true">✦</span>
+            <div>
+              <p class="pagewright-achievement-kicker">The studio has secrets</p>
+              <h3 id="pagewright-achievement-title">Earn stranger materials.</h3>
+              <p>
+                Some marks are guarded by achievements with riddles and visible progress.
+                Discover the move yourself, or spend one Belief to reveal an exact hint.
+                The reward is more expressive marginalia - not a grade.
+              </p>
+            </div>
+          </aside>
+        </div>
+
+        <div class="pagewright-gallery" aria-label="Pagewright examples">
+          <figure class="pagewright-finished">
+            <img src="./assets/screens/pagewright-finished.jpg"
+                 alt="A finished cream scrapbook Page combining a personal waterside photograph, kept Page scraps, a feather, a compass, and paper ephemera"
+                 loading="lazy" decoding="async">
+            <figcaption>A finished Page, made from a life already in progress.</figcaption>
+          </figure>
+          <figure class="pagewright-studio">
+            <img src="./assets/screens/pagewright-studio.jpg"
+                 alt="The Pagewright Scrapbook Studio with movable Page scraps and controls for layout, paper, marks, quotes, and export"
+                 loading="lazy" decoding="async">
+            <figcaption>Not a template gallery. A worktable.</figcaption>
+          </figure>
+        </div>
       </section>
 
       <!-- ──────────────────── EDITIONS ──────────────────── -->
