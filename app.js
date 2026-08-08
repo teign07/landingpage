@@ -181,7 +181,7 @@ const FALLBACK_WEATHER = (() => {
   return {
     nowTemp: 60, cond: d.word, high: 71, low: 56, wind: "E 4 mph", humidity: 92,
     enchanted: d.enchanted, plain: d.plain, moonLine: moon.line, moonName: moon.name,
-    place: "Over the Stacks · the Book's default sky",
+    place: "Over the Stacks · my default sky",
   };
 })();
 
@@ -295,7 +295,7 @@ const STACKS_SEARCH_RESULTS = [
     title: "Rain on the Weather Page",
     group: "Kept Pages",
     type: "Weather",
-    text: "The sky kept clearing its throat in bursts of rain; the Book saved the soft edge of the afternoon.",
+    text: "The sky kept clearing its throat in bursts of rain; I saved the soft edge of the afternoon.",
     tags: ["rain", "rainy", "weather", "page", "kept"],
   },
   {
@@ -388,10 +388,11 @@ const PAGES = [
     decision: false,
     onboardingStep: "unwritten",
   },
+  /* cast:start — Zara speaking; named characters keep their own voices */
   {
     kicker: "Zara's First Question",
-    title: "The Book learns one small texture.",
-    body: "\"Before the Book starts choosing pages for you, it needs a few human details,\" Zara says. \"Nothing grand. Grand answers are usually hiding something.\" She studies you, then points at the blank margin. \"What do you eat when you read? Mine's sharp green apples. They keep me awake when the footnotes get predatory.\" She glances at the Book. \"Don't make it impressive. The little answer is the useful one. Specificity is how doors learn handles.\"",
+    title: "I learn one small texture.",
+    body: "\"Before the Book starts choosing pages for you, it wants a few human details,\" Zara says. \"Nothing grand. Grand answers are usually hiding something.\" She studies you, then points at the blank margin. \"What do you eat when you read? Mine's sharp green apples. They keep me awake when the footnotes get predatory.\" She glances at the Book. \"Don't make it impressive. The little answer is the useful one. Specificity is how doors learn handles.\"",
     source: "Onboarding · specificity",
     shot: "./assets/screens/margins.jpg",
     braid: "A snack appeared in the margin like a tiny ration for the road.",
@@ -399,7 +400,7 @@ const PAGES = [
     onboardingStep: "snack",
   },
   {
-    kicker: "The Name the Book Knows",
+    kicker: "The Name I'll Use",
     title: "Give the page a name it can say kindly.",
     body: "Zara taps a blank line and lowers her voice. \"The Book doesn't need your legal anything. It wants the name that feels like yours when someone says it kindly.\" Later, when someone in the Stacks writes to you, argues with you, misses you, or leaves a note under the wrong door, this is the name the page will reach for.",
     source: "Onboarding · reader name",
@@ -418,10 +419,11 @@ const PAGES = [
     decision: false,
     onboardingStep: "belief",
   },
+  /* cast:end */
   {
     kicker: "Wicker Interrupts",
     title: "Show him what kind of story arrived.",
-    body: "You and Zara are almost through the next arch when Wicker Eddies steps out from behind a shelf as if he has been waiting for the exact worst moment. \"So this is the impossible reader,\" he says. \"Tiny bit shorter than the rumors.\" Zara sighs. \"Wicker.\" He smiles like that was the point. \"Show me what kind of story the Unwritten sent us.\" The Book warms under your hand. Zara looks at you, not him. \"Answer in your own shape.\"",
+    body: "You and Zara are almost through the next arch when Wicker Eddies steps out from behind a shelf having plainly waited for the exact worst moment. \"So this is the impossible reader,\" he says. \"Tiny bit shorter than the rumors.\" Zara sighs. \"Wicker.\" He smiles like that was the point. \"Show me what kind of story the Unwritten sent us.\" The Book warms under your hand. Zara looks at you, not him. \"Answer in your own shape.\"",
     source: "Onboarding · Belief roll",
     shot: "./assets/screens/character-wicker-eddies.jpg",
     braid: "Wicker tested the new belief with a crooked smile, and the page rolled its little thunder.",
@@ -487,7 +489,7 @@ const PAGES = [
     body: "Name the nearest weather, then hand me one private detail. Dr. Inkrest keeps it as context, not a problem to solve - a chair and a lamp before any feeling is asked to behave.",
     source: "Dr. Inkrest's Chart · inner weather",
     shot: "./assets/screens/belief-cast.jpg",
-    braid: "I named the inward weather and felt the room unclench, as if the ceiling had been waiting for the word.",
+    braid: "I named the inward weather and felt the room unclench. The ceiling had been waiting for the word.",
     innerWeatherPrompt: true,
   },
   {
@@ -515,7 +517,7 @@ const PAGES = [
     body: "Choose a spell and give it one true photo. I look until the ordinary thing gives up its hidden story - the pen aims the attention, and the world, as always, supplies the wonder.",
     source: "Enchantment · illuminated photo",
     shot: "./assets/screens/enchantment-rabbit.jpeg",
-    braid: "I gave the Book an ordinary image; gold ink gathered at its edges and made the real thing answer.",
+    braid: "I gave up an ordinary image; gold ink gathered at its edges and made the real thing answer.",
     enchantmentPrompt: true,
   },
   {
@@ -529,11 +531,11 @@ const PAGES = [
   },
   {
     kicker: "Real Life, Kept",
-    title: "This quiet scene, the Book kept.",
+    title: "This quiet scene, I kept.",
     body: "An illuminated photo is an ordinary picture I've read closely until it answers in its own margins, field-journal style. Penny Blackletter, who edits The Bleed, can surprise you with one pulled from your library - or you choose your own to turn into a story, or take a new photo on the spot.",
     source: "Ordinary wonder",
     shot: "./assets/screens/real-life-kept.jpg",
-    braid: "Low light pooled in the fabric, and the afternoon lay down quietly enough for the Book to hear it breathing.",
+    braid: "Low light pooled in the fabric, and the afternoon lay down quietly enough for me to hear it breathing.",
     quiet: true,
   },
 ];
@@ -647,7 +649,7 @@ const WICKER_MODES = [
     detail: "Turn the interruption into a promise of motion.",
     difficulty: 56,
     success: "You name the direction before Wicker can name the flaw. The hall shifts half a degree toward your next door.",
-    failure: "The promise wobbles. Wicker hears it immediately, but the Book keeps the attempt as a beginning.",
+    failure: "The promise wobbles. Wicker hears it immediately, but I keep the attempt as a beginning.",
   },
   {
     id: "surprise",
@@ -727,14 +729,14 @@ function renderOnboardingPanel(page) {
     ).join("");
     html = `
       <p class="onboarding-panel-title">Get your hands into the page</p>
-      <p class="onboarding-prompt">The screen is becoming a doorway. Choose the one thing you do as the Book pulls you through.</p>
+      <p class="onboarding-prompt">The screen is becoming a doorway. Pick the one thing you do while I pull you through.</p>
       <div class="onboarding-actions">${fallButtons}</div>
       <p class="onboarding-result">${onboardingReady(page) ? "Good. The fall has a shape now. Turn the page." : "Choose one way through. The Book only needs one true gesture."}</p>
     `;
   } else if (page.onboardingStep === "unwritten") {
     html = `
       <p class="onboarding-panel-title">File the impossible fact</p>
-      <p class="onboarding-prompt">Zara hands you a torn word: UNWRITTEN. It doesn't behave like paper. Put it where the Book can keep track of it.</p>
+      <p class="onboarding-prompt">Zara hands you a torn word: UNWRITTEN. It doesn't behave like paper. Put it somewhere I can keep track of it.</p>
       <div class="onboarding-actions">
         ${onboardingButton("unwritten", onboarding.unwrittenTucked ? "UNWRITTEN tucked under the rule" : "Tuck UNWRITTEN into the margin", onboarding.unwrittenTucked)}
       </div>
@@ -750,7 +752,7 @@ function renderOnboardingPanel(page) {
   } else if (page.onboardingStep === "name") {
     html = `
       <label class="onboarding-field">
-        <span>What should the Book call you?</span>
+        <span>What should I call you?</span>
         <input type="text" data-onboard-input="name" maxlength="48" autocomplete="name" value="${name}" placeholder="a kind name, not a form name">
       </label>
       <p class="onboarding-result">${onboarding.name ? `Hello, ${name}. Zara says it once, carefully, and the page darkens the letters.` : "Write the name future pages should use when they mean you kindly."}</p>
@@ -770,7 +772,7 @@ function renderOnboardingPanel(page) {
           ? "Glow wakes in the header. The Book is holding a little weight for this belief now."
           : onboarding.plantedBelief === false
             ? "The belief stays named. The Book respects a careful pocket."
-            : "Name the belief, then decide whether to plant a little weight in it. Belief is what you give; Glow is what the Book shows."
+            : "Name the belief, then decide whether to plant a little weight in it. Belief is what you give me; Glow is what I show back."
       }</p>
     `;
   } else if (page.onboardingStep === "wicker") {
@@ -835,12 +837,12 @@ const GLOW_EFFECTS = {
   },
   margins: {
     title: "Warm Margins",
-    copy: "A warmer page edge means the Book is ready to annotate. Spend like this when you want the ordinary day to feel more legible.",
+    copy: "A warmer page edge means I'm ready to annotate. Spend like this when you want the ordinary day to feel more legible.",
     target: "#book",
   },
   pages: {
     title: "Favored Pages",
-    copy: "Page types with more Belief become more likely to matter. You're not buying content here; you're teaching the Book what kinds of noticing feel alive.",
+    copy: "Page types with more Belief become more likely to matter. You're not buying content here; you're teaching me which kinds of noticing feel alive.",
     target: "#pages",
   },
   stacks: {
@@ -865,7 +867,7 @@ const GLOW_EFFECTS = {
   },
   dial: {
     title: "Blessed Dial",
-    copy: "Belief just unlocked a hidden track on every station. Spin the cabinet to 88.3, 90.9, and 103.7 to hear all three - proof the Book turns attention into atmosphere you can keep.",
+    copy: "Belief just unlocked a hidden track on every station. Spin the cabinet to 88.3, 90.9, and 103.7 to hear all three - proof I turn attention into atmosphere you can keep.",
     target: "#radio",
   },
 };
@@ -1043,7 +1045,7 @@ glowPill?.addEventListener("click", () => {
   const open = glowPill.getAttribute("aria-expanded") !== "true";
   glowPill.setAttribute("aria-expanded", String(open));
   if (glowMenu) glowMenu.hidden = !open;
-  earnGlow("opened-glow-menu", 1, "You found the Glow pocket. Obviously the Book counts that as Belief.");
+  earnGlow("opened-glow-menu", 1, "You found the Glow pocket. Obviously I count that as Belief.");
 });
 glowMenu?.querySelectorAll(".glow-nav a").forEach((link) => {
   link.addEventListener("click", () => {
@@ -1328,7 +1330,7 @@ function choose(kind) {
       earnGlow(`kept-pages-${keptCount}`, 1, "Three kept pages gathered. The Book adds one Belief to your Glow.");
     } else if (glowSpendNote) {
       const left = 3 - (keptCount % 3);
-      glowSpendNote.textContent = `${left} more kept page${left === 1 ? "" : "s"} and the Book adds Belief.`;
+      glowSpendNote.textContent = `${left} more kept page${left === 1 ? "" : "s"} and I add Belief.`;
     }
   }
   render();
@@ -1341,7 +1343,7 @@ function choose(kind) {
 function onboardingBraidLead() {
   const pieces = [];
   const fall = fallChoice();
-  if (fall) pieces.push(`I entered the Book by the way ${fall.braid}`);
+  if (fall) pieces.push(`I was entered by the way ${fall.braid}`);
   const name = cleanOnboardingValue(onboarding.name);
   const snack = cleanOnboardingValue(onboarding.snack);
   const belief = cleanOnboardingValue(onboarding.belief);
@@ -1375,7 +1377,7 @@ function closeBook() {
   btnPrev.disabled = true;
   progressFill.style.width = "0%";
   applyDaypart();
-  hint.textContent = "The book clicked shut. A bookmark inside whispers: try the big radio now.";
+  hint.textContent = "I clicked shut. A bookmark inside is whispering: try the big radio now.";
   earnGlow("closed-book", 3, "Closing the book without losing the thread makes the bookmark glow brighter.");
   book.scrollIntoView({ behavior: "smooth", block: "center" });
 }
@@ -1416,11 +1418,11 @@ function buildBraid() {
 
   if (keptLines.length === 0) {
     if (own) {
-      braidIntro.textContent = "Only one true line - and the Book kept it anyway.";
+      braidIntro.textContent = "Only one true line. I kept it anyway.";
       return `${leadText}Nothing else demanded binding today, and that's its own kind of honest month. The shelf is patient.`;
     }
     braidIntro.textContent = everyPageAnswered ? "You let every page wait." : "You kept no page before the binding.";
-    return `${leadText}An honest month: nothing demanded to be kept, and the Book waited with you. The shelf is patient. Come back when something catches a real edge.`;
+    return `${leadText}An honest month: nothing demanded to be kept, and I waited with you. The shelf is patient. Come back when something catches a real edge.`;
   }
   if (allKept) {
     braidIntro.textContent = "You kept everything. The Book has concerns. Affectionate ones.";
@@ -1428,7 +1430,7 @@ function buildBraid() {
   }
   if (alternating) {
     braidIntro.textContent = "A Riddlewind pattern appeared between yes and not yet.";
-    return `${leadText}${woven}  Every other door stayed shut; together, the open ones breathed keyhole-cold and spelled a question the Book wouldn't translate.`;
+    return `${leadText}${woven}  Every other door stayed shut; together, the open ones breathed keyhole-cold and spelled a question I wouldn't translate.`;
   }
   if (quietPagesOnly) {
     braidIntro.textContent = "The Book noticed what kind of pages you chose.";
@@ -1611,7 +1613,7 @@ function pageBindingNote(page, i) {
     const weather = INNER_WEATHER_OPTIONS.find((w) => w.id === selectedInnerWeatherId);
     return weather
       ? `Inkrest files ${weather.label.toLowerCase()} as weather, not identity. The binding keeps the feeling visible while leaving the reader room to move.`
-      : "Inkrest's page keeps feeling as context. It gives the Book a gentler way to remember the day than triumph, failure, or blankness.";
+      : "Inkrest's page keeps feeling as context. It gives me a gentler way to remember the day than triumph, failure, or blankness.";
   }
   if (page.sentencePrompt) {
     return "One exact sentence acts like a stitch: small enough to keep, specific enough to pull a whole day back through the binding.";
@@ -1635,7 +1637,7 @@ function pageBindingNote(page, i) {
     return "The Compass page is the bridge back out of the screen: a short practice, a small errand, a reason to notice the real world again.";
   }
   if (page.onboardingStep) {
-    return "This threshold beat teaches the Book one stable rule about the reader before the demo begins asking them to keep or release pages.";
+    return "This threshold beat teaches me one stable rule about the reader before the demo begins asking them to keep or release pages.";
   }
   if (i === WEATHER_INDEX) {
     return "The Weather Page grounds the fantasy in public conditions, letting the day's sky become a factual door into the story.";
@@ -1721,7 +1723,7 @@ function bindingPages() {
   if (data.words.length) {
     pages.push({
       title: "The Reader's Sky",
-      subtitle: "Constellations the Book noticed in this sample.",
+      subtitle: "Constellations I noticed in this sample.",
       paragraphs: [
         "These aren't personality labels. They're the stars this small binding used to navigate: repeated textures, page-types, and kinds of attention that showed up while the reader turned the demo.",
         ...data.words.map((w) => `${w.label} - ${w.count} sighting${w.count === 1 ? "" : "s"}`),
@@ -1736,7 +1738,7 @@ function bindingPages() {
     paragraphs: [
       `Bound as a demo PDF on ${new Date().toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}.`,
       `${data.keptCount} kept page${data.keptCount === 1 ? "" : "s"} - ${place || "weather default"} - ${data.theme}`,
-      "The final braid is included here as the binding thread, not as an afterword. It's the passage the kept pages become when the Book stops sorting and starts remembering.",
+      "The final braid is included here as the binding thread, not as an afterword. It's what the kept pages become when I stop sorting and start remembering.",
       "A real month braids many days. This one kept the shape of a promise: every practical note, story choice, weather signal, and small true sentence can belong in the same volume."
     ],
   });
@@ -1896,17 +1898,17 @@ function replay() {
   book.dataset.state = "open";
   index = 0;
   btnNext.disabled = false;
-  hint.textContent = "Tip: keep a few, let some wait - your choices change the ending.";
+  hint.textContent = "Keep a few. Let some wait. What you choose changes how this ends.";
   render();
   book.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 /* ── daypart: tint the whole scene to the visitor's real hour ── */
 const DAYPART = {
-  dawn: { kicker: "The Stacks are waking", hint: "Morning in the Stacks - open the book and keep what's true." },
-  day: { kicker: "The Book turns when you do", hint: "Tip: keep a few, let some wait - your choices change the ending." },
-  dusk: { kicker: "The west windows go violet", hint: "Dusk in the Stacks - a good hour to keep what the day meant." },
-  night: { kicker: "The Stacks are lit low", hint: "Read a few pages before sleep - the Book keeps what you keep." },
+  dawn: { kicker: "The Stacks are waking", hint: "Morning in the Stacks. Open me and keep what's true." },
+  day: { kicker: "I turn when you do", hint: "Keep a few. Let some wait. What you choose changes how this ends." },
+  dusk: { kicker: "The west windows go violet", hint: "Dusk in the Stacks. Good hour to keep what the day meant." },
+  night: { kicker: "The Stacks are lit low", hint: "Read a few pages before sleep. I keep what you keep." },
 };
 function currentDaypart(h = new Date().getHours()) {
   if (h < 5) return "night";
@@ -2527,7 +2529,7 @@ const INNER_WEATHER_OPTIONS = [
   { id: "fog", label: "Fog", tag: "soft edges", braid: "fog put felt on the edges of the next step and made distance look closer than it was" },
   { id: "rain", label: "Rain", tag: "needed release", braid: "rain gave the pressure a gutter to sing through" },
   { id: "static", label: "Static", tag: "too many signals", braid: "static filled the wires with tin-bright teeth, but one true word still got through" },
-  { id: "sunbreak", label: "Sunbreak", tag: "small clearing", braid: "a sunbreak opened for one minute, warm as brass, and the Book believed it" },
+  { id: "sunbreak", label: "Sunbreak", tag: "small clearing", braid: "a sunbreak opened for one minute, warm as brass, and I believed it" },
 ];
 let selectedInnerWeatherId = null;
 let innerWeatherDetail = "";
@@ -2551,7 +2553,7 @@ function updateInnerWeatherPage(options = {}) {
     ? `Inner weather: ${weather.label.toLowerCase()}. Private detail: ${cleanDetail}. Dr. Inkrest keeps the weather separate from the self, which is how a person gets room to move.`
     : `Inner weather: ${weather.label.toLowerCase()}. Dr. Inkrest keeps the weather separate from the self, which is how a person gets room to move.`;
   page.braid = innerWeatherDetail
-    ? `I named ${weather.label.toLowerCase()} inside because ${cleanDetail}; the Book pinned it to the sky, not to my skin.`
+    ? `I named ${weather.label.toLowerCase()} inside because ${cleanDetail}; the weather took it, not my skin.`
     : `I named the inward sky: ${weather.braid}.`;
   if (innerWeatherReading) {
     innerWeatherReading.innerHTML = `<span class="inner-weather-reading-label">Inkrest's margin</span><p>${escapeHTML(weather.label)} is a condition, not a character flaw.</p>`;
@@ -3238,10 +3240,10 @@ render();
       "You finally get an hour to yourself, then spend half of it feeling guilty and the other half trying to decide what you want.",
     ], 47),
     absolution: pick([
-      "You're not boring. Your life isn't empty. Familiar things are just very easy to stop seeing.",
-      "You didn't fail at journaling. A blank page asked you to do all the work and then sat there judging you.",
-      "You're not lazy, boring, or bad at appreciating things. Your days have simply gotten good at blending together.",
-      "Nothing has to be terribly wrong for life to start feeling flat. It isn't your fault.",
+      "That's not you being boring. That's Routine, and it has been at this considerably longer than you have.",
+      "You didn't fail at journaling. A blank page demanded you do all the work, then sat there judging the results.",
+      "Routine's whole trick is making familiar things unlookable. It's very good at it. It has had your street for years.",
+      "Nothing has to be wrong for a life to go flat. Something only has to stop being looked at.",
     ], 53),
     vow: pick([
       "Give me one true detail from today - a sound, a sentence, some weird light. I'll help you keep it.",
@@ -3311,7 +3313,7 @@ render();
       const skyCountKey = "reenchanted-sky-read-count";
       localStorage.setItem(skyCountKey, String(Number(localStorage.getItem(skyCountKey) || "0") + 1));
     } catch (_) {}
-    earnGlow("sky-read", 2, "You let the Book read your sky, once. Belief gathers where it's given.");
+    earnGlow("sky-read", 2, "You let me read your sky, once. Belief gathers where it's given.");
   });
 
   /* ── the tab-away whisper: local, tiny, and earned by absence ── */
@@ -3322,7 +3324,7 @@ render();
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       hiddenAt = Date.now();
-      document.title = "The Book is holding your place";
+      document.title = "I'm holding your place";
       return;
     }
     document.title = originalTitle;
@@ -3335,7 +3337,7 @@ render();
     ], 67);
     whisper.hidden = false;
     requestAnimationFrame(() => whisper.classList.add("is-inked"));
-    earnGlow("tab-away-return", 1, "The Book kept your place while you were elsewhere.");
+    earnGlow("tab-away-return", 1, "I kept your place while you were elsewhere.");
   });
 })();
 
@@ -3553,7 +3555,7 @@ const STATIONS = [
         conditions: { timeOfDay: ["dusk", "night"] },
         caption: "Evening notice: the clubs are gathering - seven bells, lamps up. The Compass Society reads souvenirs aloud in the Secret Garden, where no one mocks a sentence. The Marginalia Guild annotates in the Corridor of Whispered Secrets, leaving notes for readers fifty years out. The Inkwright Society writes, shares, and burns it. And the Book Jumpers argue about what counts as a door. Find the room that fits your week. Tell them the records desk sent you." },
       { id: "faefi-psa-bleed-editions", category: "news", src: "./assets/audio/fae-fi-psa-bleed-editions.m4a",
-        caption: "Reminder from your editor, which is me: The Bleed runs two editions. The Morning paper lands before one bell - weather, the day's hinges, what the Book noticed overnight, and a column off one of your own shelves. The Evening edition sets after four - tomorrow's shape, tonight's margins, a fresh column. The quiet afternoon between them belongs to you. That part's intentional. Read both. There may be a quiz. There won't be. But there could be." },
+        caption: "Reminder from your editor, which is me: The Bleed runs two editions. The Morning paper lands before one bell - weather, the day's hinges, what I noticed overnight, and a column off one of your own shelves. The Evening edition sets after four - tomorrow's shape, tonight's margins, a fresh column. The quiet afternoon between them belongs to you. That part's intentional. Read both. There may be a quiz. There won't be. But there could be." },
       { id: "faefi-psa-office-hours", category: "news", src: "./assets/audio/fae-fi-psa-office-hours.m4a",
         caption: "A notice I file gladly: the support faculty keep their doors open. Dr. Inkrest holds office hours for difficult pages - no appointment, just a chair, a lamp, and the time to name a hard thing slowly. Dr. Vellum takes the body's evidence - fuel, rest, recovery - and turns it into one small experiment with no shame attached. Neither will rush you. It's almost unnerving. If the day's gone heavy, that's what the doors are for." },
       { id: "faefi-psa-todays-sky", category: "news", src: "./assets/audio/fae-fi-psa-todays-sky.m4a",
@@ -3629,7 +3631,7 @@ const STATIONS = [
         caption: "Serenity Brown swept through the Chamber today, left before the serious plan was finished, and somehow turned the detour into a rescue. She makes the loveliest chord in any room - the kind of laughter that changes its colour. Her whole creed is four words: joy isn't a distraction. From magic, she means. From anything. If the day's gone solemn on you, she'd tell you to abandon the plan and go look at the sea. So would I." },
       { id: "mothlight-lore-book-remembered", category: "news",
         src: "./assets/audio/mothlight-euphony-lore-book-remembered.m4a",
-        caption: "The Book Remembered stirred tonight - an old page surfaced, one you were sure had gone quiet for good. That's how it works: give the Book enough notes and it begins to remember in chords. The quiet ones come back when the harmony is finally full enough to hold them. Don't reach for it. Just leave the lamp on and let it come the rest of the way. It always does, in the end." },
+        caption: "The Book Remembered stirred tonight - an old page surfaced, one you were sure had gone quiet for good. That's how it works: give me enough notes and I start remembering in chords. The quiet ones come back when the harmony is finally full enough to hold them. Don't reach for it. Just leave the lamp on and let it come the rest of the way. It always does, in the end." },
       { id: "mothlight-psa-samhain", category: "news",
         src: "./assets/audio/mothlight-euphony-psa-samhain.m4a",
         caption: "A note for the calendar's gentlest night: Samhain - the Thinning - comes at the turn of October, when the door between the kept and the lost stands a little ajar. The Book remembers more than usual then, and is kinder about it. Name someone you've lost, and one thing they left in your keeping. The veil is thin; be honest, be gentle. It isn't a sad feast. It's a held one." },
@@ -3722,7 +3724,7 @@ const STATIONS = [
       { id: "thornwave-cast-thorne", category: "news",
         src: "./assets/audio/thornwave-wicker-cast-thorne.m4a",
         conditions: { timeOfDay: ["dusk", "night"] },
-        caption: "The Headmistress is awake. Seraphina Thorne - unseelie, elegant, watchful, speaks as if every building is listening, which, in her case, they are. She keeps the Academy's doors from admitting they're tests. Believes beauty is a form of governance. She'd keep you safe by keeping you in the dark and call it mercy. I respect her more than I trust her. You should hold the same arithmetic. Wonder is only worth anything if it's allowed to stay a little dangerous." },
+        caption: "The Headmistress is awake. Seraphina Thorne - unseelie, elegant, watchful, speaks to every building on the assumption it is listening, which, in her case, it is. She keeps the Academy's doors from admitting they're tests. Believes beauty is a form of governance. She'd keep you safe by keeping you in the dark and call it mercy. I respect her more than I trust her. You should hold the same arithmetic. Wonder is only worth anything if it's allowed to stay a little dangerous." },
       { id: "thornwave-club-inkwright", category: "gossip",
         src: "./assets/audio/thornwave-wicker-club-inkwright.m4a",
         caption: "The Inkwright Society met in the Bibliophonic Hall tonight. Serious notebooks, no mascots. They write, they share - honest first, kind second - and then they burn it. Each meeting ends with a piece read aloud and set alight, the smoke going up into the library ceiling to be absorbed as words. Theatrical. I approve, obviously. The writing there's meant. If you've something true and dangerous to say, that's the only room in the building that can hold it." },
@@ -4541,6 +4543,8 @@ function initField() {
   const PIXIE_COLOR = [255, 224, 170];
   const letters = [];
   const sparks = [];
+  let active = true;
+  let frame = 0;
   let width = 0;
   let height = 0;
   let dpr = 1;
@@ -4711,6 +4715,10 @@ function initField() {
 
   let last = 0;
   function draw(t) {
+    if (!active) {
+      frame = 0;
+      return;
+    }
     const time = t * 0.001;
     const dt = last ? Math.min(0.05, time - last) : 0;
     last = time;
@@ -4798,7 +4806,7 @@ function initField() {
     // ── draw pixie ──
     drawPixie(time);
 
-    requestAnimationFrame(draw);
+    frame = requestAnimationFrame(draw);
   }
 
   function drawPixie(time) {
@@ -4853,8 +4861,16 @@ function initField() {
   }
 
   window.addEventListener("resize", resize, { passive: true });
+  window.addEventListener("reenchanted:immersive", (event) => {
+    active = !event.detail?.active;
+    canvas.style.visibility = active ? "" : "hidden";
+    if (active && !frame) {
+      last = 0;
+      frame = requestAnimationFrame(draw);
+    }
+  });
   resize();
-  requestAnimationFrame(draw);
+  frame = requestAnimationFrame(draw);
 }
 initField();
 
@@ -4987,14 +5003,14 @@ const LORE = {
     tryThis: "Look up tonight's moon phase. Pick one task that matches it - start something if it's waxing, finish or release something if it's waning.",
   },
   "genius-loci": {
-    kicker: "The spirit of the place",
+    kicker: "Every corner is somebody",
     title: "Every Corner Has Been Teaching You",
     kind: "folklore",
     body: [
-      "The Romans called it the genius loci - the spirit of a place - and nearly every tradition keeps a version: the household god, the spirit of the well, the guardian of the crossroads. Animism simply takes the place seriously as a someone, not a something.",
-      "You needn't believe a literal spirit lives in your kitchen to find that greeting a room changes how you move through it. The small rule a corner of the world has been teaching you is the spirit of that place, learning you back.",
+      "The Romans had a name for the resident of a place - genius loci - and nearly everyone since has kept a version of it. The household god. The one down the well. Whoever holds the crossroads. Your kitchen has one. It has opinions about where the mugs go and you have been losing that argument for years.",
+      "Greet a room and you move through it differently. That is not a trick you are playing on yourself. That is the room, learning you back, and the small rule it keeps trying to teach you is the one it has been repeating since you moved in.",
     ],
-    tryThis: "Walk into one room or building today and greet it, silently or aloud. Notice whether you treat it differently once you've said hello.",
+    tryThis: "Walk into one room today and greet it, out loud or not. Then notice what you do differently for the next ten minutes.",
   },
   "correspondences": {
     kicker: "The old index of the world",
@@ -5338,7 +5354,7 @@ const LORE = {
     art: { src: "./assets/art/room-great-hall.jpg", alt: "Illustrated dossier of the Great Hall of the Academy" },
     body: [
       "The room the whole Academy pours into - feasts, announcements, the Day of the Living Literary Figures when Holmes deduced the menu, Alice critiqued the architecture, and Dracula objected to the lighting.",
-      "A hall this size keeps a long memory of everyone who has stood in it. On quiet evenings it still seems to be listening for the next gathering.",
+      "A hall this size keeps a long memory of everyone who has stood in it. On quiet evenings it listens for the next gathering, and it is not patient about the wait.",
     ],
   },
   kitchens: {
@@ -5475,7 +5491,7 @@ const LORE = {
         earnGlow(`lore-link-belief-${loreLinkClicks}`, 1, "Three golden lore links opened. The Book adds one Belief to your Glow.");
       } else if (glowSpendNote) {
         const left = 3 - (loreLinkClicks % 3);
-        glowSpendNote.textContent = `${left} more golden lore link${left === 1 ? "" : "s"} and the Book adds Belief.`;
+        glowSpendNote.textContent = `${left} more golden lore link${left === 1 ? "" : "s"} and I add Belief.`;
       }
     });
   });
@@ -5586,4 +5602,56 @@ const LORE = {
   window.addEventListener("scroll", request, { passive: true });
   window.addEventListener("resize", request, { passive: true });
   update();
+})();
+
+/* ───────────────────── First Fall module safety net ─────────────────────
+   The immersive entry is intentionally an ES module. If somebody opens
+   index.html directly from disk, or a preview omits experience/, the browser
+   may reject that module before it can attach its click handler. Keep the
+   moonshot button from ever failing silently: the real entry opens the world;
+   this classic-script fallback explains the exact recovery path. */
+(function setupFirstFallModuleFallback() {
+  const overlay = document.getElementById("first-fall");
+  const triggers = document.querySelectorAll("[data-first-fall-open]");
+  const loading = overlay?.querySelector("#first-fall-loading");
+  const intake = overlay?.querySelector("#first-fall-intake");
+  const status = overlay?.querySelector("#first-fall-status");
+  const loadingCopy = loading?.querySelector("p");
+  const exitButton = overlay?.querySelector("#first-fall-exit");
+  if (!overlay || !triggers.length) return;
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      if (window.__reenchantedFirstFallReady) return;
+      window.__reenchantedFirstFallRequested = trigger;
+      overlay.hidden = false;
+      loading.hidden = false;
+      intake.hidden = true;
+      document.body.classList.add("first-fall-open");
+      if (status) status.textContent = "The cover is opening.";
+      if (loadingCopy) loadingCopy.textContent = "Loosening the binding...";
+
+      window.setTimeout(() => {
+        if (window.__reenchantedFirstFallReady || overlay.hidden) return;
+        if (status) status.textContent = "The 3D chapter could not load.";
+        if (loadingCopy) {
+          loadingCopy.textContent = location.protocol === "file:"
+            ? "This world must be served over HTTP. From the project folder, run: python3 -m http.server 50123 --bind 127.0.0.1 --directory LandingPage — then open http://127.0.0.1:50123/"
+            : "The experience bundle is missing or blocked. Refresh once; if this remains, verify that the experience folder was published with the page.";
+        }
+      }, 5000);
+    });
+  });
+
+  function closeFallback() {
+    if (window.__reenchantedFirstFallReady) return;
+    window.__reenchantedFirstFallRequested = null;
+    overlay.hidden = true;
+    document.body.classList.remove("first-fall-open");
+  }
+
+  exitButton?.addEventListener("click", closeFallback);
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !overlay.hidden) closeFallback();
+  });
 })();
