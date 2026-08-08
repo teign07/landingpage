@@ -6022,3 +6022,19 @@ div.slip--centered {
   border-left: 0;
   border-top: 1px dashed var(--slip-edge);
 }
+
+/* ── The Book introduces itself ────────────────────────────────────────────
+   The hero opens with an "I" and, until this line, no visitor knew what was
+   talking. It sits above the lede in the serif and a shade brighter, so it
+   reads as the Book speaking up first and the pitch following after. */
+.hero-intro {
+  max-width: 540px;
+  margin: 20px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(1.14rem, 1.7vw, 1.38rem);
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--paper);
+  text-wrap: pretty;
+}
+.hero-intro + .hero-lede { margin-top: 14px; }
