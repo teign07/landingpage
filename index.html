@@ -3,6 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; frame-src 'none'; frame-ancestors 'none'; form-action 'self' https://buttondown.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self' https://community-api.reenchanted.app; upgrade-insecure-requests">
     <meta
       name="description"
       content="The rain during that phone call. The song that landed too hard. ReEnchanted asks about your real day, keeps what was true, and writes it back as a fairy tale you're in."
@@ -1906,7 +1908,10 @@
 
       <section class="first-fall-dialogue" id="first-fall-dialogue" aria-live="polite" hidden>
         <div class="first-fall-portrait" aria-hidden="true">
-          <img src="./experience/assets/wicker-eddies.jpg" alt="">
+          <!-- FIRST FALL portrait — held on data-src so a hidden overlay doesn't
+               fetch a 404 on every page load while experience/ is unpublished.
+               Restore to src= when the prologue ships. -->
+          <img data-src="./experience/assets/wicker-eddies.jpg" alt="">
         </div>
         <div class="first-fall-dialogue-copy">
           <p class="first-fall-speaker" id="first-fall-speaker">Wicker Eddies · Duskthorn</p>
