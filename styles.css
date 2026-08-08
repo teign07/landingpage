@@ -955,17 +955,11 @@ h2 {
   line-height: 1.55;
 }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 22px; }
-.hero-payoff {
-  max-width: 540px;
-  margin: 22px 0 0;
-  color: var(--paper);
-  font-family: var(--serif);
-  font-size: 1.05rem;
-  line-height: 1.5;
-}
-.hero-payoff span { color: var(--gold-soft); }
+/* The hero's payoff paragraph moved to the thesis band, where it reads as a
+   conclusion instead of a third competing opener. What's left below the
+   buttons is one quiet line of terms, so give it room to be quiet in. */
 .hero-assurance {
-  margin: 10px 0 0;
+  margin: 30px 0 0;
   color: var(--text-dim);
   font-size: 0.84rem;
   font-weight: 650;
@@ -973,7 +967,7 @@ h2 {
 }
 .trust-row {
   display: flex; flex-wrap: wrap; gap: 10px;
-  margin: 18px 0 0; padding: 0; list-style: none;
+  margin: 16px 0 0; padding: 0; list-style: none;
 }
 .trust-row li {
   padding: 7px 14px;
@@ -6038,3 +6032,23 @@ div.slip--centered {
   text-wrap: pretty;
 }
 .hero-intro + .hero-lede { margin-top: 14px; }
+
+/* The payoff, in its new home: the last beat of the thesis, set apart from the
+   line above it so it lands as a conclusion rather than more explanation. */
+.thesis-payoff {
+  max-width: 620px;
+  margin: 30px auto 0;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255, 200, 116, 0.16);
+  color: var(--paper);
+  font-family: var(--serif);
+  font-size: clamp(1.02rem, 1.5vw, 1.16rem);
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.thesis-payoff span {
+  display: block;
+  margin-top: 10px;
+  color: var(--gold-soft);
+  font-style: italic;
+}
