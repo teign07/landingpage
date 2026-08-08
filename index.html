@@ -76,6 +76,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./styles.css?v=36">
+    <!-- THE FIRST FALL — still in development, not published.
+         The 3D prologue is held back from the live site: scripts/deploy-landing.sh
+         PROTECTs experience/, so those files never sync. Everything needed to run
+         it locally is still here and still works on the dev server.
+         To ship it: uncomment the three blocks marked FIRST FALL in this file
+         (this one, the hero trigger, and the module script before </body>), then
+         remove "experience" from PROTECT in the deploy script. -->
+    <!--
     <link rel="stylesheet" href="./experience/experience.css?v=6">
     <script type="importmap">
       {
@@ -85,6 +93,7 @@
         }
       }
     </script>
+    -->
   </head>
   <body>
     <canvas id="spell-field" aria-hidden="true"></canvas>
@@ -200,9 +209,11 @@
             written you into a fairy tale that happens to be true.
           </p>
           <div class="hero-actions">
+            <!-- FIRST FALL trigger — held back while the 3D prologue is in development.
             <button type="button" class="button primary first-fall-trigger" data-first-fall-open>
               Fall through the cover ✦
             </button>
+            -->
             <a class="button primary" href="#book">Open me ↓</a>
             <a class="button ghost" href="#how">How I work</a>
             <button type="button" class="button ghost promo-trigger" data-promo-open>
@@ -1967,6 +1978,8 @@
       })();
     </script>
     <script src="./app.js?v=67"></script>
+    <!-- FIRST FALL loader — held back while the 3D prologue is in development.
     <script type="module" src="./experience/experience-entry.js?v=14"></script>
+    -->
   </body>
 </html>
