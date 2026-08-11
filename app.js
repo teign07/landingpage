@@ -3330,7 +3330,7 @@ render();
     problem: pick([
       "Work, dinner, chores, scroll, bed. Then somebody asks how your week went and every real detail hides behind 'fine.'",
       "You scroll because choosing is too much effort. An hour goes. You come out emptier than you went in.",
-      "'How was your day?' is not a hard question. So why is there never anything in there to answer with?",
+      "'How was your day?' isn’t a hard question. So why is there never anything in there to answer with?",
       "You finally get an hour to yourself and spend half of it guilty and the other half deciding what you want.",
     ], 47),
     absolution: pick([
@@ -5105,7 +5105,7 @@ const LORE = {
     kind: "folklore",
     body: [
       "The Romans had a name for the resident of a place - genius loci - and nearly everyone since has kept a version of it. The household god. The one down the well. Whoever holds the crossroads. Your kitchen has one. It has opinions about where the mugs go and you have been losing that argument for years.",
-      "Greet a room and you move through it differently. That is not a trick you are playing on yourself. That is the room, learning you back, and the small rule it keeps trying to teach you is the one it has been repeating since you moved in.",
+      "Greet a room and you move through it differently. That’s not a trick you’re playing on yourself. That’s the room, learning you back, and the small rule it keeps trying to teach you is the one it’s been repeating since you moved in.",
     ],
     tryThis: "Walk into one room today and greet it, out loud or not. Then notice what you do differently for the next ten minutes.",
   },
@@ -5451,7 +5451,7 @@ const LORE = {
     art: { src: "./assets/art/room-great-hall.jpg", alt: "Illustrated dossier of the Great Hall of the Academy" },
     body: [
       "The room the whole Academy pours into - feasts, announcements, the Day of the Living Literary Figures when Holmes deduced the menu, Alice critiqued the architecture, and Dracula objected to the lighting.",
-      "A hall this size keeps a long memory of everyone who has stood in it. On quiet evenings it listens for the next gathering, and it is not patient about the wait.",
+      "A hall this size keeps a long memory of everyone who’s stood in it. On quiet evenings it listens for the next gathering, and it isn’t patient about the wait.",
     ],
   },
   kitchens: {
@@ -5730,7 +5730,7 @@ const LORE = {
 
       window.setTimeout(() => {
         if (window.__reenchantedFirstFallReady || overlay.hidden) return;
-        if (status) status.textContent = "The 3D chapter could not load.";
+        if (status) status.textContent = "The 3D chapter couldn’t load.";
         if (loadingCopy) {
           loadingCopy.textContent = location.protocol === "file:"
             ? "This world must be served over HTTP. From the project folder, run: python3 -m http.server 50123 --bind 127.0.0.1 --directory LandingPage: then open http://127.0.0.1:50123/"
