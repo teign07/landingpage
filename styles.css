@@ -5791,15 +5791,15 @@ em .lore-link, .lore-link em { font-style: italic; }
     color: var(--paper-ink);
   }
   .toc-head { margin-bottom: clamp(18px, 2.4vw, 30px); }
-  .toc-eyebrow { color: var(--gold-deep); }
+  .toc-eyebrow { color: var(--folio-red); }
   .toc-head h2 { color: var(--paper-ink); }
   .toc-sub { color: rgba(42, 32, 20, 0.72); }
   .toc-colophon {
     display: block;
     margin: 14px 0 0;
     text-align: center;
-    color: var(--gold-deep);
-    opacity: 0.75;
+    color: var(--folio-dim);
+    opacity: 1;
   }
 
   /* chapters render as numbered contents rows */
@@ -5834,12 +5834,12 @@ em .lore-link, .lore-link em { font-style: italic; }
     font-style: italic;
     font-weight: 600;
     font-size: 1.15rem;
-    color: var(--gold-deep);
+    color: var(--folio-red);
   }
   .toc-rows .drawer-toggle:hover,
   .toc-rows .drawer-toggle:focus-visible { background: rgba(255, 255, 255, 0.32); }
   .toc-rows .drawer-toggle:focus-visible {
-    outline: 2px solid var(--gold-deep);
+    outline: 2px solid var(--folio-red);
     outline-offset: -2px;
   }
 
@@ -5867,8 +5867,8 @@ em .lore-link, .lore-link em { font-style: italic; }
     align-self: center;
     width: 11px;
     height: 11px;
-    border-right: 2px solid var(--gold-deep);
-    border-bottom: 2px solid var(--gold-deep);
+    border-right: 2px solid var(--folio-red);
+    border-bottom: 2px solid var(--folio-red);
     transform: rotate(45deg);
     margin-top: -4px;
     transition: transform 250ms ease;
@@ -6613,6 +6613,11 @@ body::before {
 .pagetype p,
 .weave-card p,
 .pagetypes-more { color: var(--folio-dim); }
+.how-section .how-num {
+  color: var(--folio-red);
+  opacity: 1;
+}
+.pagetypes-section .pagetypes-count { color: var(--folio-red); }
 .system-card em,
 .pagetype em { color: var(--folio-red); }
 
@@ -6901,6 +6906,7 @@ body::before {
     flex: 0 0 36px;
     width: 36px;
     margin: 0;
+    color: var(--folio-red);
   }
 
   .toc-rows > section[data-drawer] > .drawer-toggle .drawer-toggle-text {
@@ -6913,7 +6919,7 @@ body::before {
 
   .toc-rows > section[data-drawer] > .drawer-toggle .drawer-chevron {
     margin-right: 2px;
-    border-color: var(--gold-deep);
+    border-color: var(--folio-red);
   }
 
   .toc-rows > section[data-drawer].is-open > .drawer-body > .drawer-inner {
