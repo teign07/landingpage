@@ -6356,6 +6356,76 @@ body::before {
   color: var(--folio-red);
 }
 
+/* Chapter interiors now sit on a paper leaf. These pieces used to be
+   reverse type on the old night background, so give every exposed sentence
+   real ink while leaving the dark, illustrated controls to keep their own
+   palettes. */
+.mechanics-section .mechanic {
+  border-color: var(--folio-rule);
+  background: rgba(248, 239, 216, 0.5);
+}
+.mechanics-section .mechanic h3,
+.academy-section .chapter-copy h4,
+.academy-section .packs-feature-copy h3 {
+  color: var(--folio-ink);
+}
+.mechanics-section .mechanic p,
+.academy-section .chapter-copy p,
+.academy-section .chapter-belief,
+.academy-section .chapter-whisper,
+.academy-section .chapter-rules p,
+.academy-section .academy-illus figcaption,
+.academy-section .story-page-copy p:not(.eyebrow),
+.academy-section .story-page-beats li,
+.academy-section .weave-thesis,
+.academy-section .packs-feature-copy p {
+  color: var(--folio-dim) !important;
+}
+.academy-section .chapter-card,
+.academy-section .chapter-rules p,
+.academy-section .academy-illus,
+.academy-section .story-page-feature,
+.academy-section .packs-feature,
+.academy-section .story-page-beats li,
+.academy-section .packs-events li {
+  border-color: var(--folio-rule);
+  background: rgba(248, 239, 216, 0.48);
+}
+.academy-section .story-page-beats strong,
+.academy-section .weave-thesis span,
+.academy-section .event-when {
+  color: var(--folio-teal);
+}
+.academy-section .packs-events li { color: var(--folio-ink); }
+
+.radio-section .section-sub,
+.ebook-section .ebook-body,
+.ebook-section .ebook-facts span {
+  color: var(--folio-dim);
+}
+.ebook-section .ebook-prompts,
+.ebook-section .ebook-facts strong { color: var(--folio-red); }
+.ebook-section .ebook-body strong { color: var(--folio-ink); }
+.ebook-section .ebook-facts li {
+  border-color: var(--folio-rule);
+  background: rgba(248, 239, 216, 0.48);
+}
+
+.pagetypes-section .pagetype-shot figcaption,
+.toc-rows .chapters-intro p,
+.toc-rows .packs-section .section-sub,
+.toc-rows .packs-feature-copy p {
+  color: var(--folio-dim);
+}
+.toc-rows .packs-feature-copy h3 { color: var(--folio-ink); }
+.toc-rows .packs-feature,
+.toc-rows .packs-events li {
+  color: var(--folio-ink);
+  border-color: var(--folio-rule);
+  background: rgba(248, 239, 216, 0.48);
+}
+.toc-rows .packs-events .event-when { color: var(--folio-teal); }
+
 .how-section .lore-link,
 .mechanics-section .lore-link,
 .pagetypes-section .lore-link,
