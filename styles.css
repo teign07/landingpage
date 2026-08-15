@@ -1080,7 +1080,7 @@ h2 {
 .float-1 {
   width: 44%;
   left: -7%;
-  bottom: 18%;
+  bottom: 14%;
   transform: rotate(-7deg) translateY(calc(var(--scroll) * -26px));
 }
 .float-2 { right: -1%; top: 10%; transform: rotate(7deg) translateY(calc(var(--scroll) * -16px)); }
