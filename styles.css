@@ -6752,6 +6752,94 @@ body::before {
   padding-inline: clamp(24px, 5vw, 52px);
 }
 
+.edition-gift {
+  position: relative;
+  margin: 46px 0 36px;
+  padding: clamp(28px, 4vw, 46px);
+  color: var(--folio-ink);
+  border: 1px solid rgba(91, 65, 37, 0.24);
+  border-radius: 2px;
+  background:
+    linear-gradient(115deg, rgba(255,255,255,0.2), transparent 42%),
+    rgba(241, 221, 180, 0.92);
+  box-shadow: 4px 9px 20px rgba(54, 34, 17, 0.17);
+  transform: rotate(-0.22deg);
+}
+.edition-gift::before,
+.edition-gift::after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  width: 76px;
+  height: 18px;
+  background: rgba(218, 194, 142, 0.76);
+  box-shadow: 0 1px 2px rgba(58, 38, 20, 0.1);
+}
+.edition-gift::before { left: 9%; transform: rotate(-3deg); }
+.edition-gift::after { right: 9%; transform: rotate(2deg); }
+.edition-gift-copy {
+  max-width: 830px;
+}
+.edition-gift-copy h3 {
+  margin: 8px 0 16px;
+  color: var(--folio-ink);
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  line-height: 1;
+  text-wrap: balance;
+}
+.edition-gift-copy > p:not(.eyebrow) {
+  max-width: 760px;
+  margin: 10px 0 0;
+  color: var(--folio-dim);
+  font-size: 1rem;
+  line-height: 1.62;
+}
+.edition-gift-sizes {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 30px 0 0;
+  border-top: 1px solid rgba(91, 65, 37, 0.25);
+  border-left: 1px solid rgba(91, 65, 37, 0.2);
+}
+.edition-gift-sizes div {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 20px 18px;
+  border-right: 1px solid rgba(91, 65, 37, 0.2);
+  border-bottom: 1px solid rgba(91, 65, 37, 0.2);
+  background: rgba(255, 250, 235, 0.22);
+}
+.edition-gift-sizes dt {
+  color: var(--folio-red);
+  font-family: var(--serif);
+  font-size: 1.08rem;
+  font-weight: 750;
+}
+.edition-gift-sizes dd {
+  margin: 8px 0 18px;
+  color: var(--folio-dim);
+  font-size: 0.86rem;
+  line-height: 1.48;
+}
+.edition-gift-sizes strong {
+  margin-top: auto;
+  color: var(--folio-teal);
+  font-size: 0.75rem;
+  letter-spacing: 0.065em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+.edition-gift-price {
+  margin: 18px 0 0;
+  color: var(--folio-dim);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: right;
+}
+
 /* The buying choices read like a bindery ledger, not a SaaS pricing table. */
 .edition-plans {
   margin: 42px 0 34px;
@@ -7045,6 +7133,13 @@ body::before {
   .edition-plan { padding-left: 18px; }
   .edition-plan-grid { grid-template-columns: 1fr; }
   .edition-plan-fineprint { margin-left: 18px; }
+  .edition-gift {
+    margin-top: 34px;
+    padding: 28px 18px 22px;
+    transform: none;
+  }
+  .edition-gift-sizes { grid-template-columns: 1fr; }
+  .edition-gift-price { text-align: left; }
   .how-card,
   .system-card,
   .pagetype,
