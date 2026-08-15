@@ -1542,9 +1542,8 @@ h2 {
     linear-gradient(160deg, #143025, #0c1c15 72%);
   border-radius: 14px 0 0 14px;
 }
-.edition-door { width: clamp(64px, 11vw, 92px); height: auto; }
-.door-arch { stroke: #cbb37a; stroke-width: 3; }
-.door-key { fill: #e7d8a8; }
+.edition-book { width: clamp(64px, 11vw, 92px); height: auto; }
+.book-leaves { stroke: #cbb37a; stroke-width: 3; }
 .edition-rule { margin: 2px 0; color: rgba(201, 179, 122, 0.55); font-size: 1.2rem; line-height: 0.6; }
 .edition-imprint {
   margin: 8px 0 0;
