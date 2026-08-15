@@ -1,6 +1,14 @@
 const root = document.documentElement;
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/* The reader meets the Book as soon as the Curse has been named. Keep the
+   complete demo together; its Pages, braid, and controls move as one object. */
+const curseSection = document.querySelector("#curse");
+const bookDemoSection = document.querySelector("#book");
+if (curseSection && bookDemoSection) {
+  curseSection.insertAdjacentElement("afterend", bookDemoSection);
+}
+
 /* ───────────────────────── scroll + pointer parallax ───────────────────────── */
 function updateScroll() {
   const max = Math.max(1, document.body.scrollHeight - window.innerHeight);
@@ -846,7 +854,7 @@ const GLOW_EFFECTS = {
   note: {
     title: "Margin Note",
     copy: "I notice what you notice. That's the seed of Belief: put attention on a Page, person, or pattern, and it starts elbowing its way back in.",
-    target: ".book-address",
+    target: "#book",
   },
   margins: {
     title: "Warm Margins",
