@@ -1077,7 +1077,12 @@ h2 {
   box-shadow: 0 26px 60px rgba(0, 0, 0, 0.5);
 }
 .hero-float img { width: 100%; }
-.float-1 { left: -2%; bottom: 8%; transform: rotate(-8deg) translateY(calc(var(--scroll) * -26px)); }
+.float-1 {
+  width: 44%;
+  left: -7%;
+  bottom: 18%;
+  transform: rotate(-7deg) translateY(calc(var(--scroll) * -26px));
+}
 .float-2 { right: -1%; top: 10%; transform: rotate(7deg) translateY(calc(var(--scroll) * -16px)); }
 .hero-chip {
   position: absolute;
@@ -1604,6 +1609,8 @@ h2 {
   font-size: clamp(1.02rem, 1.6vw, 1.24rem);
   line-height: 1.6;
 }
+.braid-paragraph { display: block; }
+.braid-paragraph + .braid-paragraph { margin-top: 0.9em; }
 .edition-page .reader-own { color: #2c5640; font-style: italic; }
 
 /* The Reader's Sky */
