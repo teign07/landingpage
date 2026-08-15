@@ -1218,6 +1218,7 @@ h2 {
   inset: 0;
   margin: 0 auto;
   width: min(420px, 80%);
+  overflow: hidden;
   border: 1px solid rgba(255, 200, 116, 0.34);
   border-radius: 14px 20px 20px 14px;
   cursor: pointer;
@@ -1235,31 +1236,43 @@ h2 {
   border: 1px solid rgba(255, 200, 116, 0.22);
   border-radius: 10px;
   pointer-events: none;
+  z-index: 2;
 }
 .book-cover:hover { transform: translateY(-4px) rotate(-0.6deg); box-shadow: 0 60px 130px rgba(0,0,0,0.66); }
-.cover-inner {
+.book-cover-art {
   position: absolute;
   inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.cover-inner {
+  position: absolute;
+  inset: 22% 20% 27%;
+  z-index: 1;
   display: grid;
   align-content: center;
   justify-items: center;
-  gap: 14px;
-  padding: 30px;
+  gap: clamp(6px, 1.2vw, 10px);
+  padding: 0;
   text-align: center;
 }
-.cover-kicker { color: var(--paper); font-family: var(--serif); font-style: italic; font-size: 0.95rem; opacity: 0.82; }
-.cover-title { color: var(--gold); font-family: var(--serif); font-weight: 800; font-size: clamp(2rem, 5vw, 3rem); line-height: 1; }
-.cover-mark { color: var(--gold); font-size: 1.6rem; opacity: 0.85; }
+.cover-kicker { color: rgba(54, 35, 20, 0.76); font-family: var(--serif); font-style: italic; font-size: clamp(0.72rem, 1.5vw, 0.9rem); opacity: 1; }
+.cover-title { color: #2d2115; font-family: var(--serif); font-weight: 800; font-size: clamp(1.65rem, 4vw, 2.5rem); line-height: 0.96; text-shadow: 0 1px rgba(255,255,255,0.42); }
+.cover-mark { color: #8b5e28; font-size: 1.25rem; opacity: 0.9; }
 .cover-open {
-  margin-top: 8px;
-  padding: 8px 16px;
-  border: 1px solid rgba(255, 200, 116, 0.4);
+  margin-top: 2px;
+  padding: 7px 14px;
+  border: 1px solid rgba(78, 53, 29, 0.34);
   border-radius: 999px;
   font-family: var(--sans);
-  font-size: 0.82rem;
+  font-size: clamp(0.68rem, 1.4vw, 0.78rem);
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: var(--gold);
+  color: #4a321f;
+  background: rgba(244, 231, 199, 0.46);
   animation: pulse 2.4s ease-in-out infinite;
 }
 @keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(255,200,116,0.3); } 50% { box-shadow: 0 0 0 8px rgba(255,200,116,0); } }
