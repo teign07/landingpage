@@ -77,7 +77,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css?v=37">
+    <link rel="stylesheet" href="./styles.css?v=39">
     <!-- THE FIRST FALL: still in development, not published.
          The 3D prologue is held back from the live site: scripts/deploy-landing.sh
          PROTECTs experience/, so those files never sync. Everything needed to run
@@ -212,7 +212,7 @@
             Anyway. <span id="hero-opener">The rain started while you were on the phone.
             It did that on purpose.</span> The song went for your throat and got it. You
             almost said the thing, and didn’t. I want all three. Give me one true piece
-            of today: I’ll keep it, and by dark I’ll have written you into a fairy tale
+            of today: I’ll keep it, and by dark I’ll have written you into a Faerie tale
             that happens to be true.
           </p>
           <p class="hero-tagline">
@@ -296,13 +296,43 @@
           <div class="curse-copy">
             <p>
               It’s called the <button class="lore-link" data-lore="the-nothing" type="button">Rut of Routine</button>,
-              and it doesn’t roar. It just makes things <em>less</em>. Your commute stops
-              having a smell. Your street turns into “my street.” The kettle you loved
-              becomes an appliance and sits there being one.
+              and it doesn’t roar. It just makes things <em>less</em>. You drive somewhere
+              familiar on autopilot and arrive without one turn staying with you. Your
+              commute stops having a smell. Your street turns into “my street.” The
+              kettle you loved becomes an appliance and sits there being one.
             </p>
-            <p>
-              You recognised at least one of those. That’s the proof. Give it a year and
-              your whole life reads as a summary of itself. Accurate. Missing everything.
+
+            <div class="curse-evidence" aria-label="Evidence for the Rut of Routine">
+              <article class="curse-proof">
+                <strong>46.9%</strong>
+                <p>
+                  Researchers caught people in ordinary life and asked where their minds
+                  were. In 46.9% of the moments, attention was somewhere else. Carry that
+                  across a decade and almost five years out of every ten go missing while
+                  they’re happening. Not asleep. Not resting. Gone.
+                </p>
+                <a href="https://doi.org/10.1126/science.1192439" target="_blank" rel="noopener noreferrer">
+                  Killingsworth &amp; Gilbert, <cite>Science</cite> (2010)
+                </a>
+              </article>
+
+              <article class="curse-proof">
+                <strong>56%</strong>
+                <p>
+                  People counted basketball passes while a person in a gorilla suit
+                  crossed the game. Fifty-six percent didn’t report seeing the gorilla.
+                  A whole gorilla. They were busy counting.
+                </p>
+                <a href="https://doi.org/10.1068/p281059" target="_blank" rel="noopener noreferrer">
+                  Simons &amp; Chabris, <cite>Perception</cite> (1999)
+                </a>
+              </article>
+            </div>
+
+            <p class="curse-letter-trick">
+              You don’t see every letter while you read, either. Your mind grabs the word
+              and runs. I can <em>sepll</em> one thing wrong and suddenly the letters have
+              teeth. There. Now you can’t unsee them.
             </p>
             <p>
               I’ve fought it for centuries. The fight takes lifetimes. It might never
@@ -406,23 +436,17 @@
             <p>
               A whole year, in one book. Twelve chapters, each in its own colours,
               wrapped in a year-long foreword, your constellations, and an ending.
-              An ordinary year, and it reads as a fairy tale, because it was one.
+              An ordinary year, and it reads as a Faerie tale, because it was one.
             </p>
           </article>
           <article class="system-card edition-preview">
-            <div class="edition-cover-mini" role="img"
-                 aria-label="A mockup of a Book of You monthly edition cover - Chapter 3, June, themed Of Rain and Lamps">
-              <span class="ec-stars" aria-hidden="true"></span>
-              <span class="ec-kicker">An Edition Of</span>
-              <span class="ec-title">The Book<br>of You</span>
-              <span class="ec-rule" aria-hidden="true"></span>
-              <span class="ec-chapter">Chapter Three · June</span>
-              <span class="ec-theme">Of Rain &amp; Lamps</span>
-              <span class="ec-mark" aria-hidden="true">✦</span>
-            </div>
+            <img class="edition-preview-image"
+                 src="./assets/screens/book-of-you-first-door-august-2026.png"
+                 alt="The Book of You August 2026 edition open in the app, showing BJ’s forest-bound cover for The First Door and its ownership page"
+                 loading="lazy" decoding="async">
             <p class="edition-preview-cap">
               No two months bind alike. Each one picks its own palette, cover and
-              ornament, and argues with me about it. <em>A mockup. Yours fills in as
+              ornament, and argues with me about it. <em>A real one. Yours fills in as
               you keep pages.</em>
             </p>
           </article>

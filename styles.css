@@ -3000,6 +3000,15 @@ h2 {
    real PDF's cover language (dark gradient, gold rule, constellation motif). */
 .edition-preview { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .edition-preview-cap { margin-top: 18px; }
+.edition-preview-image {
+  display: block;
+  width: min(430px, 100%);
+  height: auto;
+  border: 9px solid #f7edd4;
+  border-radius: 2px;
+  box-shadow: 3px 10px 24px rgba(54, 34, 17, 0.28);
+  transform: rotate(-0.7deg);
+}
 .edition-cover-mini {
   position: relative;
   width: min(186px, 72%);
@@ -5962,7 +5971,7 @@ p.first-fall-binding-note.slip {
     radial-gradient(120% 90% at 4% 50%, rgba(150, 152, 165, 0.13), transparent 62%);
 }
 
-.curse-inner { max-width: 760px; }
+.curse-inner { max-width: 900px; }
 
 .curse-band h2 {
   margin: 0 0 26px;
@@ -5987,6 +5996,58 @@ p.first-fall-binding-note.slip {
   font-style: italic;
 }
 
+.curse-evidence {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin: 26px 0 22px;
+}
+
+.curse-proof {
+  padding: clamp(18px, 2.5vw, 24px);
+  border: 1px solid rgba(255, 200, 116, 0.18);
+  background:
+    linear-gradient(145deg, rgba(255, 200, 116, 0.075), rgba(255, 255, 255, 0.025));
+}
+
+.curse-proof > strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--gold);
+  font-family: var(--serif);
+  font-size: clamp(2.45rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 0.95;
+}
+
+.curse-copy .curse-proof p {
+  margin: 0 0 14px;
+  color: rgba(240, 238, 234, 0.82);
+  font-size: 0.96rem;
+  line-height: 1.56;
+}
+
+.curse-proof a {
+  color: rgba(255, 200, 116, 0.78);
+  font-size: 0.74rem;
+  font-weight: 750;
+  letter-spacing: 0.035em;
+  text-decoration-color: rgba(255, 200, 116, 0.3);
+  text-underline-offset: 3px;
+}
+
+.curse-copy .curse-letter-trick {
+  max-width: 68ch;
+  margin: 0 0 22px;
+  padding-left: 18px;
+  border-left: 2px solid rgba(76, 192, 189, 0.52);
+  color: rgba(240, 238, 234, 0.88);
+  font-family: var(--serif);
+  font-size: clamp(1.08rem, 1.8vw, 1.28rem);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
 /* The one gilded thing in the band. */
 .curse-vow {
   margin: 34px 0 0;
@@ -6003,6 +6064,7 @@ p.first-fall-binding-note.slip {
 
 @media (max-width: 620px) {
   .curse-band { padding-inline: 20px; }
+  .curse-evidence { grid-template-columns: 1fr; }
 }
 
 /* Centred Slips can't wear an edge down one side without looking crooked, so
