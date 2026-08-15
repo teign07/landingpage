@@ -5684,6 +5684,76 @@ em .lore-link, .lore-link em { font-style: italic; }
 .toc-sub { margin: 0; max-width: 56ch; color: var(--text-dim); line-height: 1.6; }
 .toc-colophon { display: none; }
 
+.belief-primer {
+  display: grid;
+  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  gap: clamp(24px, 4vw, 52px);
+  margin: 0 0 clamp(28px, 4vw, 46px);
+  padding: clamp(24px, 3.5vw, 38px);
+  border: 1px solid rgba(42, 32, 20, 0.2);
+  background:
+    radial-gradient(circle at 8% 0%, rgba(255, 255, 255, 0.55), transparent 48%),
+    rgba(248, 239, 216, 0.72);
+  box-shadow: 3px 8px 20px rgba(54, 34, 17, 0.14);
+  color: var(--paper-ink);
+  transform: rotate(-0.18deg);
+}
+.belief-primer .eyebrow {
+  margin-bottom: 8px;
+  color: var(--folio-red);
+}
+.belief-primer h3 {
+  margin: 0;
+  color: var(--folio-ink);
+  font-family: var(--serif);
+  font-size: clamp(1.55rem, 2.7vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.08;
+}
+.belief-primer-intro > p:last-child {
+  margin: 16px 0 0;
+  color: var(--folio-dim);
+  line-height: 1.6;
+}
+.belief-primer-steps {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: belief-step;
+}
+.belief-primer-steps li {
+  position: relative;
+  padding: 13px 0 13px 42px;
+  border-bottom: 1px solid var(--folio-rule);
+  color: var(--folio-dim);
+  line-height: 1.5;
+  counter-increment: belief-step;
+}
+.belief-primer-steps li:last-child { border-bottom: 0; }
+.belief-primer-steps li::before {
+  content: counter(belief-step);
+  position: absolute;
+  top: 12px;
+  left: 0;
+  color: var(--folio-red);
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-style: italic;
+  font-weight: 700;
+}
+.belief-primer-steps strong { color: var(--folio-ink); }
+
+@media (max-width: 720px) {
+  .belief-primer {
+    grid-template-columns: 1fr;
+    margin-inline: 0;
+    padding: 24px 20px;
+    transform: none;
+  }
+}
+
 @media (min-width: 721px) {
   .toc-leaf {
     position: relative;

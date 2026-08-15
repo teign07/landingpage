@@ -5607,6 +5607,10 @@ const LORE = {
    Progressive enhancement: the wrappers use display:contents on desktop, so
    the original layouts render exactly as before. */
 (function setupDrawers() {
+  const chapterRows = document.querySelector(".toc-rows");
+  const academyChapter = chapterRows?.querySelector("#academy");
+  if (chapterRows && academyChapter) chapterRows.prepend(academyChapter);
+
   const sections = Array.from(document.querySelectorAll("section[data-drawer]"));
   if (!sections.length) return;
 
