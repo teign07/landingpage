@@ -947,6 +947,22 @@ h2 {
 }
 .hero-tagline span { color: var(--gold); font-style: italic; }
 
+.hero-edition-line {
+  max-width: 590px;
+  margin: 22px 0 0;
+  color: var(--paper);
+  font-size: clamp(0.78rem, 1.15vw, 0.92rem);
+  font-weight: 750;
+  letter-spacing: 0.055em;
+  line-height: 1.55;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.hero-edition-line span {
+  padding: 0 0.28em;
+  color: var(--gold);
+}
+
 .hero-lede {
   max-width: 540px;
   margin: 12px 0 0;
@@ -1077,6 +1093,48 @@ h2 {
   box-shadow: 0 26px 60px rgba(0, 0, 0, 0.5);
 }
 .hero-float img { width: 100%; }
+.hero-volume {
+  overflow: visible;
+  border-radius: 3px 14px 14px 3px;
+  background: #17120d;
+  box-shadow:
+    7px 8px 0 -3px #d8c79f,
+    11px 12px 0 -4px #766341,
+    0 30px 70px rgba(0, 0, 0, 0.64);
+}
+.hero-volume::before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  inset: 0 auto 0 0;
+  width: 7%;
+  border-right: 1px solid rgba(255, 220, 150, 0.24);
+  border-radius: 3px 0 0 3px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.62), rgba(255, 255, 255, 0.07));
+  pointer-events: none;
+}
+.hero-volume img {
+  display: block;
+  border-radius: inherit;
+}
+.hero-volume figcaption {
+  position: absolute;
+  left: 9%;
+  bottom: -34px;
+  width: max-content;
+  max-width: 120%;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 200, 116, 0.28);
+  border-radius: 3px;
+  color: #392815;
+  background: #f1dfb4;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.32);
+  font-family: var(--serif);
+  font-size: clamp(0.58rem, 0.9vw, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.035em;
+  transform: rotate(2deg);
+}
 .float-1 {
   width: 50%;
   left: -7%;
@@ -5541,7 +5599,15 @@ em .lore-link, .lore-link em { font-style: italic; }
      just the main phone, sized to fill its box cleanly. */
   .hero-art { aspect-ratio: auto; max-width: 300px; }
   .hero-float, .hero-chip { display: none; }
-  .hero-phone { width: 100%; transform: rotate(-2deg); }
+  .hero-phone { width: 78%; margin-left: auto; transform: rotate(-2deg); }
+  .hero-volume.float-1 {
+    display: block;
+    width: 48%;
+    left: -8%;
+    bottom: 7%;
+    transform: rotate(-7deg);
+  }
+  .hero-volume figcaption { bottom: -28px; }
   .radio-top { flex-wrap: wrap; }
   .onair-btn { flex: 1; justify-content: center; }
 }
