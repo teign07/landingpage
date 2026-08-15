@@ -3000,14 +3000,76 @@ h2 {
    real PDF's cover language (dark gradient, gold rule, constellation motif). */
 .edition-preview { display: flex; flex-direction: column; align-items: center; text-align: center; }
 .edition-preview-cap { margin-top: 18px; }
-.edition-preview-image {
-  display: block;
+.edition-preview-cover {
+  position: relative;
   width: min(430px, 100%);
-  height: auto;
+  aspect-ratio: 1875 / 2775;
+  overflow: hidden;
   border: 9px solid #f7edd4;
   border-radius: 2px;
   box-shadow: 3px 10px 24px rgba(54, 34, 17, 0.28);
   transform: rotate(-0.7deg);
+}
+
+.edition-preview-cover > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.edition-preview-lettering {
+  position: absolute;
+  inset: 17% 24% 18%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #f5e8c7;
+  text-align: center;
+  text-shadow: 0 2px 9px rgba(0, 0, 0, 0.9);
+}
+
+.edition-preview-imprint,
+.edition-preview-month,
+.edition-preview-date {
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.edition-preview-imprint {
+  margin-bottom: 20%;
+  font-size: clamp(0.48rem, 1.25vw, 0.68rem);
+}
+
+.edition-preview-month {
+  margin-bottom: 7%;
+  color: #d9aa59;
+  font-size: clamp(0.48rem, 1.2vw, 0.64rem);
+}
+
+.edition-preview-lettering strong {
+  color: #fff7e8;
+  font-family: var(--serif);
+  font-size: clamp(1.7rem, 5.4vw, 3.05rem);
+  font-weight: 650;
+  letter-spacing: 0.015em;
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.edition-preview-rule {
+  width: 64%;
+  height: 1px;
+  margin: 11% 0 8%;
+  background: linear-gradient(90deg, transparent, #d9aa59, transparent);
+}
+
+.edition-preview-date {
+  color: #d9aa59;
+  font-size: clamp(0.46rem, 1.15vw, 0.62rem);
 }
 .edition-cover-mini {
   position: relative;
