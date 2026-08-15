@@ -1550,41 +1550,56 @@ h2 {
   padding: clamp(18px, 2.8vw, 38px);
 }
 .edition-cover {
+  position: relative;
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 4px;
+  overflow: hidden;
+  padding: 0;
   color: #ede6d2;
-  background:
-    radial-gradient(circle at 50% 30%, rgba(46, 86, 64, 0.55), transparent 62%),
-    linear-gradient(160deg, #143025, #0c1c15 72%);
+  background: #091b13;
   border-radius: 14px 0 0 14px;
 }
-.edition-book { width: clamp(64px, 11vw, 92px); height: auto; }
-.book-leaves { stroke: #cbb37a; stroke-width: 3; }
-.edition-rule { margin: 2px 0; color: rgba(201, 179, 122, 0.55); font-size: 1.2rem; line-height: 0.6; }
+.edition-cover-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.edition-cover-copy {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: min(72%, 340px);
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(38px, 6vw, 74px) 0 clamp(28px, 4vw, 52px);
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+}
 .edition-imprint {
-  margin: 8px 0 0;
-  color: rgba(237, 230, 210, 0.92);
+  margin: 0;
+  color: #ead8ad;
   font-weight: 800;
   font-size: 0.72rem;
   letter-spacing: 0.3em;
   text-transform: uppercase;
 }
-.edition-sample { margin: 2px 0 6px; color: rgba(237, 230, 210, 0.45); font-style: italic; font-family: var(--serif); font-size: 0.8rem; }
-.edition-chapter { margin: 4px 0 0; color: rgba(237, 230, 210, 0.7); font-family: var(--serif); font-size: 0.94rem; }
+.edition-sample { margin: 5px 0 0; color: rgba(237, 230, 210, 0.68); font-style: italic; font-family: var(--serif); font-size: 0.8rem; }
+.edition-chapter { margin: auto 0 0; color: #ead8ad; font-family: var(--serif); font-size: 0.94rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .edition-theme {
-  margin: 6px 0;
-  color: #cbb37a;
+  margin: auto 0 0;
+  color: #f2e8cf;
   font-family: var(--serif);
-  font-style: italic;
-  font-weight: 600;
-  font-size: clamp(1.35rem, 2.7vw, 2.1rem);
-  line-height: 1.12;
+  font-weight: 800;
+  font-size: clamp(1.45rem, 3vw, 2.35rem);
+  line-height: 1.04;
+  text-transform: uppercase;
   text-wrap: balance;
 }
-.edition-stats { margin: 2px 0 0; color: rgba(237, 230, 210, 0.6); font-size: 0.82rem; }
-.edition-bind { margin: 2px 0 0; color: rgba(237, 230, 210, 0.4); font-style: italic; font-family: var(--serif); font-size: 0.76rem; }
+.edition-owner { margin: 12px 0 0; color: #cbb37a; font-family: var(--serif); font-style: italic; font-size: 0.92rem; }
+.edition-stats { margin: 8px 0 0; color: rgba(237, 230, 210, 0.72); font-size: 0.76rem; }
 
 .edition-page {
   overflow-y: auto;

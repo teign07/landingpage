@@ -158,6 +158,16 @@ function buildSkyAddress(w, context) {
 
 /* The Weather Page, rendered as the app's "Private translation" card. */
 function weatherPageHTML(w) {
+  if (!w.loaded) {
+    return `
+      <span class="private-translation">
+        <span class="pt-label">✦ Your sky, if you want it</span>
+        <span class="pt-line">I haven’t looked yet. Let me read the weather where you actually are, once.</span>
+      </span>
+      <button type="button" class="address-sky-btn" data-read-demo-weather>Read my sky ✦</button>
+      <span class="weather-place" data-weather-status>Your browser will ask first. I use the location for this forecast, then drop it.</span>
+    `;
+  }
   return `
     <span class="weather-facts" aria-label="Weather details">
       <span><strong>Now</strong> ${w.nowTemp}° · ${w.cond}</span>
@@ -179,6 +189,7 @@ const FALLBACK_WEATHER = (() => {
   const moon = moonPhase();
   const d = describeWeather(45); // fog over the Stacks
   return {
+    loaded: false,
     nowTemp: 60, cond: d.word, high: 71, low: 56, wind: "E 4 mph", humidity: 92,
     enchanted: d.enchanted, plain: d.plain, moonLine: moon.line, moonName: moon.name,
     place: "Over the Stacks · my default sky",
@@ -440,11 +451,11 @@ const PAGES = [
   },
   {
     kicker: "Weather Page",
-    title: "The sky got in.",
+    title: "Let the real sky in.",
     bodyHTML: weatherPageHTML(FALLBACK_WEATHER),
     source: "Weather Page · public forecast",
     shot: "./assets/screens/story-page-weather-prose.jpg",
-    braid: "Fog pressed its thumb to the Weather Page, softening the streetlights until the whole sky felt made of wool.",
+    braid: "The Weather Page held still at the window. It wouldn’t invent a sky and call it yours.",
   },
   {
     kicker: "Story Page · A Choice",
@@ -1284,6 +1295,7 @@ function render() {
   renderWonderChoices();
   renderFuelLog();
   renderInnerWeather();
+  bindDemoWeatherButton();
 
   navCount.textContent = `Page ${index + 1} of ${PAGES.length}`;
   btnPrev.disabled = index === 0;
@@ -1349,7 +1361,6 @@ function openBook() {
   index = 0;
   render();
   earnGlow("opened-book", 2, "The cover opened. Glow gathers at the hinge.");
-  loadRealWeather(); // best-effort; the page already reads fine on the fallback
   loadLocationDaypart(); // best-effort and user-triggered, so the page doesn't call location services on load
 }
 
@@ -1583,6 +1594,14 @@ function monthYear() {
   return new Date().toLocaleDateString("en-US", { month: "long", year: "numeric" });
 }
 
+function coverTitle(theme) {
+  return String(theme || "A Quiet Chapter").replace(/^[“\"]|[”\"]$/g, "");
+}
+
+function readerCoverName() {
+  return onboarding.name.trim() || "the Reader";
+}
+
 function setText(sel, txt) { const el = document.querySelector(sel); if (el) el.textContent = txt; }
 
 let lastEdition = null;
@@ -1595,9 +1614,10 @@ function showBraid() {
     book.dataset.state = "braid";
     braidText.innerHTML = text;
     const my = monthYear();
-    setText("#edition-chapter", `Chapter 1 · ${my}`);
+    setText("#edition-chapter", my);
     setText("#edition-eyebrow", `The Book of You · ${my}`);
-    setText("#edition-theme", data.theme);
+    setText("#edition-theme", coverTitle(data.theme));
+    setText("#edition-owner", `for ${readerCoverName()}`);
     setText("#edition-stats", `1 day bound · ${data.keptCount} kept page${data.keptCount === 1 ? "" : "s"}`);
     renderReadersSky(data.words);
     progressFill.style.width = "100%";
@@ -1804,7 +1824,7 @@ function bindingPages() {
   return pages;
 }
 
-function createPdfDocument(pages) {
+function createPdfDocument(pages, coverImageHex = "") {
   const W = 612, H = 792;
   const objects = ["<< /Type /Catalog /Pages 2 0 R >>"];
   const pageKids = [];
@@ -1814,6 +1834,12 @@ function createPdfDocument(pages) {
   objects.push("<< /Type /Font /Subtype /Type1 /BaseFont /Times-Bold >>");
   objects.push("<< /Type /Font /Subtype /Type1 /BaseFont /Times-Italic >>");
   const fontDict = "<< /F1 3 0 R /F2 4 0 R /F3 5 0 R >>";
+  let coverImageObject = 0;
+  if (coverImageHex) {
+    const imageStream = `${coverImageHex}>`;
+    objects.push(`<< /Type /XObject /Subtype /Image /Width 1024 /Height 1536 /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter [/ASCIIHexDecode /DCTDecode] /Length ${imageStream.length} >>\nstream\n${imageStream}\nendstream`);
+    coverImageObject = objects.length;
+  }
 
   function pushStream(commands) {
     const stream = commands.join("\n");
@@ -1821,7 +1847,8 @@ function createPdfDocument(pages) {
     return objects.length;
   }
   function pushPage(streamId) {
-    objects.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font ${fontDict} >> /Contents ${streamId} 0 R >>`);
+    const coverResource = coverImageObject ? ` /XObject << /CoverArt ${coverImageObject} 0 R >>` : "";
+    objects.push(`<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font ${fontDict}${coverResource} >> /Contents ${streamId} 0 R >>`);
     const pageId = objects.length;
     pageKids.push(`${pageId} 0 R`);
   }
@@ -1878,23 +1905,15 @@ function centerWrapped(cmds, value, y, options = {}) {
     return cmds;
   }
   function coverPage(page) {
-    const cmds = [
-      `${color("#0e2b1b")} rg 0 0 ${W} ${H} re f`,
-      `${color("#173923")} rg 46 46 ${W - 92} ${H - 92} re f`,
-      `${color("#c8a64c")} RG 2 w`,
-      "245 536 m 245 622 367 622 367 536 c S",
-      `${color("#dbe0ce")} rg 300 604 12 12 re f`,
-      "303 588 6 18 re f",
-    ];
-    rule(cmds, 492);
-    center(cmds, "THE BOOK OF YOU", 452, 13, "F2", "#dbe0ce");
-    center(cmds, "a one-day sample", 426, 17, "F3", "#dbe0ce");
-    center(cmds, "Chapter 1", 382, 42, "F2", "#eef0df");
-    center(cmds, page.my, 344, 20, "F1", "#dbe0ce");
-    centerWrapped(cmds, page.data.theme, 304, { size: 18, font: "F3", fill: "#c8a64c", maxChars: 34, maxLines: 2, lineHeight: 22 });
-    rule(cmds, 268);
-    center(cmds, `1 day bound - ${page.data.keptCount} kept page${page.data.keptCount === 1 ? "" : "s"}`, 102, 11, "F1", "#b8c0ae");
-    center(cmds, "bound in the forest margin style", 82, 10, "F3", "#8fa08e");
+    const cmds = coverImageObject
+      ? ["q", `${W} 0 0 ${H} 0 0 cm`, "/CoverArt Do", "Q"]
+      : [`${color("#0e2b1b")} rg 0 0 ${W} ${H} re f`];
+    center(cmds, "THE BOOK OF YOU", 684, 14, "F2", "#ead8ad");
+    center(cmds, "a one-day sample", 660, 12, "F3", "#dbe0ce");
+    centerWrapped(cmds, coverTitle(page.data.theme).toUpperCase(), 470, { size: 31, font: "F2", fill: "#f2e8cf", maxChars: 25, maxLines: 3, lineHeight: 35 });
+    center(cmds, `for ${readerCoverName()}`, 350, 16, "F3", "#c8a64c");
+    center(cmds, page.my.toUpperCase(), 112, 14, "F2", "#ead8ad");
+    center(cmds, `1 day bound - ${page.data.keptCount} kept page${page.data.keptCount === 1 ? "" : "s"}`, 88, 10, "F1", "#dbe0ce");
     return cmds;
   }
 
@@ -1918,8 +1937,16 @@ function centerWrapped(cmds, value, y, options = {}) {
   return new Blob([pdf], { type: "application/pdf" });
 }
 
+async function loadCoverImageHex() {
+  const response = await fetch("./assets/screens/book-of-you-dynamic-braid-cover.jpg");
+  if (!response.ok) throw new Error(`Cover artwork returned ${response.status}`);
+  const bytes = new Uint8Array(await response.arrayBuffer());
+  return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
 async function downloadKeepsake() {
-  const blob = createPdfDocument(bindingPages());
+  const coverImageHex = await loadCoverImageHex();
+  const blob = createPdfDocument(bindingPages(), coverImageHex);
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = "book-of-you-demo-binding.pdf";
@@ -1930,8 +1957,8 @@ async function downloadKeepsake() {
 }
 
 window.ReEnchantedBindingPDF = {
-  createBlob() {
-    return createPdfDocument(bindingPages());
+  async createBlob() {
+    return createPdfDocument(bindingPages(), await loadCoverImageHex());
   },
 };
 
@@ -2115,21 +2142,36 @@ renderHeroOpener();
 
 /* ── real weather, read the way the app's Weather Page reads it ── */
 const WIND_DIRS = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+function readBrowserLocation() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error("Location isn’t available in this browser."));
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => resolve({ latitude: coords.latitude, longitude: coords.longitude }),
+      reject,
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 },
+    );
+  });
+}
+
 async function loadRealWeather() {
-  if (weatherCtx.loaded) return;
+  if (weatherCtx.loaded) return true;
   try {
-    const geo = await fetch("https://ipwho.is/").then((r) => r.json());
-    if (!geo || geo.success === false || typeof geo.latitude !== "number") return;
-    const city = [geo.city, geo.region].filter(Boolean).join(", ") || geo.country || "your sky";
+    const location = await readBrowserLocation();
+    const city = "your location";
     const params = new URLSearchParams({
-      latitude: geo.latitude, longitude: geo.longitude,
+      latitude: location.latitude, longitude: location.longitude,
       current: "temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,wind_direction_10m",
       daily: "temperature_2m_max,temperature_2m_min",
       temperature_unit: "fahrenheit", wind_speed_unit: "mph", timezone: "auto",
     });
-    const wx = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`).then((r) => r.json());
+    const response = await fetch(`https://api.open-meteo.com/v1/forecast?${params}`);
+    if (!response.ok) throw new Error(`Weather returned ${response.status}`);
+    const wx = await response.json();
     const cur = wx && wx.current;
-    if (!cur) return;
+    if (!cur || !wx.daily) throw new Error("Weather returned no current reading.");
     const d = describeWeather(cur.weather_code);
     const moon = moonPhase();
     const dir = WIND_DIRS[Math.round(((cur.wind_direction_10m || 0) % 360) / 45) % 8];
@@ -2143,7 +2185,7 @@ async function loadRealWeather() {
       humidity: Math.round(cur.relative_humidity_2m),
       enchanted: d.enchanted, plain: d.plain,
       moonLine: moon.line, moonName: moon.name,
-      place: `Read from ${city} · approximate, never stored - the same Weather Page the app uses`,
+      place: "Read from your current location · used once, never stored",
       city,
     };
     if (WEATHER_INDEX >= 0) {
@@ -2151,9 +2193,25 @@ async function loadRealWeather() {
       PAGES[WEATHER_INDEX].braid = `The Weather Page opened on ${d.word} over ${city}; I kept the sky exactly as it stood.`;
       if (index === WEATHER_INDEX && book.dataset.state === "open") render();
     }
+    return true;
   } catch (_) {
-    /* offline / blocked - the Stacks default already reads beautifully */
+    return false;
   }
+}
+
+function bindDemoWeatherButton() {
+  const button = elBody.querySelector("[data-read-demo-weather]");
+  if (!button) return;
+  const status = elBody.querySelector("[data-weather-status]");
+  button.addEventListener("click", async () => {
+    button.disabled = true;
+    button.textContent = "Looking…";
+    const loaded = await loadRealWeather();
+    if (loaded) return;
+    button.disabled = false;
+    button.textContent = "Try again ✦";
+    if (status) status.textContent = "I couldn’t read your location or forecast. Check the browser’s location permission and try again.";
+  });
 }
 
 /* ── launch list: capture an email so the Book can write when the cover opens ──

@@ -77,7 +77,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./styles.css?v=44">
+    <link rel="stylesheet" href="./styles.css?v=45">
     <!-- THE FIRST FALL: still in development, not published.
          The 3D prologue is held back from the live site: scripts/deploy-landing.sh
          PROTECTs experience/, so those files never sync. Everything needed to run
@@ -414,9 +414,10 @@
             <h3>The Weekly Issue</h3>
             <p>
               What you kept. The motifs that wouldn’t leave. A short note from me
-              about what the week was up to. When a week has teeth, I can set it as a
-              6 × 9 saddle-stitched magazine, folded and stapled through the middle.
-              Staples have their uses.
+              about what the week was up to. When a week has teeth, like you went camping
+              at Acadia, or your friend had a wedding, or even you lost your job or were
+              buried in depression all week, I can set it as a 6 x 9 saddle-stitched
+              magazine, folded and stapled through the middle. Staples have their uses.
             </p>
           </article>
           <article class="system-card">
@@ -739,18 +740,15 @@
               <!-- left: the forest-green edition cover -->
               <div class="leaf leaf-left">
                 <div class="edition-cover">
-                  <svg class="edition-book" viewBox="0 0 120 150" aria-hidden="true">
-                    <path class="book-leaves" d="M10 38 Q36 28 60 46 V120 Q36 104 10 112 Z M110 38 Q84 28 60 46 V120 Q84 104 110 112 Z" fill="none"/>
-                    <path class="book-leaves" d="M60 46 V120" fill="none"/>
-                  </svg>
-                  <p class="edition-rule" aria-hidden="true">⌣</p>
-                  <p class="edition-imprint">The Book of You</p>
-                  <p class="edition-sample">a one-day sample</p>
-                  <p class="edition-chapter" id="edition-chapter">Chapter 1 · June 2026</p>
-                  <p class="edition-theme" id="edition-theme">“What Weather Said to Chart”</p>
-                  <p class="edition-rule" aria-hidden="true">⌣</p>
-                  <p class="edition-stats" id="edition-stats">1 day bound · 3 kept pages</p>
-                  <p class="edition-bind">bound in the forest margin style</p>
+                  <img class="edition-cover-art" src="./assets/screens/book-of-you-dynamic-braid-cover.jpg" alt="" aria-hidden="true">
+                  <div class="edition-cover-copy">
+                    <p class="edition-imprint">The Book of You</p>
+                    <p class="edition-sample">a one-day sample</p>
+                    <p class="edition-theme" id="edition-theme">What Weather Said to Chart</p>
+                    <p class="edition-owner" id="edition-owner">for the Reader</p>
+                    <p class="edition-chapter" id="edition-chapter">August 2026</p>
+                    <p class="edition-stats" id="edition-stats">1 day bound · 3 kept pages</p>
+                  </div>
                 </div>
               </div>
               <!-- right: foreword + The Reader's Sky -->
@@ -845,9 +843,9 @@
               </p>
             </div>
             <ol class="belief-primer-steps">
-              <li><strong>You place it.</strong> Give Belief to a Page, a member of the Cast, a Chapter, or an idea you want kept warm. You can take it back.</li>
-              <li><strong>It changes what answers.</strong> Believed things return more often, shape the Academy, and pull future stories toward themselves.</li>
-              <li><strong>It isn’t destiny.</strong> What happened still carries its own weight. Belief only tells me where you’re choosing to lean.</li>
+              <li><strong>You place it.</strong> Give Belief to a Page, a member of the Cast, a Chapter, or an idea you want me to remember and build on. You can take it back.</li>
+              <li><strong>It changes what comes next.</strong> Things you believe in return more often, shape the Academy, and influence future stories.</li>
+              <li><strong>It isn’t destiny.</strong> Belief doesn’t change what happened or make something true. It tells me what matters to you and where you want the Book to go.</li>
             </ol>
           </aside>
           <div class="toc-rows">
@@ -1181,7 +1179,10 @@
           <p class="eyebrow">The story keeps moving</p>
           <h2>Things happen in here while you’re out.</h2>
           <p class="section-sub">
-            There’s an Academy underneath me, in a library with no far wall. Classes,
+            Our story is set in your real life, but also in a magical Academy housed in
+            just one small part of an impossible Library; you become a newly enrolled
+            student. The Academy teaches techniques to find the wonder and hidden magic
+            in life, and exists to spread those teachings far and wide. Classes,
             clubs, faculty, <button class="lore-link" data-lore="professors" type="button">professors</button>, a <button class="lore-link" data-lore="great-hall" type="button">Great Hall</button> and <button class="lore-link" data-lore="kitchens" type="button">kitchens</button> that run their own
             weather, and a headmistress I wouldn’t turn my back on. It keeps going
             whether or not you open me. Your ordinary life is the thing that crosses
@@ -2068,7 +2069,7 @@
         });
       })();
     </script>
-    <script src="./app.js?v=73"></script>
+    <script src="./app.js?v=75"></script>
     <!-- FIRST FALL loader: held back while the 3D prologue is in development.
     <script type="module" src="./experience/experience-entry.js?v=14"></script>
     -->
