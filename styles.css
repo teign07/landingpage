@@ -6647,6 +6647,38 @@ body::before {
 .systems-section .system-card:nth-child(even) {
   border-left-color: rgba(23,109,105,0.44);
 }
+.edition-card-specs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 22px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--folio-rule);
+}
+.edition-card-specs div { min-width: 0; }
+.edition-card-specs dt {
+  color: var(--folio-red);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.edition-card-specs dd {
+  margin: 6px 0 0;
+  color: var(--folio-dim);
+  font-size: 0.9rem;
+  line-height: 1.48;
+}
+.edition-shared-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 17px 22px;
+  color: var(--folio-dim);
+  border-left: 3px solid var(--folio-teal);
+  background: rgba(248,239,216,0.58);
+  font-size: 0.92rem;
+  line-height: 1.55;
+}
 #editions .edition-preview {
   grid-column: 1 / -1;
   width: min(620px, 100%);
@@ -6936,6 +6968,7 @@ body::before {
     transform: none;
   }
   .systems-section .systems-grid { grid-template-columns: 1fr; }
+  .edition-card-specs { grid-template-columns: 1fr; }
   .edition-plans {
     padding: 24px 16px;
     background:
