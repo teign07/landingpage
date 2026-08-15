@@ -6027,6 +6027,12 @@ p.first-fall-binding-note.slip {
   line-height: 1.56;
 }
 
+.curse-copy .curse-proof p strong {
+  color: rgba(255, 200, 116, 0.94);
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
 .curse-proof a {
   color: rgba(255, 200, 116, 0.78);
   font-size: 0.74rem;
