@@ -1078,7 +1078,7 @@ h2 {
 }
 .hero-float img { width: 100%; }
 .float-1 {
-  width: 44%;
+  width: 50%;
   left: -7%;
   bottom: 14%;
   transform: rotate(-7deg) translateY(calc(var(--scroll) * -26px));
