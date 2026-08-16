@@ -6272,6 +6272,14 @@ p.first-fall-binding-note.slip {
   text-transform: uppercase;
 }
 
+.curse-copy .curse-proof .curse-proof-meaning {
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 200, 116, 0.18);
+  color: rgba(255, 244, 218, 0.94);
+  font-family: var(--serif);
+  font-size: 1.02rem;
+}
+
 .curse-proof a {
   color: rgba(255, 200, 116, 0.78);
   font-size: 0.74rem;
