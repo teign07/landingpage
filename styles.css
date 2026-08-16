@@ -6528,6 +6528,101 @@ body::before {
   color: var(--folio-red);
 }
 
+.ai-disclosure {
+  position: relative;
+  margin: 34px 0 0;
+  padding: clamp(24px, 3vw, 34px);
+  color: var(--folio-ink);
+  background:
+    linear-gradient(102deg, rgba(255,255,255,0.34), transparent 52%),
+    rgba(238, 222, 181, 0.58);
+  border: 1px solid rgba(73, 48, 26, 0.24);
+  border-radius: 2px 7px 3px 5px;
+  box-shadow: 5px 7px 0 rgba(73, 48, 26, 0.08);
+  transform: rotate(-0.16deg);
+}
+
+.ai-disclosure::before {
+  content: "";
+  position: absolute;
+  width: 68px;
+  height: 20px;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%) rotate(1.5deg);
+  background: rgba(220, 202, 158, 0.72);
+  border-left: 1px solid rgba(73, 48, 26, 0.08);
+  border-right: 1px solid rgba(73, 48, 26, 0.08);
+}
+
+.privacy-section .ai-disclosure-kicker {
+  margin: 0 0 8px;
+  color: var(--folio-red);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.privacy-section .ai-disclosure h3 {
+  margin: 0;
+  max-width: 18ch;
+  font-size: clamp(1.65rem, 3vw, 2.35rem);
+  line-height: 1.04;
+}
+
+.privacy-section .ai-disclosure-lede {
+  margin-top: 16px;
+  color: var(--folio-ink);
+  font-size: 1rem;
+  line-height: 1.58;
+}
+
+.ai-disclosure-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 22px;
+  margin-top: 22px;
+  border-top: 1px solid var(--folio-rule);
+}
+
+.ai-disclosure-grid section {
+  padding: 18px 0 2px;
+  border-bottom: 1px solid var(--folio-rule);
+}
+
+.ai-disclosure-grid h4 {
+  margin: 0;
+  color: var(--folio-ink);
+  font-family: var(--serif);
+  font-size: 1.04rem;
+  line-height: 1.25;
+}
+
+.privacy-section .ai-disclosure-grid p {
+  margin: 7px 0 14px;
+  color: var(--folio-dim);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.ai-disclosure a {
+  color: var(--folio-red);
+  font-weight: 750;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 620px) {
+  .ai-disclosure {
+    padding: 24px 18px;
+    transform: none;
+  }
+
+  .ai-disclosure-grid { grid-template-columns: 1fr; }
+}
+
 /* Chapter interiors now sit on a paper leaf. These pieces used to be
    reverse type on the old night background, so give every exposed sentence
    real ink while leaving the dark, illustrated controls to keep their own
