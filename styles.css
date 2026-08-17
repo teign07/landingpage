@@ -7146,6 +7146,54 @@ body::before {
   height: 100%;
   object-fit: cover;
 }
+.edition-open-spread {
+  position: relative;
+  grid-column: 1 / -1;
+  width: min(980px, 96%);
+  margin: clamp(18px, 3vw, 34px) auto clamp(20px, 4vw, 42px);
+  padding: 14px 14px 18px;
+  background: rgba(248, 239, 216, 0.78);
+  box-shadow: 3px 9px 19px rgba(54, 34, 17, 0.22);
+  transform: rotate(-0.18deg);
+}
+.edition-open-spread::before {
+  content: "inside";
+  position: absolute;
+  z-index: 1;
+  top: -14px;
+  left: 50%;
+  padding: 5px 15px 6px;
+  color: var(--folio-red);
+  background: #dcc799;
+  font-family: var(--serif);
+  font-size: 0.82rem;
+  font-style: italic;
+  box-shadow: 0 2px 5px rgba(58, 38, 20, 0.12);
+  transform: translateX(-50%) rotate(1deg);
+}
+.edition-open-spread img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border: 1px solid rgba(91, 65, 37, 0.22);
+}
+.edition-open-spread figcaption {
+  max-width: 760px;
+  margin: 15px auto 0;
+  color: var(--folio-dim);
+  font-family: var(--sans);
+  font-size: 0.92rem;
+  line-height: 1.55;
+  text-align: center;
+}
+.edition-open-spread figcaption strong {
+  color: var(--folio-ink);
+  font-family: var(--serif);
+  font-size: 1.06rem;
+}
+.edition-open-spread figcaption em { color: var(--folio-red); }
 .edition-card-specs {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
