@@ -5900,6 +5900,15 @@ em .lore-link, .lore-link em { font-style: italic; }
   color: rgba(255, 243, 213, 0.78);
 }
 
+.braid-example-note {
+  max-width: 620px;
+  margin: 17px auto 0;
+  color: rgba(255, 243, 213, 0.58);
+  font-family: var(--sans);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
 .night-braid-proof-grid {
   display: grid;
   grid-template-columns: minmax(280px, 0.78fr) minmax(420px, 1.22fr);
