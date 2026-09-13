@@ -425,7 +425,12 @@
     if(!plainMotion) {
       pager=new St.PageFlip(folio,{width,height,size:'fixed',usePortrait:true,autoSize:false,startPage:current,drawShadow:true,maxShadowOpacity:.4,flippingTime:850,showCover:false,mobileScrollSupport:true,useMouseEvents:true,showPageCorners:true,disableFlipByClick:true,swipeDistance:35,clickEventForward:true});
       pager.on('flip',event=>{ if(!rebuilding) updateState(event.data); });
-      pager.on('changeState',event=>{if(event.data==='read' && !rebuilding) {updateState(pager.getCurrentPageIndex(),false);finishTurn?.();}});
+      pager.on('changeState',event=>{
+        // Portrait mode still renders an imaginary left-hand page. Keep its
+        // returning sheet behind the actual spine, not across the whole screen.
+        folio.classList.toggle('is-turning-back',event.data!=='read' && pager.getRender().getDirection()===1);
+        if(event.data==='read' && !rebuilding) {updateState(pager.getCurrentPageIndex(),false);finishTurn?.();}
+      });
       pager.loadFromHTML(pages);
     }
     active=true;document.body.classList.add('book-active');
