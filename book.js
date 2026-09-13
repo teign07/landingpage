@@ -368,15 +368,16 @@
       const flight=document.createElement('div');flight.className='riffle-flight';
       flight.setAttribute('aria-hidden','true');flight.inert=true;stage.append(flight);
       // FolioRiffle's nine overlapping sheets, with the destination changed
-      // under the thickest part of the flight. Forward sweeps to the right.
+      // under the thickest part of the flight. Leaves swing off the spine,
+      // so a forward turn sweeps left.
       const animations=Array.from({length:9},(_,i)=>{
         const sheet=document.createElement('div');sheet.className='riffle-sheet';flight.append(sheet);
-        const from=forward?0:172,to=forward?172:0;
+        const from=forward?0:-172,to=forward?-172:0;
         sheet.style.zIndex=String(forward?i:9-i);
         return sheet.animate([
           {transform:`rotateY(${from}deg) scaleY(1)`,opacity:0},
           {opacity:1,offset:.06},
-          {transform:'rotateY(86deg) scaleY(.98)',opacity:1,offset:.5},
+          {transform:'rotateY(-86deg) scaleY(.98)',opacity:1,offset:.5},
           {opacity:1,offset:.92},
           {transform:`rotateY(${to}deg) scaleY(1)`,opacity:0}
         ],{duration:280,delay:i*43,easing:'cubic-bezier(.28,.02,.16,1)',fill:'both'});
