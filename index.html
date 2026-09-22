@@ -76,7 +76,7 @@
     <title>ReEnchanted | Find the Hidden Magic in Ordinary Life</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="./book.css?v=28">
+    <link rel="stylesheet" href="./book.css?v=30">
   </head>
   <body>
     <a class="skip-link" href="#manuscript">Skip to the pages</a>
@@ -92,46 +92,18 @@
         <div class="reading-controls"><button type="button" id="previous-page" aria-label="Previous page">←</button><span id="page-position" aria-live="polite" aria-atomic="true">The cover</span><button type="button" id="next-page" aria-label="Next page">→</button></div>
         <p id="turn-hint">Drag a page corner, or use the arrows.</p>
       </div>
-      <article id="manuscript" aria-label="The complete public edition"><section id="frontispiece" data-chapter="The cover" data-kind="title"><div class="title-page"><p class="imprint">A Book about your actual life</p><img class="cover-plate" src="./assets/book/labyrinth-cover.webp" width="1000" height="1500" alt="The app’s illustrated Labyrinth of Stories cover: a maze of books around an open clearing"><h1>ReEnchanted</h1><p class="title-subtitle">There’s a Faerie tale<br>hiding in your ordinary life.</p><p class="title-invitation">I could be your Book. I’d like that.</p><a class="ink-button" href="#about">Open me <span aria-hidden="true">↗</span></a><p class="imprint title-imprint">For iPhone &amp; iPad · The digital Book is free</p></div></section><section id="about" data-chapter="A Book with character">
-          <p class="eyebrow">You're fine. Technically... right?</p>
-          <h2 class="campaign-headline">
-            <span>I'm going to break your Curse.</span>
-            <span class="campaign-answer">That's the whole job.</span>
-          </h2>
-          <p class="hero-intro">
-            I’m a book. A <em>magical</em> book. A book with... character. And a mission. Give me your
-            ordinary, everyday life and I’ll turn it into a modern Faerie tale. I promise. I live
-            on your phone first. Then your days can become stitched weekly issues, monthly
-            and seasonal softcovers, and an annual cloth-and-gold-foil hardcover with
-            your name on the spine. <strong>A Faerie-tale series of your life, on your
-            shelf.</strong> Books have always been shapeshifters. The paper is a beloved
-            limitation.
-          </p>
-          <p class="hero-lede">
-            Anyway. <span id="hero-opener">The rain started while you were on the phone.
-            It did that on purpose.</span> The song went for your throat and got it. You
-            almost said the thing, and didn’t. I want all three. Give me one true piece
-            of today: I’ll keep it, and by dark I’ll have written you into a Faerie tale
-            that happens to be true.
-          </p>
-          <p class="hero-tagline">
-            I could be your Book. <span>I’d like that.</span> I need help fighting this
-            thing. Some company would be nice, too.
-          </p>
-
-
-          <p class="hero-assurance">A free digital, magic Book. No streaks. No guilt. I’ll never hand you a blank page and call it a feature.</p>
-
-          <ul class="trust-row slip">
-            <li>The digital Book is free</li>
-            <li>Open source</li>
-            <li>Private</li>
-            <li>Local-first</li>
-            <li class="trust-privacy">We can't read your private Book</li>
-            <li>Accounts Optional</li>
-            <li>iPhone &amp; iPad</li>
-          </ul>
-
+      <article id="manuscript" aria-label="The complete public edition"><section id="frontispiece" data-chapter="The cover" data-kind="title"><div class="title-page"><p class="imprint">A Book about your actual life</p><img class="cover-plate" src="./assets/book/labyrinth-cover.webp" width="1000" height="1500" alt="The app’s illustrated Labyrinth of Stories cover: a maze of books around an open clearing"><h1>ReEnchanted</h1><p class="title-subtitle">Small adventures.<br>Your days, turned into stories.</p><p class="title-invitation">I could be your Book. I’d like that.</p><a class="ink-button" href="#about">Meet your Book <span aria-hidden="true">↗</span></a><p class="imprint title-imprint">For iPhone &amp; iPad · Start free</p></div></section><section id="about" data-chapter="A Book for your days" data-kind="composed" data-theme="opening">
+          <div class="reading-composition opening-introduction">
+            <p class="eyebrow">A magic Book for iPhone &amp; iPad</p>
+            <h2>Give me a little<br>of today.</h2>
+            <p>Give me a sentence, a photo, or your voice. I’ll offer small adventures
+              and let you choose what happens in my stories.</p>
+            <p>By morning, what you kept becomes a Faerie tale. Keep going, and your
+              days can become a real Book.</p>
+            <p class="reading-whisper">Your personal Book is free. A subscription brings
+              new monthly stories; printed Books cost extra.</p>
+            <a class="ink-button" href="#first-write">Try one sentence <span aria-hidden="true">↗</span></a>
+          </div>
         </section><section id="between-how" data-interleaf="true" data-chapter="Between the Pages" data-kind="quiet"><div class="quiet-composition quiet-marginalia quiet-variant-0"><img class="quiet-mark" src="./assets/book/MarginaliaGoblinReading.webp" alt="A small goblin reading a red book" loading="lazy"><img class="quiet-note" src="./assets/book/AcademyNoteMarginsAlive.webp" alt="The margins are alive. Look closer." loading="lazy"></div></section><section id="curse" data-chapter="Who we’re up against">
         <div class="curse-inner">
           <p class="eyebrow">Who we’re up against</p>
@@ -1467,7 +1439,8 @@
     <script src="./cover-catalogue.js?v=1"></script>
     <script src="./monthly-cover.js?v=2"></script>
     <script src="./book-encounters.js?v=8"></script>
-    <script src="./first-reading.js?v=21"></script>
+    <script src="./story-pages.js?v=3"></script>
+    <script src="./first-reading.js?v=23"></script>
     <script src="./marginalia-catalogue.js?v=1"></script>
     <script src="./marginalia-deck.js?v=1"></script>
     <script src="./illumination-catalogue.js?v=1"></script>
@@ -1477,7 +1450,7 @@
     <script src="./feast-leaf.js?v=3"></script>
     <script src="./book-day.js?v=2"></script>
     <script src="./book-souvenir.js?v=2" defer></script>
-    <script src="./book.js?v=25" defer></script>
+    <script src="./book.js?v=26" defer></script>
     <script src="./book-atmosphere.js?v=1" defer></script>
   </body>
 </html>

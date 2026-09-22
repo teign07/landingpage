@@ -478,6 +478,8 @@
       pager.loadFromHTML(pages);
       // Paper, tint and illumination are dealt once the leaves exist.
       window.PublicIlluminationDeck?.illuminateAll(folio);
+      // Cloned leaves carry the markup but not the reader's choices.
+      window.PublicStoryPages?.render(folio);
       for(const page of pages){
         page.addEventListener('mousedown',keepForReader);
         page.addEventListener('touchstart',keepForReader,{passive:true});
