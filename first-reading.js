@@ -5,9 +5,9 @@
   if(!edition)return;
   const manuscript=document.querySelector('#manuscript');
   const original=[...manuscript.children].filter(section=>section.dataset.kind!=='cover');
-  // The title page and the opening chapter are the Book introducing itself.
-  // The composed reading follows them; everything after that is reference.
-  const opening=new Set(['frontispiece','about','between-how']);
+  // Keep the complete illustrated editions chapter inside the first reading.
+  // The other original chapters remain available as reference.
+  const opening=new Set(['frontispiece','about','between-how','editions','between-editions']);
   original.forEach(section=>{if(!opening.has(section.id))section.dataset.reference='true';});
   const mark=name=>`<img class="reading-mark" src="./assets/book/${name}.webp" alt="" width="130" height="130">`;
   const link=(id,text)=>`<a class="reading-option" href="#${id}">${text} <span aria-hidden="true">↗</span></a>`;
@@ -47,14 +47,19 @@
   // Let each explanation lead to something the reader can try or see.
   const readingOrder=[
     'first-arrival','first-curse','first-how','first-write','first-key',
-    'first-night','first-paper','first-hush','first-anyway','first-world',
-    'first-cats','first-compass','first-remembered','first-privacy',
+    'first-night','first-paper','first-anyway','first-world',
+    'first-cats','first-compass','first-hush','first-remembered','first-privacy',
     'first-dare','first-wicker-echo','first-bargain','first-wait','first-parting'
   ];
   const orderedLeaves=readingOrder.map(id=>leaves.find(item=>item.id===id));
   if(orderedLeaves.includes(undefined)||orderedLeaves.length!==leaves.length)throw new Error('The first reading has a missing or extra Page.');
+  const editions=manuscript.querySelector('#editions');
+  const editionsPause=manuscript.querySelector('#between-editions');
+  if(!editions||!editionsPause)throw new Error('The illustrated editions chapter is missing.');
+  editions.dataset.reading='true';
+  editionsPause.dataset.reading='true';
   const fragment=document.createDocumentFragment();
-  for(const item of orderedLeaves){const section=document.createElement('section');section.id=item.id;section.dataset.chapter=item.title;section.dataset.kind=item.theme==='hush'?'quiet':'composed';section.dataset.reading='true';section.dataset.theme=item.theme;section.innerHTML=(item.theme==='encounter'||item.theme==='story')?item.html:`<div class="reading-composition">${item.html}</div>`;fragment.append(section);}
+  for(const item of orderedLeaves){const section=document.createElement('section');section.id=item.id;section.dataset.chapter=item.title;section.dataset.kind=item.theme==='hush'?'quiet':'composed';section.dataset.reading='true';section.dataset.theme=item.theme;section.innerHTML=(item.theme==='encounter'||item.theme==='story')?item.html:`<div class="reading-composition">${item.html}</div>`;fragment.append(section);if(item.id==='first-paper')fragment.append(editions,editionsPause);}
   (manuscript.querySelector('#between-how')||original[0]).after(fragment);
   original[0].querySelector('.ink-button').href='#about';
   const contents=document.querySelector('#contents');
