@@ -330,7 +330,10 @@
       if(opening){if(pager)pager.turnToPage(index);else updateState(index,false);}
       // Past about 80° the flight's back faces the reader, and not every browser
       // honours backface-visibility on it: the mirrored cover swings back in.
-      // So the cover fades before it gets there instead of relying on it.
+      // So the cover fades before it gets there instead of relying on it. The
+      // flight must stay transform-style:flat: under preserve-3d, Safari makes
+      // the cover art its own 3D layer, which ignores both the fade and the
+      // backface, and the art rolls back around.
       const hinge=[
         {offset:0,transform:'rotateY(0deg)',filter:'brightness(1)',opacity:1},
         {offset:.6,opacity:1},
