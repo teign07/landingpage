@@ -328,20 +328,18 @@
       board.classList.add('cover-flight');board.inert=true;board.setAttribute('aria-hidden','true');stage.append(board);
       stage.classList.add('is-opening-cover');
       if(opening){if(pager)pager.turnToPage(index);else updateState(index,false);}
-      // Past about 80° the flight's back faces the reader, and not every browser
-      // honours backface-visibility on it: the mirrored cover swings back in.
-      // So the cover fades before it gets there instead of relying on it. The
-      // flight must stay transform-style:flat: under preserve-3d, Safari makes
-      // the cover art its own 3D layer, which ignores both the fade and the
-      // backface, and the art rolls back around.
+      // The board stops at 80° and fades through the second half of its swing.
+      // Further round, perspective swells the near edge back across the spine
+      // and the cover looks as if it rolls back into place. The flight must stay
+      // transform-style:flat: under preserve-3d, Safari makes the cover art its
+      // own 3D layer, which ignores both the fade and backface-visibility.
       const hinge=[
         {offset:0,transform:'rotateY(0deg)',filter:'brightness(1)',opacity:1},
-        {offset:.6,opacity:1},
-        {offset:.72,opacity:0},
-        {offset:1,transform:'rotateY(-105deg)',filter:'brightness(.45)',opacity:0}
+        {offset:.5,opacity:1},
+        {offset:1,transform:'rotateY(-80deg)',filter:'brightness(.5)',opacity:0}
       ];
-      const motion=board.animate(opening?hinge:hinge.map(frame=>({...frame,offset:1-frame.offset})).reverse(),{duration:850,easing:'cubic-bezier(.22,.5,.17,1)',fill:'forwards'});
-      try{await settled(motion,1150);}finally{
+      const motion=board.animate(opening?hinge:hinge.map(frame=>({...frame,offset:1-frame.offset})).reverse(),{duration:950,easing:'cubic-bezier(.45,.05,.3,1)',fill:'forwards'});
+      try{await settled(motion,1600);}finally{
         if(pager)pager.turnToPage(index);updateState(index);
         board.remove();stage.classList.remove('is-opening-cover');navigationRunning=false;
         if(queuedNavigation){const queued=queuedNavigation;queuedNavigation=null;go(queued.index,queued.animate);}
