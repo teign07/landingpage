@@ -497,17 +497,34 @@
       }
       // Swipe and left-corner drags use the same returning curl as Previous.
       pager.flipPrev=()=>go(current-1);
+      // The cover opens only by its own flight. A hand that drifts 5px on the
+      // click is a drag to StPageFlip: it lifted the real board, dropped it back
+      // shut on release, and the flight then swung a second, closed cover open.
+      // So the board never curls, lifts or folds; any drag on it opens it.
+      const onCover=()=>pages[current].classList.contains('is-cover');
+      const nativeNext=pager.flipNext.bind(pager);
+      pager.flipNext=corner=>onCover()?go(current+1):nativeNext(corner);
       const controller=pager.getFlipController();
       const nativeFold=controller.fold.bind(controller),nativeCorner=controller.showCorner.bind(controller);
       controller.fold=point=>{
         if(navigationRunning)return;
+        if(onCover()){go(current+1);return;}
         if(pager.getState()==='user_fold'){nativeFold(point);return;}
         if(controller.getDirectionByPoint(pager.getRender().convertToBook(point))===1)go(current-1);
         else nativeFold(point);
       };
-      controller.showCorner=point=>{if(!navigationRunning && controller.getDirectionByPoint(pager.getRender().convertToBook(point))!==1)nativeCorner(point);};
+      controller.showCorner=point=>{if(!navigationRunning && !onCover() && controller.getDirectionByPoint(pager.getRender().convertToBook(point))!==1)nativeCorner(point);};
       const nativeStop=pager.userStop.bind(pager);
-      pager.userStop=(point,swipe)=>{if(navigationRunning){pager.isUserTouch=false;pager.isUserMove=false;return;}nativeStop(point,swipe);};
+      // A press that ends on the cover opens it by the flight too: StPageFlip
+      // turns a hard page on any corner click, disableFlipByClick or not.
+      pager.userStop=(point,swipe)=>{
+        if(navigationRunning||onCover()){
+          const pressed=pager.isUserTouch;pager.isUserTouch=false;pager.isUserMove=false;
+          if(pressed&&!navigationRunning)go(current+1);
+          return;
+        }
+        nativeStop(point,swipe);
+      };
     }
     active=true;document.body.classList.add('book-active');
     modeButton.hidden=false;modeButton.textContent='Read as one page';
