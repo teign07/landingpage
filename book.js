@@ -334,7 +334,7 @@
     const inReference=pages[current].dataset.reference==='true';
     position.textContent=pages[current].dataset.title+' · '+(inReference?'The complete chapters':String(current+1).padStart(2,'0')+' / '+firstCount);
     const returnLink=document.querySelector('.reading-return');
-    if(returnLink){returnLink.hidden=!inReference;returnLink.href='#'+(window.PublicEdition?.readingBookmark||'first-write');}
+    if(returnLink){returnLink.hidden=!inReference;returnLink.href='#'+(window.PublicEdition?.readingBookmark||'about');}
     if(pages[current].dataset.reading)window.PublicEdition.readingBookmark=pages[current].dataset.chapter;
     if(!isRiffling) window.PublicEdition?.visit(pages[current],current);
     pages.forEach((page,i) => {
@@ -516,7 +516,7 @@
     const raw=hash.replace(/^#/,'') || 'cover';
     let decoded; try { decoded=decodeURIComponent(raw); } catch { return null; }
     const [id,offsetText]=decoded.split('~');
-    const aliases={top:'cover',book:'first-write','encounter-write':'first-write','encounter-mission':'first-mission','encounter-dare':'first-dare','encounter-map':'first-map','encounter-kept':'first-kept','encounter-remembered':'first-remembered'};
+    const aliases={top:'cover',book:'about','encounter-write':'first-write','encounter-mission':'first-mission','encounter-dare':'first-dare','encounter-map':'first-map','encounter-kept':'first-kept','encounter-remembered':'first-remembered'};
     const key=aliases[id] && anchors.has(aliases[id]) ? aliases[id] : id;
     if(!anchors.has(key)) return null;
     const base=anchors.get(key), offset=Number(offsetText)||0;
