@@ -72,7 +72,7 @@
     const rect=stage.getBoundingClientRect();
     const width=Math.min(dialog.classList.contains('is-glow')?370:440,innerWidth-28);
     const left=Math.max(14,Math.min(innerWidth-width-14,rect.right-width+24));
-    const top=Math.max(20,Math.min(rect.top+12,innerHeight-340));
+    const top=dialog.dataset.sheet==='invitation' ? 24 : Math.max(20,Math.min(rect.top+12,innerHeight-340));
     dialog.style.setProperty('--sheet-left',left+'px');
     dialog.style.setProperty('--sheet-top',top+'px');
     dialog.style.setProperty('--sheet-width',width+'px');
@@ -325,7 +325,7 @@
     const destination=Math.max(0,Math.min(pages.length-1,index));
     current=destination;
     previous.disabled=current===0; next.disabled=current===pages.length-1;
-    next.setAttribute('aria-label',pages[current].dataset.chapter==='first-parting'?'Continue into the complete information chapters':'Next page');
+    next.setAttribute('aria-label',pages[current].dataset.chapter==='first-parting'?'Keep wandering through the binding':'Next page');
     stage.classList.toggle('is-closed',pages[current].classList.contains('is-cover'));
     document.querySelector('#turn-hint').textContent=pages[current].classList.contains('is-cover')?'Open the cover. There’s a Book inside.':'Drag a page corner, or use the arrows.';
     // Everything that isn't the reference appendix is the first reading —
@@ -334,7 +334,7 @@
     const inReference=pages[current].dataset.reference==='true';
     position.textContent=pages[current].dataset.title+' · '+(inReference?'The complete chapters':String(current+1).padStart(2,'0')+' / '+firstCount);
     const returnLink=document.querySelector('.reading-return');
-    if(returnLink){returnLink.hidden=!inReference;returnLink.href='#'+(window.PublicEdition?.readingBookmark||'first-arrival');}
+    if(returnLink){returnLink.hidden=!inReference;returnLink.href='#'+(window.PublicEdition?.readingBookmark||'first-write');}
     if(pages[current].dataset.reading)window.PublicEdition.readingBookmark=pages[current].dataset.chapter;
     if(!isRiffling) window.PublicEdition?.visit(pages[current],current);
     pages.forEach((page,i) => {
@@ -516,8 +516,8 @@
     const raw=hash.replace(/^#/,'') || 'cover';
     let decoded; try { decoded=decodeURIComponent(raw); } catch { return null; }
     const [id,offsetText]=decoded.split('~');
-    const aliases={top:'cover',book:'first-arrival','encounter-write':'first-write','encounter-mission':'first-mission','encounter-dare':'first-dare','encounter-map':'first-map','encounter-kept':'first-kept','encounter-remembered':'first-remembered'};
-    const key=aliases[id]||id;
+    const aliases={top:'cover',book:'first-write','encounter-write':'first-write','encounter-mission':'first-mission','encounter-dare':'first-dare','encounter-map':'first-map','encounter-kept':'first-kept','encounter-remembered':'first-remembered'};
+    const key=aliases[id] && anchors.has(aliases[id]) ? aliases[id] : id;
     if(!anchors.has(key)) return null;
     const base=anchors.get(key), offset=Number(offsetText)||0;
     const target=Math.min(pages.length-1,base+Math.max(0,offset));

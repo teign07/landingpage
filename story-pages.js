@@ -28,20 +28,23 @@
       eyebrow: 'A Story Page, and it is your turn in it',
       heading: 'The key objected.',
       opening: [
-        'Wicker put a brass key on the table between us. It opens nothing in this building. He was very clear about that, in the tone people use for things that are not true.',
-        'Then the key objected. It managed this without moving, which is the worst way for a thing to object.'
+        'Wicker put a brass key on the table. “It opens nothing,” he said.',
+        'The key objected without moving. That is the worst way for a thing to object.'
       ],
       ask: 'What do you do?',
       choices: [
         { id: 'take', label: 'Take the key',
           said: 'You took it.',
-          body: 'It went warm in your hand, the warmth a thing keeps when it has been waiting to be picked up. Wicker looked delighted and a little worried, which is his whole face. Now you have a key and no door. That is how most of this starts.' },
+          body: 'It went warm in your hand. Wicker looked delighted and a little worried, which is his whole face. Now you have a key and no door. We’ll have to do something about that.',
+          thread: 'The key is still warm. Wicker has stopped saying it opens nothing.' },
         { id: 'leave', label: 'Leave it on the table',
           said: 'You left it where it was.',
-          body: 'It stayed there being a key, getting smugger. Wicker said nothing, which from him is a standing ovation. Not taking a thing is a decision too, and I wrote it down the same as any other.' },
+          body: 'It stayed there getting smugger. Wicker said nothing, which from him is a standing ovation. I wrote your refusal down. It counts as much as taking it.',
+          thread: 'The key is still on the table. You left it there, and I remembered that too.' },
         { id: 'ask', label: 'Ask the key what it wants',
           said: 'You asked it. Out loud.',
-          body: 'Wicker put both hands over his mouth. The key did not answer, but the room did the thing a room does when it turns out to have been listening. The answer came later, in the wrong order, and you knew it anyway.' }
+          body: 'Wicker put both hands over his mouth. The key said nothing. Somewhere behind us, a door clicked. I heard it. We can find out which door later.',
+          thread: 'I’m still listening for that door. You asked the key a question, and something else answered.' }
       ],
       receipt: ''
     },
@@ -53,11 +56,10 @@
       eyebrow: 'Something has already happened',
       heading: 'She got here first.',
       opening: [
-        'The Punctuation Pixie has been at this page. There is a comma in the margin I did not put there, and the sentence above it is holding its breath.',
-        'She has not asked for anything yet. That is the order her kind work in: something small first, before you can refuse it, and then they wait to be noticed noticing.'
+        'The Punctuation Pixie left a comma in my margin. The sentence above it is holding its breath.'
       ],
-      terms: 'What she is hungry for: rhythm and pause. A place that feels like a comma. A thing that is an exclamation point.',
-      ask: 'The bargain is on the table, unopened.',
+      terms: 'Open her bargain: owe one real place that feels like a pause. Leave it closed: owe nothing.',
+      ask: 'What do you do?',
       choices: [
         { id: 'open', label: 'Open it',
           said: 'You opened it.',
@@ -77,19 +79,23 @@
     const scene = SCENES[id];
     if (!scene) return '';
     const art = id === 'bargain' ? 'MarginaliaSeal' : 'MarginaliaScrap';
-    const opening = scene.opening.map(line => '<p>' + escaped(line) + '</p>').join('');
+    const count = id === 'key' && window.PublicMonthlyCover?.select(new Date()).id.startsWith('count-unbound');
+    // A public teaser before the October Jump, not an invented attack or
+    // attendance at an app event. Outside October the key is evergreen.
+    const lines = count ? ['A copy of Dracula is waiting in the Stacks. Wicker puts a brass key beside it. “Nothing to do with each other,” he says.', 'The key objects.'] : scene.opening;
+    const opening = lines.map(line => '<p>' + escaped(line) + '</p>').join('');
     const terms = scene.terms ? '<p class="story-terms">' + escaped(scene.terms) + '</p>' : '';
     const buttons = scene.choices.map(choice =>
       '<button type="button" class="reading-option" data-story="' + scene.id +
       '" data-choice="' + choice.id + '">' + escaped(choice.label) + '</button>').join('');
     return '<div class="reading-composition story-page" data-story-page="' + scene.id + '">'
       + mark(art)
-      + '<p class="eyebrow">' + escaped(scene.eyebrow) + '</p>'
+      + '<p class="eyebrow">' + escaped(count ? 'The Count Unbound · a public Story Page' : scene.eyebrow) + '</p>'
       + '<h2>' + escaped(scene.heading) + '</h2>'
-      + opening + terms
+      + '<div data-story-opening>' + opening + terms + '</div>'
       + '<div data-story-ask><p class="story-ask">' + escaped(scene.ask) + '</p>'
       + '<div class="story-choices">' + buttons + '</div></div>'
-      + '<div data-story-said hidden></div>'
+      + '<div data-story-said tabindex="-1" hidden></div>'
       + '</div>';
   }
 
@@ -103,10 +109,12 @@
       if (!ask || !said) return;
       ask.hidden = !!picked;
       said.hidden = !picked;
+      page.querySelector('[data-story-opening]').hidden = !!picked;
       if (picked) {
         said.innerHTML = '<p class="story-said">' + escaped(picked.said) + '</p>'
           + '<p>' + escaped(picked.body) + '</p>'
-          + (scene.receipt ? '<p class="capture-receipt">' + escaped(scene.receipt) + '</p>' : '');
+          + (scene.receipt ? '<p class="capture-receipt">' + escaped(scene.receipt) + '</p>' : '')
+          + '<button type="button" class="reading-option" data-story-reconsider="' + scene.id + '">Try another choice</button>';
       }
     });
     // The braid leaf promises it braids what you chose. Now it can show it.
@@ -115,15 +123,26 @@
       slot.hidden = !keyChoice;
       if (keyChoice) slot.textContent = 'Tonight that includes the brass key. ' + keyChoice.said;
     });
+    document.querySelectorAll('[data-story-thread="key"]').forEach(slot => {
+      slot.textContent=keyChoice ? keyChoice.thread : 'The key is still on the table. It can wait.';
+    });
   }
 
   document.addEventListener('click', event => {
+    const reconsider=event.target.closest('[data-story-reconsider]');
+    if(reconsider){
+      const page=reconsider.closest('[data-story-page]');
+      delete chosen[reconsider.dataset.storyReconsider];remember();render();
+      page.querySelector('[data-choice]')?.focus({preventScroll:true});
+      return;
+    }
     const button = event.target.closest('[data-story][data-choice]');
     if (!button) return;
     window.BookSounds?.select();
     chosen[button.dataset.story] = button.dataset.choice;
     remember();
     render();
+    button.closest('[data-story-page]').querySelector('[data-story-said]').focus({preventScroll:true});
   });
 
   window.PublicStoryPages = { composition, render, chosen: () => Object.assign({}, chosen) };
