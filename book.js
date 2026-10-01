@@ -652,7 +652,9 @@
   reducedMotion.addEventListener('change',()=>{if(active) initialize(location.hash);});
 
   async function prepareRadio() {
-    const select=document.querySelector('#station-select');
+    const dial=document.querySelector('#radio-frequency');
+    const readout=document.querySelector('#radio-frequency-readout');
+    const marks=document.querySelector('#radio-station-marks');
     const audio=document.querySelector('#book-audio');
     // Playback survives opening/closing sheets and turning leaves.
     audio.removeAttribute('controls');audio.hidden=true;document.body.append(audio);
@@ -664,59 +666,89 @@
     controls.innerHTML='<label for="radio-seek">Song position <output id="radio-time">0:00</output></label><input id="radio-seek" type="range" min="0" max="100" step="0.1" value="0" aria-label="Song position"><label for="radio-volume">Volume</label><input id="radio-volume" type="range" min="0" max="1" step="0.01" value="0.6">';
     play.parentElement.after(controls);
     const seek=controls.querySelector('#radio-seek'),volume=controls.querySelector('#radio-volume'),time=controls.querySelector('#radio-time');
-    let stations=[],stationIndex=0,trackIndex=0,isBreak=false;
+    let stations=[],stationIndex=-1,trackIndex=0,isBreak=false,powered=false;
     audio.volume=.6;play.disabled=true;skip.disabled=true;
     const format=seconds=>Math.floor(seconds/60)+':'+String(Math.floor(seconds%60)).padStart(2,'0');
     function announce() {
-      const playing=!audio.paused;
-      play.textContent=playing?'Pause the Radio':audio.src?'Keep listening':'Tune in';
-      play.setAttribute('aria-pressed',String(playing));
-      pocket.hidden=!playing;
+      play.textContent=powered?'Switch the Radio off':'Switch the Radio on';
+      play.setAttribute('aria-pressed',String(powered));
+      pocket.hidden=!powered;
       pocket.querySelector('span').textContent=stations[stationIndex]?.name || 'Radio';
-      document.querySelector('.tab-radio').classList.toggle('is-playing',playing);
+      document.querySelector('.tab-radio').classList.toggle('is-playing',powered);
+      skip.disabled=stationIndex<0;
+      seek.disabled=stationIndex<0;
     }
     async function listen(item,asBreak=false) {
-      isBreak=asBreak;message.textContent='';
+      isBreak=asBreak;message.textContent=stations[stationIndex]?.hidden?'UNLISTED TRANSMISSION · Signal origin withheld.':'';
+      audio.loop=false;
       audio.src=item.src || item.blessedSrc;
       now.textContent=asBreak?stations[stationIndex].host+' · on air':item.title+' · '+item.artist;
       seek.value=0;time.textContent='0:00';
       tracks.querySelectorAll('button').forEach((button,index)=>{
         if(!asBreak && index===trackIndex)button.setAttribute('aria-current','true');else button.removeAttribute('aria-current');
       });
-      try {await audio.play();}catch(error){if(error.name!=='AbortError')message.textContent='The signal couldn’t start. Press play to try again.';}
+      try {await audio.play();}catch(error){if(error.name!=='AbortError'){powered=false;message.textContent='The signal couldn’t start. Switch on to try again.';}}
       announce();
     }
-    function tune(index,resume=false) {
+    function nearestFrequency(frequency) {
+      // The old cabinet's pirate signal lives on one unmarked tenth of FM.
+      const hidden=stations.findIndex(station=>station.hidden && Math.abs(station.freq-frequency)<.051);
+      if(hidden>=0)return hidden;
+      let found=-1,distance=.50001;
+      stations.forEach((station,index)=>{
+        const gap=Math.abs(station.freq-frequency);
+        if(!station.hidden && gap<distance){found=index;distance=gap;}
+      });
+      return found;
+    }
+    async function staticSignal() {
+      audio.loop=true;isBreak=false;
+      audio.src='./assets/audio/radio-free-margin-static.m4a';
+      try{await audio.play();}catch(error){if(error.name!=='AbortError'){powered=false;message.textContent='Switch the Radio on to hear the signal.';}}
+      announce();
+    }
+    function startSignal() {
+      if(stationIndex<0){staticSignal();return;}
+      const station=stations[stationIndex];
+      const intro=station.banters.find(b=>b.category==='stationID' && !b.conditions);
+      listen(intro || station.tracks[trackIndex],!!intro);
+    }
+    function tuneFrequency() {
+      const frequency=Number(dial.value),index=nearestFrequency(frequency);
+      readout.textContent=frequency.toFixed(1)+' FM';
+      document.querySelector('#station-needle').style.left=((frequency-88)/20*100)+'%';
+      dial.setAttribute('aria-valuetext',frequency.toFixed(1)+' FM · '+(stations[index]?.name || 'Static between stations'));
+      if(index===stationIndex && dial.dataset.ready)return;
+      dial.dataset.ready='true';
       audio.pause();audio.removeAttribute('src');audio.load();
+      audio.loop=false;
       stationIndex=index;trackIndex=0;isBreak=false;
       const station=stations[index];
-      select.value=String(index);description.textContent=station.tagline;
-      document.querySelector('#station-needle').style.left=((station.freq-88)/20*100)+'%';
-      now.textContent=station.freq.toFixed(1)+' FM · '+station.host;message.textContent='';
+      document.querySelector('#radio-player').classList.toggle('is-pirate',!!station?.hidden);
+      description.textContent=station?.tagline || 'Keep turning. Something might be hiding in the noise.';
+      now.textContent=station?station.name+' · '+station.host:'Static between stations.';
+      message.textContent=station?.hidden?'UNLISTED TRANSMISSION · Signal origin withheld.':'';
       seek.value=0;time.textContent='0:00';
-      tracks.replaceChildren(...station.tracks.map((track,idx)=>{
+      tracks.replaceChildren(...(station?.tracks || []).map((track,idx)=>{
         const li=document.createElement('li'),button=document.createElement('button');button.type='button';
-        button.textContent=track.title;button.addEventListener('click',()=>{window.BookSounds?.select();trackIndex=idx;listen(track);});li.append(button);return li;
+        button.textContent=track.title;button.addEventListener('click',()=>{window.BookSounds?.select();powered=true;trackIndex=idx;listen(track);});li.append(button);return li;
       }));
-      announce();if(resume)listen(station.tracks[0]);
+      announce();if(powered)startSignal();
     }
     function nextSong(){trackIndex=(trackIndex+1)%stations[stationIndex].tracks.length;listen(stations[stationIndex].tracks[trackIndex]);}
-    select.addEventListener('change',()=>{window.BookSounds?.select();tune(Number(select.value),!audio.paused);});
+    dial.addEventListener('input',tuneFrequency);
     play.addEventListener('click',async()=>{
       window.BookSounds?.play('tap');
-      if(!audio.paused){audio.pause();return;}
-      if(!audio.getAttribute('src')){
-        const station=stations[stationIndex];
-        const intro=station.banters.find(b=>b.category==='stationID' && !b.conditions);
-        listen(intro || station.tracks[trackIndex],!!intro);return;
-      }
-      try{await audio.play();message.textContent='';}catch{message.textContent='The signal couldn’t start. Try another song.';}
+      powered=!powered;
+      if(!powered){audio.pause();announce();return;}
+      startSignal();
     });
-    skip.addEventListener('click',()=>{window.BookSounds?.select();if(isBreak){listen(stations[stationIndex].tracks[trackIndex]);}else nextSong();});
-    audio.addEventListener('ended',()=>{if(isBreak){listen(stations[stationIndex].tracks[trackIndex]);}else nextSong();});
+    skip.addEventListener('click',()=>{window.BookSounds?.select();powered=true;if(isBreak){listen(stations[stationIndex].tracks[trackIndex]);}else nextSong();});
+    audio.addEventListener('ended',()=>{if(!powered || stationIndex<0)return;if(isBreak){listen(stations[stationIndex].tracks[trackIndex]);}else nextSong();});
     audio.addEventListener('play',announce);audio.addEventListener('pause',announce);
-    audio.addEventListener('error',()=>{message.textContent='That recording couldn’t be reached. Try another song.';announce();});
+    audio.addEventListener('error',()=>{powered=false;message.textContent='That recording couldn’t be reached. Try another frequency.';announce();});
     audio.addEventListener('timeupdate',()=>{
+      if(stationIndex<0)return;
       if(Number.isFinite(audio.duration) && audio.duration>0){seek.value=String(audio.currentTime/audio.duration*100);time.textContent=format(audio.currentTime)+' / '+format(audio.duration);}
     });
     seek.addEventListener('input',()=>{if(Number.isFinite(audio.duration))audio.currentTime=Number(seek.value)/100*audio.duration;});
@@ -727,9 +759,13 @@
       stations=await response.json();
       stations=stations.map(station=>({...station,tracks:station.tracks.filter(track=>track.src || track.blessedSrc)})).filter(station=>station.tracks.length);
       if(!stations.length)throw new Error('No recordings');
-      select.replaceChildren(...stations.map((station,index)=>new Option(station.freq.toFixed(1)+' FM · '+station.name,String(index))));
-      play.disabled=false;skip.disabled=false;tune(0);
-    }catch{select.replaceChildren(new Option('Radio unavailable',''));select.disabled=true;message.textContent='The frequencies couldn’t be found. Reload the page to try again.';}
+      marks.replaceChildren(...stations.filter(station=>!station.hidden).map(station=>{
+        const button=document.createElement('button');button.type='button';button.className='reading-option';
+        button.textContent=station.freq.toFixed(1);button.title=station.name;button.setAttribute('aria-label',station.freq.toFixed(1)+' FM · '+station.name);
+        button.addEventListener('click',()=>{dial.value=station.freq;window.BookSounds?.select();tuneFrequency();});return button;
+      }));
+      play.disabled=false;dial.disabled=false;tuneFrequency();
+    }catch{dial.disabled=true;message.textContent='The frequencies couldn’t be found. Reload the page to try again.';}
   }
   async function start() {
     try {

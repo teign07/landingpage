@@ -206,3 +206,15 @@ body{background:#0a0816;isolation:isolate}.book-atmosphere{position:fixed;inset:
 }
 @media(prefers-reduced-motion:reduce) { .sheet-embers { display:none; } }
 @media print { .sheet-embers { display:none; } }
+
+/* The cabinet tunes across the whole band, including the empty frequencies. */
+#radio-frequency-readout { display:block; text-align:center; margin:16px 0 0; color:#744524; font:24px/1.3 var(--serif); font-variant-numeric:tabular-nums; }
+.radio-sheet .station-dial { margin-bottom:0; }
+.radio-frequency { appearance:none; -webkit-appearance:none; display:block; width:100%; height:44px; margin:0; padding:0; background:transparent; cursor:ew-resize; touch-action:pan-y; }
+.radio-frequency::-webkit-slider-runnable-track { height:7px; border:1px solid #775636; border-radius:5px; background:linear-gradient(#342317,#69503b); box-shadow:inset 0 2px 3px #0007; }
+.radio-frequency::-moz-range-track { height:7px; border:1px solid #775636; border-radius:5px; background:linear-gradient(#342317,#69503b); }
+.radio-frequency::-webkit-slider-thumb { appearance:none; -webkit-appearance:none; width:26px; height:26px; margin-top:-10px; border:2px solid #78572d; border-radius:50%; background:radial-gradient(circle at 35% 28%,#eed59b,#b38a49 62%,#77522b); box-shadow:0 3px 5px #39221166,inset 0 0 0 3px #d4b577; }
+.radio-frequency::-moz-range-thumb { width:23px; height:23px; border:2px solid #78572d; border-radius:50%; background:radial-gradient(circle at 35% 28%,#eed59b,#b38a49 62%,#77522b); box-shadow:0 3px 5px #39221166; }
+.radio-station-marks { display:flex; justify-content:space-between; gap:12px; margin:0 0 16px; }
+.radio-station-marks button { font:12px/1.5 var(--sans); min-height:32px; }
+.radio-sheet.is-pirate #radio-frequency-readout { color:#842e35; text-shadow:0 0 12px #bb474333; }
