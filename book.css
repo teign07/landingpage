@@ -58,6 +58,11 @@ body{background:#0a0816;isolation:isolate}.book-atmosphere{position:fixed;inset:
 .invitation-sheet .invite-steps{list-style:none;counter-reset:seat;margin:22px 0 20px;padding:0}.invitation-sheet .invite-steps li{counter-increment:seat;position:relative;padding:9px 0 9px 42px;border-bottom:1px dotted #846f4d66;font-size:16px;line-height:1.45}.invitation-sheet .invite-steps li::before{content:counter(seat);position:absolute;left:0;top:8px;width:28px;height:28px;border:1px solid #94744888;border-radius:50%;display:grid;place-items:center;font:12px var(--sans);color:#806843}.invitation-sheet .invite-steps strong{font-weight:600}.invitation-sheet .slip{font-size:14px;line-height:1.5;margin:0 0 16px}
 
 /* A loose contact slip, in its own row below the Book and its desk notes. */
+.reading-footnotes { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:6px 16px; margin:12px 0 6px; max-width:100%; }
+.reading-footnotes #turn-hint { margin:0; }
+#book-sound-toggle { border:0; border-bottom:1px solid #a88c5555; background:none; padding:6px 0; color:#c5af89; font:10px/1.4 var(--sans); min-height:28px; white-space:nowrap; }
+#book-sound-toggle[aria-pressed="false"] { color:#89847d; }
+#book-sound-toggle.is-speaking { color:#f3d89e; text-shadow:0 0 9px #e7ae5a88; }
 .contact-corner { max-width:1500px; margin:8px auto 12px; padding:100px 5vw 12px; display:flex; justify-content:flex-end; }
 .contact-note { position:relative; isolation:isolate; width:min(520px,100%); }
 .contact-card { position:relative; z-index:1; width:100%; padding:12px 14px; color:#382312; border:22px solid transparent; border-image:url('./assets/book/singed-note.svg') 42 fill / 28px / 8px stretch; filter:drop-shadow(0 12px 16px #0009); }
@@ -98,3 +103,78 @@ body{background:#0a0816;isolation:isolate}.book-atmosphere{position:fixed;inset:
 @media(max-width:600px) { .contact-corner { padding:85px 22px 12px; margin-top:8px; } .contact-card { padding:10px 4px; border-width:18px; border-image-width:24px; } .contact-embers { left:-12px; top:-80px; height:260px; } .contact-email { font-size:18px; } .feedback-lanes { grid-template-columns:1fr; } }
 @media(prefers-reduced-motion:reduce) { .contact-embers span { animation:none; opacity:.18; text-shadow:0 0 6px #cf7029; } .contact-embers span:nth-child(n+7) { display:none; } }
 @media print { .contact-corner { display:none; } }
+
+/* Each bookmark pulls out its own burned, torn sheet. Keep the edge still while the ink scrolls. */
+.paper-dialog.binding-dialog {
+  --singed-sheet:url('./assets/book/singed-note.svg');
+  padding:28px;
+  background:transparent;
+  border:0;
+  border-radius:0;
+  overflow:visible;
+  box-shadow:none;
+  filter:drop-shadow(8px 14px 18px #0009);
+  max-height:calc(100dvh - var(--sheet-top) - 20px);
+}
+.binding-dialog[data-sheet="glow"] { --singed-sheet:url('./assets/book/singed-glow.svg'); }
+.binding-dialog[data-sheet="contents"] { --singed-sheet:url('./assets/book/singed-contents.svg'); }
+.binding-dialog[data-sheet="capture"] { --singed-sheet:url('./assets/book/singed-capture.svg'); }
+.binding-dialog[data-sheet="body"] { --singed-sheet:url('./assets/book/singed-body.svg'); }
+.binding-dialog[data-sheet="place"] { --singed-sheet:url('./assets/book/singed-place.svg'); }
+.binding-dialog[data-sheet="radio-player"] { --singed-sheet:url('./assets/book/singed-radio.svg'); }
+.binding-dialog::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  border:22px solid transparent;
+  border-image:var(--singed-sheet) 48 fill / 32px / 0 stretch;
+  pointer-events:none;
+}
+.binding-dialog .dialog-close {
+  position:absolute;
+  top:24px;
+  right:24px;
+  bottom:auto;
+  float:none;
+  margin:0;
+  z-index:4;
+}
+.binding-dialog .dialog-body {
+  position:relative;
+  padding:40px 0 0;
+  max-height:calc(100dvh - var(--sheet-top) - 76px);
+  overflow:auto;
+  overscroll-behavior:contain;
+  scrollbar-width:thin;
+  scrollbar-color:#8b603d transparent;
+  filter:none;
+}
+.binding-dialog .utility-sheet,
+.binding-dialog .contents-sheet,
+.binding-dialog .invitation-sheet,
+.binding-dialog .reference-note { padding:14px 12px 20px; }
+.binding-dialog.is-glow .glow-sheet {
+  padding:110px 2px 16px;
+  max-height:none;
+  overflow:visible;
+  background:none;
+  clip-path:none;
+}
+.binding-dialog.is-glow .glow-sheet::before { content:none; }
+.binding-dialog .glow-paper-scroll {
+  padding:8px 0 0;
+  background:none;
+  max-height:none;
+  overflow:visible;
+  clip-path:none;
+}
+@media(max-width:600px) {
+  .paper-dialog.binding-dialog { padding:24px; }
+  .binding-dialog::before { border-image-width:28px; }
+  .binding-dialog .dialog-body { max-height:calc(100dvh - var(--sheet-top) - 68px); }
+  .binding-dialog .dialog-close { top:20px; right:20px; }
+  .binding-dialog .utility-sheet,
+  .binding-dialog .contents-sheet,
+  .binding-dialog .invitation-sheet,
+  .binding-dialog .reference-note { padding:14px 8px 20px; }
+}

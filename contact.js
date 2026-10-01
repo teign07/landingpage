@@ -1,5 +1,8 @@
 /* The original Feedback Board's draft links, beside the public Book. */
 (() => {
+  document.querySelector('#feedback-board')?.addEventListener('toggle', event => {
+    window.BookSounds?.play(event.target.open ? 'peek' : 'close');
+  });
   const slip = document.querySelector('.contact-note');
   const embers = document.querySelector('.contact-embers');
   if (slip && embers) {

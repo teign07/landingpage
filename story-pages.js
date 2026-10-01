@@ -120,6 +120,7 @@
   document.addEventListener('click', event => {
     const button = event.target.closest('[data-story][data-choice]');
     if (!button) return;
+    window.BookSounds?.select();
     chosen[button.dataset.story] = button.dataset.choice;
     remember();
     render();

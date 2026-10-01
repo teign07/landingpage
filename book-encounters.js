@@ -87,17 +87,19 @@
     if(said){
       event.preventDefault();const word=said.querySelector('input');
       if(!word.value.trim()){word.setCustomValidity('One word will do.');word.reportValidity();return;}
-      word.setCustomValidity('');dareWord=word.value.slice(0,40);persist();hydrate();return;
+      word.setCustomValidity('');dareWord=word.value.slice(0,40);persist();hydrate();window.BookSounds?.play('confirm');return;
     }
     const form=event.target.closest('[data-capture-form]');if(!form)return;
     event.preventDefault();const input=form.querySelector('textarea');if(!input.value.trim()){input.setCustomValidity('A few words will do.');input.reportValidity();return;}
     input.setCustomValidity('');sentence=input.value.slice(0,220);draft=sentence;capturedAt=steps;returnChapter='';clearReturnedInk();persist();hydrate();
+    window.BookSounds?.keep();
   });
   document.addEventListener('input',event=>{if(event.target.matches('[data-capture-form] textarea,[data-dare-word] input'))event.target.setCustomValidity('');});
   document.addEventListener('click',event=>{
     const done=event.target.closest('[data-encounter-done]');
-    if(done){outcomes.set(done.dataset.encounterDone,done.dataset.encounterDone==='mission'?'A border, then. You can keep the guard to yourself.':'Good. It belongs to the outside now.');persist();hydrate();}
+    if(done){outcomes.set(done.dataset.encounterDone,done.dataset.encounterDone==='mission'?'A border, then. You can keep the guard to yourself.':'Good. It belongs to the outside now.');persist();hydrate();window.BookSounds?.play('confirm');}
     if(event.target.closest('[data-erase-ink]')){
+      window.BookSounds?.play('undo');
       sentence='';draft='';returnChapter='';persist();
       clearReturnedInk('Gone. You can leave another sentence in Capture, or let this leaf stay quiet.');
       hydrate();document.querySelectorAll('[data-capture-status]').forEach(el=>el.textContent='Your ink is erased.');

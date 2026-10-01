@@ -15,6 +15,7 @@
   const anchors = new Map();
   const sheetIDs = new Set(['contents','invitation','glow','capture','body','place','radio-player']);
   let pager = null, current = 0, active = false, rebuilding = false;
+  let audibleIndex = 0;
   let lastWidth = 0, resizeTimer, dialogReturnFocus = null;
   let closingDialog = null, navigationRunning = false, queuedNavigation = null, finishTurn = null, isRiffling = false;
   const dialog = document.createElement('dialog');
@@ -42,6 +43,7 @@
   function closeDialog() {
     if(closingDialog) return closingDialog;
     if(!dialog.open) return Promise.resolve();
+    window.BookSounds?.play('close');
     closingDialog=(async()=>{
       if(dialog.classList.contains('binding-dialog') && !reducedMotion.matches){
         const animation=dialog.animate([{transform:'translateX(0)',opacity:1},{transform:'translateX(42px)',opacity:1,offset:.3},{transform:'translateX(var(--tucked-x)) scale(.96)',opacity:0}],{duration:390,easing:'ease-in-out',fill:'forwards'});
@@ -72,13 +74,16 @@
     dialogBody.replaceChildren(source);
     dialog.classList.add('binding-dialog');
     dialog.classList.toggle('is-glow',id==='glow');
+    dialog.dataset.sheet = id;
     positionSheet();
     document.querySelectorAll('.binding-tabs a').forEach(link=>link.setAttribute('aria-expanded',String(link.hash==='#'+id)));
     dialog.setAttribute('aria-label', source.querySelector('h2')?.textContent || 'Notes in the Book');
     dialog.showModal();
+    window.BookSounds?.play(id==='glow'?'glowopen':'peek');
     window.PublicEdition?.hydrate(dialog);
     if(!reducedMotion.matches) dialog.animate([{transform:'translateX(var(--tucked-x)) scale(.96)',opacity:0},{transform:'translateX(56px)',opacity:1,offset:.65},{transform:'translateX(0)',opacity:1}],{duration:560,easing:'cubic-bezier(.2,.7,.2,1)'});
     dialog.scrollTop = 0;
+    dialogBody.scrollTop = 0;
     document.body.style.overflow = 'hidden';
     return true;
   }
@@ -88,12 +93,14 @@
     if (!source) return;
     if (dialog.open) await closeDialog();
     dialog.classList.remove('binding-dialog','is-glow');
+    delete dialog.dataset.sheet;
     dialogReturnFocus = document.activeElement;
     const figure = document.createElement('figure'); figure.className='enlarged-plate';
     const img=source.cloneNode();img.loading='eager';figure.append(img);
     const caption=document.createElement('figcaption');caption.textContent=source.alt;figure.append(caption);
     dialogBody.replaceChildren(figure);dialog.setAttribute('aria-label',source.alt);
     dialog.showModal();document.body.style.overflow='hidden';
+    window.BookSounds?.play('peek');
   }
 
   // Blocks are semantic units, not screenshots. Paragraph splits preserve inline links.
@@ -266,8 +273,17 @@
       });
     } finally { measure.remove(); }
   }
+  function voiceNavigation(from, to) {
+    if(to===audibleIndex) return;
+    audibleIndex=to;
+    if(pages[from]?.classList.contains('is-cover')) window.BookSounds?.play('open');
+    else if(pages[to]?.classList.contains('is-cover')) window.BookSounds?.play('close');
+    else window.BookSounds?.turn(to>from);
+  }
   function updateState(index, writeHistory = true) {
-    current=Math.max(0,Math.min(pages.length-1,index));
+    const destination=Math.max(0,Math.min(pages.length-1,index));
+    if(!rebuilding && destination!==current) voiceNavigation(current,destination);
+    current=destination;
     previous.disabled=current===0; next.disabled=current===pages.length-1;
     next.setAttribute('aria-label',pages[current].dataset.chapter==='first-parting'?'Continue into the complete information chapters':'Next page');
     stage.classList.toggle('is-closed',pages[current].classList.contains('is-cover'));
@@ -321,6 +337,7 @@
     if(!active) return;
     if(navigationRunning){queuedNavigation={index,animate};return;}
     if(index===current) return;
+    voiceNavigation(current,index);
     if(animate && !reducedMotion.matches && (pages[current].classList.contains('is-cover') || pages[index].classList.contains('is-cover'))){
       navigationRunning=true;
       const opening=pages[current].classList.contains('is-cover');
@@ -479,6 +496,7 @@
     room.hidden=false;
     paginate();
     current=resolveHash(preferredHash)??0;
+    audibleIndex=current;
     folio.replaceChildren(...pages);
     const plainMotion=reducedMotion.matches || !window.St?.PageFlip;
     document.body.classList.toggle('is-reduced-motion',plainMotion);
@@ -532,6 +550,7 @@
     updateState(current,false);
   }
   function continuous() {
+    window.BookSounds?.select();
     active=false;room.hidden=true;document.body.classList.remove('book-active');
     modeButton.textContent='Read as a Book';
     const id=pages[current]?.dataset.chapter;
@@ -615,13 +634,14 @@
       seek.value=0;time.textContent='0:00';
       tracks.replaceChildren(...station.tracks.map((track,idx)=>{
         const li=document.createElement('li'),button=document.createElement('button');button.type='button';
-        button.textContent=track.title;button.addEventListener('click',()=>{trackIndex=idx;listen(track);});li.append(button);return li;
+        button.textContent=track.title;button.addEventListener('click',()=>{window.BookSounds?.select();trackIndex=idx;listen(track);});li.append(button);return li;
       }));
       announce();if(resume)listen(station.tracks[0]);
     }
     function nextSong(){trackIndex=(trackIndex+1)%stations[stationIndex].tracks.length;listen(stations[stationIndex].tracks[trackIndex]);}
-    select.addEventListener('change',()=>tune(Number(select.value),!audio.paused));
+    select.addEventListener('change',()=>{window.BookSounds?.select();tune(Number(select.value),!audio.paused);});
     play.addEventListener('click',async()=>{
+      window.BookSounds?.play('tap');
       if(!audio.paused){audio.pause();return;}
       if(!audio.getAttribute('src')){
         const station=stations[stationIndex];
@@ -630,7 +650,7 @@
       }
       try{await audio.play();message.textContent='';}catch{message.textContent='The signal couldn’t start. Try another song.';}
     });
-    skip.addEventListener('click',()=>{if(isBreak){listen(stations[stationIndex].tracks[trackIndex]);}else nextSong();});
+    skip.addEventListener('click',()=>{window.BookSounds?.select();if(isBreak){listen(stations[stationIndex].tracks[trackIndex]);}else nextSong();});
     audio.addEventListener('ended',()=>{if(isBreak){listen(stations[stationIndex].tracks[trackIndex]);}else nextSong();});
     audio.addEventListener('play',announce);audio.addEventListener('pause',announce);
     audio.addEventListener('error',()=>{message.textContent='That recording couldn’t be reached. Try another song.';announce();});
