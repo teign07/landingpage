@@ -103,7 +103,7 @@
     document.body.style.overflow = '';
     dialogReturnFocus?.focus({ preventScroll: true });
   });
-  async function openSheet(id) {
+  async function openSheet(id, sound = true) {
     const source = document.getElementById(id);
     if (!source) return false;
     if (dialog.open) await closeDialog();
@@ -119,7 +119,7 @@
     document.querySelectorAll('.binding-tabs a').forEach(link=>link.setAttribute('aria-expanded',String(link.hash==='#'+id)));
     dialog.setAttribute('aria-label', source.querySelector('h2')?.textContent || 'Notes in the Book');
     dialog.showModal();
-    window.BookSounds?.play(id==='glow'?'glowopen':'peek');
+    if(sound) window.BookSounds?.play(id==='glow'?'glowopen':'peek');
     window.PublicEdition?.hydrate(dialog);
     if(!reducedMotion.matches) dialog.animate([{transform:'translateX(var(--tucked-x)) scale(.96)',opacity:0},{transform:'translateX(56px)',opacity:1,offset:.65},{transform:'translateX(0)',opacity:1}],{duration:560,easing:'cubic-bezier(.2,.7,.2,1)'});
     shedSheetLetters(id);
@@ -615,13 +615,19 @@
   previous.addEventListener('click',()=>go(current-1));next.addEventListener('click',()=>go(current+1));
   modeButton.addEventListener('click',()=>{if(active) continuous();else{initialize('#'+(pages[current]?.dataset.chapter||'frontispiece'));stage.focus({preventScroll:true});window.scrollTo(0,0);}});
   document.addEventListener('click',async event=>{
+    if(event.target.closest('.glow-disclosure > summary')) {
+      window.BookSounds?.select();
+      return;
+    }
     const plate=event.target.closest('[data-plate]');
     if(plate){event.preventDefault();openPlate(plate.dataset.plate);return;}
     if(event.target.closest('[data-reading-mode]')){if(dialog.open)await closeDialog();continuous();return;}
     const link=event.target.closest('a[href^="#"]');
     if(!link || !active || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const glowOption = !!link.closest('.glow-submenu');
+    if(glowOption) window.BookSounds?.play('peek');
     const id=link.hash.slice(1);
-    if(sheetIDs.has(id) || id.startsWith('note-')) { event.preventDefault();openSheet(id);return; }
+    if(sheetIDs.has(id) || id.startsWith('note-')) { event.preventDefault();openSheet(id,!glowOption);return; }
     const target=resolveHash(link.hash);
     if(target!==null) { event.preventDefault();if(dialog.open) await closeDialog();go(target);stage.focus({preventScroll:true}); }
     else if(id==='manuscript') { event.preventDefault();stage.focus(); }
