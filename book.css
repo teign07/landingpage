@@ -58,8 +58,22 @@ body{background:#0a0816;isolation:isolate}.book-atmosphere{position:fixed;inset:
 .invitation-sheet .invite-steps{list-style:none;counter-reset:seat;margin:22px 0 20px;padding:0}.invitation-sheet .invite-steps li{counter-increment:seat;position:relative;padding:9px 0 9px 42px;border-bottom:1px dotted #846f4d66;font-size:16px;line-height:1.45}.invitation-sheet .invite-steps li::before{content:counter(seat);position:absolute;left:0;top:8px;width:28px;height:28px;border:1px solid #94744888;border-radius:50%;display:grid;place-items:center;font:12px var(--sans);color:#806843}.invitation-sheet .invite-steps strong{font-weight:600}.invitation-sheet .slip{font-size:14px;line-height:1.5;margin:0 0 16px}
 
 /* A loose contact slip, in its own row below the Book and its desk notes. */
-.contact-corner { max-width:1500px; margin:32px auto 12px; padding:0 5vw; display:flex; justify-content:flex-end; }
-.contact-card { width:min(520px,100%); padding:22px 26px; background:var(--page) url('./assets/book/paper.jpg') center/cover; color:var(--ink); border:1px solid #9b794a66; border-radius:3px 9px 5px 3px; box-shadow:0 12px 30px #0004; }
+.contact-corner { max-width:1500px; margin:8px auto 12px; padding:100px 5vw 12px; display:flex; justify-content:flex-end; }
+.contact-note { position:relative; isolation:isolate; width:min(520px,100%); }
+.contact-card { position:relative; z-index:1; width:100%; padding:12px 14px; color:#382312; border:22px solid transparent; border-image:url('./assets/book/singed-note.svg') 42 fill / 28px / 8px stretch; filter:drop-shadow(0 12px 16px #0009); }
+.contact-note:not(:has(details[open])) .contact-card { transform:rotate(-1deg); }
+.contact-embers { position:absolute; z-index:0; inset:-100px -12px auto -160px; height:280px; overflow:hidden; pointer-events:none; user-select:none; mask-image:linear-gradient(transparent,#000 18%,#000 82%,transparent); }
+.contact-embers::before { content:""; position:absolute; right:5%; bottom:10%; width:65%; height:70%; background:radial-gradient(ellipse at 65% 80%,#e9701914,transparent 65%); }
+.contact-embers span { position:absolute; left:var(--ember-x); bottom:var(--ember-y); font:italic var(--ember-size)/1 Georgia,serif; color:#ffcc82; text-shadow:0 0 3px #fff0b4,0 0 9px #ffa22b,0 0 22px #dd420b; opacity:0; animation:contact-letter-rise var(--ember-time) var(--ember-delay) linear infinite; animation-play-state:paused; will-change:transform,opacity; }
+.contact-note.is-ember-visible .contact-embers span { animation-play-state:running; }
+.contact-note:has(textarea:focus) .contact-embers span { animation-play-state:paused; }
+@keyframes contact-letter-rise {
+  0% { opacity:0; transform:translate3d(0,24px,0) rotate(-12deg) scale(.65); }
+  18% { opacity:.95; }
+  45% { opacity:.78; color:#ffa452; }
+  75% { opacity:.3; color:#a55032; }
+  100% { opacity:0; transform:translate3d(var(--ember-drift),var(--ember-rise),0) rotate(var(--ember-turn)) scale(.45); text-shadow:0 0 12px #873521; }
+}
 .contact-card .eyebrow { margin:0 0 8px; font-size:8px; }
 .contact-email { display:inline-block; font-size:20px; overflow-wrap:anywhere; }
 .feedback-board { margin-top:16px; border-top:1px solid #846f4d44; }
@@ -81,5 +95,6 @@ body{background:#0a0816;isolation:isolate}.book-atmosphere{position:fixed;inset:
 .feedback-actions { display:flex; flex-wrap:wrap; gap:12px 18px; font:11px/1.6 var(--sans); }
 .feedback-actions span { flex-basis:100%; color:#80613f; }
 .feedback-submit { overflow-wrap:anywhere; }
-@media(max-width:600px) { .contact-corner { padding:0 22px; margin-top:26px; } .contact-card { padding:20px; } .contact-email { font-size:18px; } .feedback-lanes { grid-template-columns:1fr; } }
+@media(max-width:600px) { .contact-corner { padding:85px 22px 12px; margin-top:8px; } .contact-card { padding:10px 4px; border-width:18px; border-image-width:24px; } .contact-embers { left:-12px; top:-80px; height:260px; } .contact-email { font-size:18px; } .feedback-lanes { grid-template-columns:1fr; } }
+@media(prefers-reduced-motion:reduce) { .contact-embers span { animation:none; opacity:.18; text-shadow:0 0 6px #cf7029; } .contact-embers span:nth-child(n+7) { display:none; } }
 @media print { .contact-corner { display:none; } }
