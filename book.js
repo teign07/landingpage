@@ -25,6 +25,44 @@
   document.body.append(dialog);
   const dialogBody = dialog.querySelector('.dialog-body');
   let borrowed = null, borrowedPlace = null;
+  let sheetEmbers = null, emberBurst = 0;
+
+  function clearSheetEmbers() {
+    sheetEmbers?.remove();
+    sheetEmbers = null;
+  }
+  function shedSheetLetters(id) {
+    clearSheetEmbers();
+    if (reducedMotion.matches || document.hidden || ![...document.querySelectorAll('.binding-tabs a')].some(link => link.hash === '#'+id)) return;
+    const embers = document.createElement('div');
+    embers.className = 'sheet-embers';
+    embers.setAttribute('aria-hidden', 'true');
+    sheetEmbers = embers;
+    const alphabet = (dialog.querySelector('h2')?.textContent || id).toUpperCase().replace(/[^A-Z]/g, '') || 'INK';
+    const seed = [...id].reduce((sum, character) => sum + character.charCodeAt(0), 0) + emberBurst++ * 17;
+    const narrow = innerWidth <= 600;
+    for (let i = 0; i < (narrow ? 8 : 12); i++) {
+      const letter = document.createElement('span');
+      const edge = i % 3; // Top, left, right: the letters escape away from the reading area.
+      letter.textContent = alphabet[(seed + i * 7) % alphabet.length];
+      letter.style.setProperty('--ember-x', `${edge === 0 ? 12 + (seed + i * 23) % 68 : edge === 1 ? 3 : 97}%`);
+      letter.style.setProperty('--ember-y', `${edge === 0 ? 2 : 18 + (seed + i * 19) % 68}%`);
+      letter.style.setProperty('--ember-size', `${12 + (seed + i * 3) % 8}px`);
+      letter.style.setProperty('--ember-drift', `${edge === 0 ? -16 + (seed + i * 11) % 33 : (edge === 1 ? -1 : 1) * (narrow ? 8 : 24)}px`);
+      letter.style.setProperty('--ember-rise', `${-55 - (seed + i * 13) % 40}px`);
+      letter.style.setProperty('--ember-turn', `${-55 + (seed + i * 17) % 110}deg`);
+      letter.style.setProperty('--ember-time', `${1800 + (seed + i * 97) % 550}ms`);
+      letter.style.setProperty('--ember-delay', `${180 + (seed + i * 37) % 240}ms`);
+      letter.addEventListener('animationend', () => {
+        letter.remove();
+        if (!embers.childElementCount && sheetEmbers === embers) clearSheetEmbers();
+      }, { once: true });
+      embers.append(letter);
+    }
+    dialog.append(embers);
+  }
+  reducedMotion.addEventListener('change', clearSheetEmbers);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) clearSheetEmbers(); });
 
   function restoreSheet() {
     if (borrowed) { borrowedPlace.replaceWith(borrowed); borrowed = null; }
@@ -43,6 +81,7 @@
   function closeDialog() {
     if(closingDialog) return closingDialog;
     if(!dialog.open) return Promise.resolve();
+    clearSheetEmbers();
     window.BookSounds?.play('close');
     closingDialog=(async()=>{
       if(dialog.classList.contains('binding-dialog') && !reducedMotion.matches){
@@ -59,6 +98,7 @@
   dialog.addEventListener('click', event => { if (event.target === dialog && (event.clientX < dialog.getBoundingClientRect().left || event.clientX > dialog.getBoundingClientRect().right || event.clientY < dialog.getBoundingClientRect().top || event.clientY > dialog.getBoundingClientRect().bottom)) closeDialog(); });
   dialog.addEventListener('close', () => {
     if (dialog.open) return;
+    clearSheetEmbers();
     restoreSheet();
     document.body.style.overflow = '';
     dialogReturnFocus?.focus({ preventScroll: true });
@@ -82,6 +122,7 @@
     window.BookSounds?.play(id==='glow'?'glowopen':'peek');
     window.PublicEdition?.hydrate(dialog);
     if(!reducedMotion.matches) dialog.animate([{transform:'translateX(var(--tucked-x)) scale(.96)',opacity:0},{transform:'translateX(56px)',opacity:1,offset:.65},{transform:'translateX(0)',opacity:1}],{duration:560,easing:'cubic-bezier(.2,.7,.2,1)'});
+    shedSheetLetters(id);
     dialog.scrollTop = 0;
     dialogBody.scrollTop = 0;
     document.body.style.overflow = 'hidden';
@@ -282,7 +323,6 @@
   }
   function updateState(index, writeHistory = true) {
     const destination=Math.max(0,Math.min(pages.length-1,index));
-    if(!rebuilding && destination!==current) voiceNavigation(current,destination);
     current=destination;
     previous.disabled=current===0; next.disabled=current===pages.length-1;
     next.setAttribute('aria-label',pages[current].dataset.chapter==='first-parting'?'Continue into the complete information chapters':'Next page');
@@ -503,7 +543,20 @@
     if(!plainMotion) {
       pager=new St.PageFlip(folio,{width,height,size:'fixed',usePortrait:true,autoSize:false,startPage:current,drawShadow:true,maxShadowOpacity:.4,flippingTime:850,showCover:false,mobileScrollSupport:true,useMouseEvents:true,showPageCorners:true,disableFlipByClick:true,swipeDistance:35,clickEventForward:true});
       pager.on('flip',event=>{ if(!rebuilding) updateState(event.data); });
-      pager.on('changeState',event=>{if(event.data==='read' && !rebuilding) {updateState(pager.getCurrentPageIndex(),false);finishTurn?.();}});
+      pager.on('changeState',event=>{
+        if(rebuilding)return;
+        // Corner clicks and swipes speak before their animation starts.
+        // go() already speaks for explicit navigation; fold() handles drags.
+        if(event.data==='flipping' && !navigationRunning){
+          const direction=pager.getFlipController().getCalculation()?.getDirection();
+          if(direction!==undefined)voiceNavigation(current,current+(direction===0?1:-1));
+        }
+        if(event.data==='read'){
+          updateState(pager.getCurrentPageIndex(),false);
+          audibleIndex=current; // A cancelled drag can be lifted again.
+          finishTurn?.();
+        }
+      });
       pager.loadFromHTML(pages);
       // Paper, tint and illumination are dealt once the leaves exist.
       window.PublicIlluminationDeck?.illuminateAll(folio);
@@ -529,7 +582,10 @@
         if(onCover()){go(current+1);return;}
         if(pager.getState()==='user_fold'){nativeFold(point);return;}
         if(controller.getDirectionByPoint(pager.getRender().convertToBook(point))===1)go(current-1);
-        else nativeFold(point);
+        else {
+          if(controller.checkDirection(0))voiceNavigation(current,current+1);
+          nativeFold(point);
+        }
       };
       controller.showCorner=point=>{if(!navigationRunning && !onCover() && controller.getDirectionByPoint(pager.getRender().convertToBook(point))!==1)nativeCorner(point);};
       const nativeStop=pager.userStop.bind(pager);

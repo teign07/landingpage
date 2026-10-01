@@ -178,3 +178,31 @@ body{background:#0a0816;isolation:isolate}.book-atmosphere{position:fixed;inset:
   .binding-dialog .invitation-sheet,
   .binding-dialog .reference-note { padding:14px 8px 20px; }
 }
+
+/* A few burned words shake free when a bookmark sheet is disturbed, then go dark. */
+.sheet-embers {
+  position:absolute;
+  inset:0;
+  z-index:2;
+  pointer-events:none;
+  user-select:none;
+}
+.sheet-embers span {
+  position:absolute;
+  left:var(--ember-x);
+  top:var(--ember-y);
+  font:italic var(--ember-size)/1 Georgia,serif;
+  color:#ffcc82;
+  text-shadow:0 0 3px #fff0b4,0 0 9px #ffa22b,0 0 18px #dd420b;
+  opacity:0;
+  animation:sheet-letter-burn var(--ember-time) var(--ember-delay) ease-out both;
+}
+@keyframes sheet-letter-burn {
+  0% { opacity:0; transform:translate(-50%,0) rotate(-12deg) scale(.65); }
+  12% { opacity:.95; }
+  38% { opacity:.8; color:#ffa452; }
+  70% { opacity:.3; color:#a55032; }
+  100% { opacity:0; transform:translate(calc(-50% + var(--ember-drift)),var(--ember-rise)) rotate(var(--ember-turn)) scale(.35); text-shadow:0 0 6px #873521; }
+}
+@media(prefers-reduced-motion:reduce) { .sheet-embers { display:none; } }
+@media print { .sheet-embers { display:none; } }
