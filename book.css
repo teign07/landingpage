@@ -239,8 +239,32 @@ body{background:#0a0816;isolation:isolate}.book-atmosphere{position:fixed;inset:
 .folio-leaf[data-reading="true"] .capture-receipt { font-size:12px; margin:8px 0 0; }
 .folio-leaf[data-reading="true"] .story-choices { gap:3px; }
 .folio-leaf[data-reading="true"] .story-ask { font:11px/1.4 var(--sans); margin:12px 0 6px; }
-.folio-leaf[data-theme="return"] .kept-sentence { font-size:23px; line-height:1.35; margin:0 0 12px; }
-.folio-leaf[data-theme="return"] [data-opening-ink] { margin-bottom:14px; }
+.folio-leaf[data-theme="return"] .kept-sentence { font-size:19px; line-height:1.35; margin:0 0 8px; }
+.folio-leaf[data-theme="return"] .proof-label { font:10px/1.4 var(--sans); text-transform:uppercase; letter-spacing:.12em; color:#7d5033; margin:0 0 6px; }
+.folio-leaf[data-theme="return"] [data-opening-ink] { margin-bottom:10px; }
+.folio-leaf[data-theme="return"] h2 { margin-bottom:12px; }
+.folio-leaf[data-theme="return"] .eyebrow { margin-bottom:10px; }
+.story-faces { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+.story-faces-art { display:flex; flex:none; }
+.story-faces-art img { width:44px; height:44px; border-radius:50%; object-fit:cover; border:1px solid #7a573566; box-shadow:0 1px 3px #5c391b44; }
+.story-faces-art img + img { margin-left:-12px; }
+.story-cast { font:10px/1.45 var(--sans); letter-spacing:.06em; text-transform:uppercase; color:#80613f; }
+.story-quote { margin:6px 0 10px; padding-left:12px; border-left:2px solid #9a793a88; font:italic 19px/1.35 var(--serif); color:#4a3520; overflow-wrap:anywhere; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; line-clamp:2; overflow:hidden; }
+.story-tale .story-quote { -webkit-line-clamp:2; line-clamp:2; font-size:18px; margin:0 0 8px; padding-left:0; border-left:0; color:#3e2b18; }
+.story-sky-offer { display:flex; flex-wrap:wrap; align-items:center; gap:2px 10px; margin:0 0 8px; }
+.story-sky-offer[hidden] { display:none; }
+.story-sky-offer .reading-option { margin:0; }
+.story-sky-offer .reading-whisper { flex:1 1 170px; font-size:11px; line-height:1.35; margin:0; }
+.story-sky-offer .capture-receipt { flex-basis:100%; font-size:11px; margin:0; }
+.story-sky-offer .capture-receipt:empty { display:none; }
+.story-actions { display:flex; flex-wrap:wrap; gap:4px 14px; align-items:center; }
+.story-actions [data-opening-ink][hidden] { display:none; }
+.folio-leaf[data-theme="return"] .story-tale p { font-size:16px; margin:0 0 5px; }
+.folio-leaf[data-theme="return"] .story-tale { margin-bottom:10px; }
+[data-opening-ink] .reading-option { margin:0; }
+.story-tale { border-left:1px solid #9a793a66; padding-left:14px; margin:0 0 14px; }
+.folio-leaf .story-tale p { font:italic 17px/1.4 var(--serif); color:#5f4529; margin:0 0 6px; }
+.story-tale p[hidden] { display:none; }
 .folio-leaf[data-theme="return"] .story-echo { padding-top:14px; border-top:1px solid #92724744; }
 .folio-leaf[data-theme="proof"] .proof-label { font:10px/1.4 var(--sans); text-transform:uppercase; letter-spacing:.12em; color:#7d5033; margin:12px 0; }
 .opening-receipts { list-style:none; padding:0; margin:0 0 20px; }
@@ -255,7 +279,7 @@ body{background:#0a0816;isolation:isolate}.book-atmosphere{position:fixed;inset:
 @media(max-width:600px) {
   .folio-leaf[data-reading="true"] p, .opening-receipts li { font-size:16px; }
   .folio-leaf[data-reading="true"] h2 { font-size:29px; }
-  .folio-leaf[data-theme="return"] .kept-sentence { font-size:22px; }
+  .folio-leaf[data-theme="return"] .kept-sentence { font-size:19px; }
 }
 @media(max-height:740px) {
   .folio-leaf[data-reading="true"] .reading-mark,
@@ -280,6 +304,8 @@ body{background:#0a0816;isolation:isolate}.book-atmosphere{position:fixed;inset:
   .folio-leaf[data-chapter="first-write"] .encounter-mark { display:none; }
   .folio-leaf[data-theme="encounter"] .encounter-mark,
   .folio-leaf .story-page .reading-mark { height:24px; width:40px; margin-bottom:8px; }
+  .folio-leaf .story-faces-art img { width:32px; height:32px; }
+  .folio-leaf .story-faces { margin-bottom:8px; }
   .folio-leaf[data-theme="encounter"] .encounter-composition h2,
   .folio-leaf .story-page h2 { font-size:29px; margin-bottom:12px; }
   .folio-leaf .story-page [data-story-opening] p { font-size:16px; line-height:1.45; }

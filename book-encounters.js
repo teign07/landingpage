@@ -75,6 +75,8 @@
       el.querySelector('[data-if-done]').hidden=!done;
       el.querySelector('[data-if-waiting]').hidden=done;
     });
+    // The opening Story Pages quote this sentence, so they follow it.
+    window.PublicStoryPages?.render(root);
     root.querySelectorAll('[data-returned-ink]').forEach(el=>{
       if(!sentence || steps-capturedAt<3)return;
       el.replaceChildren();
