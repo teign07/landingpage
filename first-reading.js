@@ -6,7 +6,7 @@
   const manuscript=document.querySelector('#manuscript');
   const original=[...manuscript.children].filter(section=>section.dataset.kind!=='cover');
   // Let the Book introduce itself before asking the Reader for anything.
-  // The complete manuscript and longer encounters stay in the binding.
+  // The complete manuscript stays in the binding after the composed reading.
   const opening=new Set(['frontispiece','about']);
   original.forEach(section=>{if(!opening.has(section.id))section.dataset.reference='true';});
   const mark=name=>`<img class="reading-mark" src="./assets/book/${name}.webp" alt="" width="130" height="130">`;
@@ -54,13 +54,17 @@
   leaf('first-paper','A life, bound in paper',`<p class="eyebrow">The same day, given a body</p><h2>And then, paper.</h2><figure class="opening-spread"><button type="button" class="plate-button" data-plate="FirstEdition" aria-label="Look closer at the printed Book"><img src="./assets/editions/open-monthly-braid-spread.jpg" width="1536" height="1024" alt="Product mockup of a monthly Book: a scrapbook Page beside What the Return Slot Gave Back, the braid from the public example"></button><figcaption>A product mockup at the real 6 × 9 trim size.</figcaption></figure><p>A week. A year with your name on the spine. Your days get to stay.</p><p class="reading-whisper">Free digital Books. Optional paid paper. <a href="#editions">See editions &amp; prices.</a></p>${link('invitation','Send me the app invite')}`,'paper');
   leaf('first-privacy','What stays yours',`${mark('MarginaliaGoblinShushing')}<p class="eyebrow">A boundary in the binding</p><h2>Your life<br>isn’t the display.</h2><p>The ordinary sentences here came out of the maker’s own Book. He lent them to me so I’d have something true to show you.</p><p>Yours stays where you put it. The sentence you left is kept only in this browser tab. It isn’t sent to a model or added to anybody else’s Book, and Capture will erase it the moment you ask.</p><p>A souvenir is yours to download if you choose.</p>${link('privacy','Read the app’s privacy details')}`);
   leaf('first-parting','Take something with you',`<p class="eyebrow">That’ll do for a beginning</p><h2>I want a Tuesday<br>of yours.</h2><p>A sentence was enough to start. Imagine what we could keep in a week.</p><a class="ink-button" href="#invitation">Send me the app invite ↗</a><p class="reading-whisper">In development for iPhone &amp; iPad. Join the list for a free TestFlight invite when it opens.</p><button type="button" class="reading-option" data-souvenir>Take a Page with you</button><p class="capture-receipt" data-souvenir-status role="status"></p><p class="reading-whisper">Your sentence, or an invitation. Yours to keep.</p>${link('contents','Keep wandering through the binding')}`,'parting');
-  // After the original introduction: participation, consequence,
-  // transformation, paper, invitation.
+  // Introduce the Curse early, then let information and encounters take turns.
+  // Keep each story's setup before its consequence, with other Pages between.
   const readingOrder=[
-    'first-write','first-magic','first-back','first-return','first-proof','first-paper','first-parting'
+    'first-curse','first-write','first-how','first-magic',
+    'first-night','first-back','first-anyway','first-return',
+    'first-arrival','first-cats','first-proof','first-remembered',
+    'first-world','first-dare','first-compass','first-wicker-echo',
+    'first-privacy','first-bargain','first-hush','first-paper',
+    'first-wait','first-parting'
   ];
-  const longerOrder=['first-arrival','first-curse','first-how','first-night','first-anyway','first-world','first-cats','first-compass','first-hush','first-remembered','first-privacy','first-dare','first-wicker-echo','first-bargain','first-wait'];
-  const orderedLeaves=[...readingOrder,...longerOrder].map(id=>leaves.find(item=>item.id===id));
+  const orderedLeaves=readingOrder.map(id=>leaves.find(item=>item.id===id));
   if(orderedLeaves.includes(undefined)||orderedLeaves.length!==leaves.length)throw new Error('The first reading has a missing or extra Page.');
   const editions=manuscript.querySelector('#editions');
   const editionsPause=manuscript.querySelector('#between-editions');
@@ -72,8 +76,7 @@
   const contents=document.querySelector('#contents');
   const nav=contents.querySelector('nav');
   const details=document.createElement('details');details.className='full-contents';details.innerHTML='<summary>All the chapters · the complete information Book</summary>';nav.before(details);details.append(nav);
-  const route=document.createElement('nav');route.setAttribute('aria-label','A first reading');route.innerHTML=[['about','Begin · meet the Book'],['first-write','Leave a sentence'],['first-magic','Is it magic?'],['first-return','Your morning, braided'],['first-proof','See a day become a tale'],['first-paper','The day, bound in paper'],['first-parting','The app invite & your Page']].map(([id,text])=>`<a href="#${id}"><strong>${text}</strong><span aria-hidden="true">↗</span></a>`).join('');details.before(route);
-  const wander=document.createElement('nav');wander.setAttribute('aria-label','More in the binding');wander.innerHTML=[['first-arrival','Meet the Book'],['first-how','How the app works'],['first-world','The Academy & Radio'],['first-remembered','A real sentence, returned'],['first-dare','Let Wicker get you outside'],['first-bargain','A bargain, offered'],['first-hush','What today is doing'],['first-privacy','What stays yours'],['editions','All the Books & prices']].map(([id,text])=>`<a href="#${id}"><strong>${text}</strong><span aria-hidden="true">↗</span></a>`).join('');details.before(wander);
+  const route=document.createElement('nav');route.setAttribute('aria-label','A first reading');route.innerHTML=[['about','Begin · meet the Book'],...orderedLeaves.map(item=>[item.id,item.title])].map(([id,text])=>`<a href="#${id}"><strong>${text}</strong><span aria-hidden="true">↗</span></a>`).join('');details.before(route);
   const back=document.createElement('a');back.className='reading-return';back.href='#about';back.textContent='↶ Back to the first reading';back.hidden=true;document.querySelector('#reading-room').append(back);
   document.addEventListener('click',event=>{
     const button=event.target.closest('[data-proof-view]');if(!button)return;
