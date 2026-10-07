@@ -325,16 +325,11 @@
     const destination=Math.max(0,Math.min(pages.length-1,index));
     current=destination;
     previous.disabled=current===0; next.disabled=current===pages.length-1;
-    next.setAttribute('aria-label',pages[current].dataset.chapter==='first-parting'?'Keep wandering through the binding':'Next page');
+    next.setAttribute('aria-label','Next page');
     stage.classList.toggle('is-closed',pages[current].classList.contains('is-cover'));
     document.querySelector('#turn-hint').textContent=pages[current].classList.contains('is-cover')?'Open the cover. There’s a Book inside.':'Drag a page corner, or use the arrows.';
-    // Everything that isn't the reference appendix is the first reading —
-    // the cover, the title page, the opening chapter and the composed leaves.
-    const firstCount=pages.filter(page=>page.dataset.reference!=='true').length;
-    const inReference=pages[current].dataset.reference==='true';
-    position.textContent=pages[current].dataset.title+' · '+(inReference?'The complete chapters':String(current+1).padStart(2,'0')+' / '+firstCount);
-    const returnLink=document.querySelector('.reading-return');
-    if(returnLink){returnLink.hidden=!inReference;returnLink.href='#'+(window.PublicEdition?.readingBookmark||'about');}
+    // One reading, including the full information chapters and Book Pages.
+    position.textContent=pages[current].dataset.title+' · '+String(current+1).padStart(2,'0')+' / '+pages.length;
     if(pages[current].dataset.reading)window.PublicEdition.readingBookmark=pages[current].dataset.chapter;
     if(!isRiffling) window.PublicEdition?.visit(pages[current],current);
     pages.forEach((page,i) => {
@@ -516,7 +511,7 @@
     const raw=hash.replace(/^#/,'') || 'cover';
     let decoded; try { decoded=decodeURIComponent(raw); } catch { return null; }
     const [id,offsetText]=decoded.split('~');
-    const aliases={top:'cover',book:'about','encounter-write':'first-write','encounter-mission':'first-mission','encounter-dare':'first-dare','encounter-map':'first-map','encounter-kept':'first-kept','encounter-remembered':'first-remembered'};
+    const aliases={top:'cover',book:'about','first-arrival':'about','first-curse':'curse','first-how':'how','first-night':'nightly-braid','first-world':'academy','first-compass':'ebook','first-paper':'editions','first-privacy':'privacy','encounter-write':'first-write','encounter-mission':'first-mission','encounter-dare':'first-dare','encounter-map':'first-map','encounter-kept':'first-kept','encounter-remembered':'first-remembered'};
     const key=aliases[id] && anchors.has(aliases[id]) ? aliases[id] : id;
     if(!anchors.has(key)) return null;
     const base=anchors.get(key), offset=Number(offsetText)||0;
@@ -637,7 +632,7 @@
     if(event.key==='ArrowRight' || event.key==='PageDown') {event.preventDefault();go(current+1);}
     if(event.key==='ArrowLeft' || event.key==='PageUp') {event.preventDefault();go(current-1);}
     if(event.key==='Home') {event.preventDefault();go(0);}
-    if(event.key==='End') {event.preventDefault();go(pages[current].dataset.reference?pages.length-1:(anchors.get('first-parting')??pages.length-1));}
+    if(event.key==='End') {event.preventDefault();go(pages.length-1);}
   });
   window.addEventListener('hashchange',()=>{
     if(!active) return;
