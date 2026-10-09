@@ -53,7 +53,7 @@
   // Story choices still precede their replies and the braid that remembers them.
   const readingOrder=[
     'frontispiece','about','curse','first-write','first-magic',
-    'editions','gifting','plans','first-back','first-cats',
+    'editions','sample-issues','gifting','plans','first-back','first-cats',
     'how','first-anyway','first-return',
     'nightly-braid','first-proof','between-nightly-braid',
     'pagewright','between-pagewright','between-editions',
