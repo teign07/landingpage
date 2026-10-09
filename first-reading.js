@@ -6,7 +6,11 @@
   const manuscript=document.querySelector('#manuscript');
   const original=[...manuscript.children].filter(section=>section.dataset.kind!=='cover');
   // The full information chapters and authored Book Pages share one binding.
-  const mark=name=>`<img class="reading-mark" src="./assets/book/${name}.webp" alt="" width="130" height="130">`;
+  const mark=name=>{
+    const id=name.replace(/([a-z])([A-Z])/g,'$1-$2').toLowerCase();
+    const src=window.PublicMarginalia?.marks.find(drawing=>drawing.id===id)?.src || `./assets/book/${name}.webp`;
+    return `<img class="reading-mark" src="${src}" alt="" width="130" height="130">`;
+  };
   const link=(id,text)=>`<a class="reading-option" href="#${id}">${text} <span aria-hidden="true">↗</span></a>`;
   const plate=(file,alt)=>`<img class="reading-plate" src="./assets/book/${file}.webp" alt="${alt}" loading="lazy">`;
   const leaves=[];

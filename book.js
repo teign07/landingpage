@@ -290,9 +290,12 @@
           const node=removeDuplicateIds(block.node.cloneNode(true));
           content.append(node);
           if (['cover','title','quiet','composed'].includes(chapter.dataset.kind)) { collectAnchors(block,pages.length); continue; }
-          // Keep a heading with the beginning of the following paragraph.
+          // Keep a heading with its photograph, or the start of the next paragraph.
           if (fits(content) && node.matches('h1,h2,h3,h4,.eyebrow') && queue[index+1]) {
-            const probe=document.createElement('p'); probe.textContent=queue[index+1].node.textContent.slice(0,110); content.append(probe);
+            const following=queue[index+1].node;
+            const probe=following.matches('figure,video') ? removeDuplicateIds(following.cloneNode(true)) : document.createElement('p');
+            if (!following.matches('figure,video')) probe.textContent=following.textContent.slice(0,110);
+            content.append(probe);
             const orphan=!fits(content); probe.remove();
             if(orphan && content.children.length>(openingArt ? 2 : 1)) { node.remove(); finish(); content.append(node); }
           }

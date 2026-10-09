@@ -493,8 +493,8 @@ window.PublicMarginalia={
    "id": "marginalia-lavender",
    "role": "classic",
    "alt": "A margin mark, lavender",
-   "src": "./assets/book/marginalia/marginalia-lavender.webp",
-   "w": 146,
+   "src": "./assets/book/marginalia/marginalia-lavender-v2.webp",
+   "w": 320,
    "h": 320
   },
   {
@@ -517,9 +517,9 @@ window.PublicMarginalia={
    "id": "marginalia-shell",
    "role": "classic",
    "alt": "A margin mark, shell",
-   "src": "./assets/book/marginalia/marginalia-shell.webp",
-   "w": 277,
-   "h": 265
+   "src": "./assets/book/marginalia/marginalia-shell-v2.webp",
+   "w": 320,
+   "h": 320
   },
   {
    "id": "marginalia-stamp",
