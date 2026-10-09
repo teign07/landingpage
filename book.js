@@ -149,6 +149,13 @@
   const phrasing = new Set(['A','SPAN','STRONG','EM','B','I','SMALL','BR','CITE','SUP','SUB','IMG']);
   function blocksFrom(element, inherited = []) {
     const ids = [...inherited, ...(element.id ? [element.id] : [])];
+    if (element.matches('.opening-beat')) {
+      const art = element.querySelector(':scope > .opening-mark');
+      const blocks = [...element.children].filter(child => child !== art).flatMap((child, index) => blocksFrom(child, index ? [] : ids));
+      blocks.forEach((block, index) => { block.openingArt = art; block.openingStart = index === 0; });
+      return blocks;
+    }
+    if (element.matches('.trust-row') && element.closest('.opening-beat')) return [{ node: element.cloneNode(true), ids }];
     if (atomic.has(element.tagName) || element.matches('.title-page,.monthly-cover-face,.quiet-composition,.reading-composition,.encounter-anchor')) return [{ node: element.cloneNode(true), ids }];
     if (element.matches('ul,ol')) return [...element.children].flatMap((item, index) => {
       const list = element.cloneNode(false);
@@ -225,7 +232,7 @@
     const clone = node.cloneNode(false); clone.append(range.cloneContents()); return clone;
   }
   function splitToFit(node, content) {
-    if (node.matches('figure,video,.title-page') || node.querySelector('img,video,input,button')) return null;
+    if (node.matches('figure,video,.title-page,.trust-row') || node.querySelector('img,video,input,button')) return null;
     const points = textPoints(node);
     let lo = 0, hi = points.length - 1, best = -1;
     while (lo <= hi) {
@@ -245,6 +252,8 @@
 
   function paginate() {
     pages.length = 0; anchors.clear();
+    const deck = window.PublicMarginaliaDeck;
+    deck?.beginPages();
     const measure = document.createElement('div'); measure.className = 'pagination-measure';
     measure.style.width = stage.style.width; measure.style.height = stage.style.height;
     document.body.append(measure);
@@ -252,12 +261,32 @@
       for (const chapter of chapters) {
         const queue = [...chapter.children].flatMap(child => blocksFrom(child));
         anchors.set(chapter.id,pages.length);
-        let leaf = makeLeaf(chapter), content = leaf.querySelector('.leaf-content');
+        let leaf = makeLeaf(chapter), content = leaf.querySelector('.leaf-content'), openingArt = null;
         function mount() { leaf.style.width = stage.style.width; leaf.style.height = stage.style.height; measure.replaceChildren(leaf); }
-        function finish() { if(content.children.length) pages.push(leaf); leaf=makeLeaf(chapter,true); content=leaf.querySelector('.leaf-content'); mount(); }
+        function addOpeningArt(original = false) {
+          if (!openingArt) return;
+          leaf.classList.add('is-opening');
+          const art = removeDuplicateIds(openingArt.cloneNode(true));
+          if (!original) {
+            const drawing = deck?.dealPage();
+            if (!drawing) return;
+            const image = art.querySelector('img');
+            image.src = drawing.src; image.width = drawing.w; image.height = drawing.h;
+            image.dataset.mark = drawing.id;
+          }
+          content.append(art);
+        }
+        function hasText() { return [...content.children].some(child => !child.matches('.opening-mark')); }
+        function finish() { if(hasText()) pages.push(leaf); leaf=makeLeaf(chapter,true); content=leaf.querySelector('.leaf-content'); addOpeningArt(); mount(); }
         mount();
         for (let index=0;index<queue.length;index++) {
           const block=queue[index];
+          if (block.openingStart) {
+            openingArt = null;
+            if (hasText()) finish();
+            openingArt = block.openingArt;
+            addOpeningArt(true);
+          }
           const node=removeDuplicateIds(block.node.cloneNode(true));
           content.append(node);
           if (['cover','title','quiet','composed'].includes(chapter.dataset.kind)) { collectAnchors(block,pages.length); continue; }
@@ -265,21 +294,31 @@
           if (fits(content) && node.matches('h1,h2,h3,h4,.eyebrow') && queue[index+1]) {
             const probe=document.createElement('p'); probe.textContent=queue[index+1].node.textContent.slice(0,110); content.append(probe);
             const orphan=!fits(content); probe.remove();
-            if(orphan && content.children.length>1) { node.remove(); finish(); content.append(node); }
+            if(orphan && content.children.length>(openingArt ? 2 : 1)) { node.remove(); finish(); content.append(node); }
           }
           if (!fits(content)) {
             node.remove();
-            if (content.children.length && (node.matches('h1,h2,h3,h4,figure,video') || node.textContent.length<250)) finish();
+            // A study credit travels with the preceding explanation, rather
+            // than becoming an otherwise empty continuation page.
+            if (openingArt && node.matches('.opening-source')) {
+              const explanation = content.lastElementChild;
+              if (explanation && explanation.matches('p:not(.opening-mark)')) {
+                explanation.remove(); finish(); content.append(explanation, node);
+                collectAnchors(block,pages.length);
+                continue;
+              }
+            }
+            if (hasText() && (node.matches('h1,h2,h3,h4,figure,video') || node.textContent.length<250)) finish();
             let split=splitToFit(node,content);
             if(split) {
               collectAnchors(block,pages.length); content.append(split[0]);
-              queue.splice(index+1,0,{node:split[1],ids:[]}); finish(); continue;
+              queue.splice(index+1,0,{node:split[1],ids:[],openingArt}); finish(); continue;
             }
-            if(content.children.length) finish();
+            if(hasText()) finish();
             content.append(node);
             if(!fits(content)) {
               node.remove(); split=splitToFit(node,content);
-              if(split) { collectAnchors(block,pages.length);content.append(split[0]);queue.splice(index+1,0,{node:split[1],ids:[]});finish();continue; }
+              if(split) { collectAnchors(block,pages.length);content.append(split[0]);queue.splice(index+1,0,{node:split[1],ids:[],openingArt});finish();continue; }
               content.append(node);
               // An unusual indivisible object is scrollable, never silently clipped.
               if(!fits(content)) { content.style.overflowY='auto'; content.tabIndex=0; content.setAttribute('aria-label','Page content, scroll to read the rest'); }
@@ -294,9 +333,8 @@
         if(content.children.length) pages.push(leaf);
       }
       // Like the app's compositor, put a mark only into measured empty paper.
-      const marks=['MarginaliaGoblinReading','MarginaliaFeather','MarginaliaGoblinWritingCrouched','MarginaliaStar','MarginaliaLavender','MarginaliaGoblinSleeping'];
       pages.forEach((page,index)=>{
-        if(page.matches('.is-title,.is-quiet,.is-composed,.is-cover') || index%3!==1) return;
+        if(page.matches('.is-title,.is-quiet,.is-composed,.is-cover,.is-opening') || index%3!==1) return;
         measure.replaceChildren(page);
         const field=page.querySelector('.leaf-content');
         const last=field.lastElementChild;
@@ -304,8 +342,10 @@
         const bottom=last.getBoundingClientRect().bottom-field.getBoundingClientRect().top;
         const available=field.clientHeight-bottom-20;
         if(available<65) return;
+        const drawing = deck?.dealPage();
+        if (!drawing) return;
         const mark=document.createElement('img');mark.className='page-marginalia';
-        mark.src='./assets/book/'+marks[index%marks.length]+'.webp';mark.alt='';mark.setAttribute('aria-hidden','true');mark.loading='lazy';mark.draggable=false;
+        mark.src=drawing.src;mark.width=drawing.w;mark.alt='';mark.setAttribute('aria-hidden','true');mark.loading='lazy';mark.draggable=false;
         mark.style.height=Math.min(104,available)+'px';
         mark.style.top=(field.offsetTop+bottom+14)+'px';
         mark.style.right=(index%2?35:55)+'px';

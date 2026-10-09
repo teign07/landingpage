@@ -310,3 +310,37 @@ body{background:#0a0816;isolation:isolate}.book-atmosphere{position:fixed;inset:
   .folio-leaf .story-page h2 { font-size:29px; margin-bottom:12px; }
   .folio-leaf .story-page [data-story-opening] p { font-size:16px; line-height:1.45; }
 }
+
+/* Small illustrated turns at the beginning, using the app's shared cabinet. */
+.opening-beat { padding:20px 0 28px; }
+.opening-mark { margin:0 0 20px; height:112px; }
+.opening-mark img { display:block; width:150px; height:100%; max-width:100%; object-fit:contain; }
+.opening-mark-left img { margin-right:auto; rotate:-5deg; }
+.opening-mark-right img { margin-left:auto; rotate:4deg; }
+.opening-mark-center img { margin-inline:auto; rotate:-2deg; }
+.leaf-content .opening-mark { margin:0 0 17px; height:104px; }
+.leaf-content .opening-mark img { width:150px; height:100%; max-height:none; mix-blend-mode:multiply; }
+.is-opening .leaf-content { line-height:1.45; }
+.is-opening .leaf-content p { margin:0 0 13px; }
+.is-opening .leaf-content h2 { font-size:30px; margin:0 0 17px; }
+.is-opening .leaf-content h3 { margin:0 0 16px; }
+.is-opening .leaf-content .campaign-answer { margin-top:8px; }
+.is-opening .leaf-content .eyebrow { margin-bottom:11px; }
+.is-opening .leaf-content .opening-callout { font-size:22px; line-height:1.25; margin-block:19px; font-style:italic; }
+.is-opening .leaf-content .opening-source { font-size:11px; line-height:1.45; margin-top:16px; }
+.is-opening .trust-row { font-size:12px; line-height:1.35; }
+.is-opening .trust-row li { margin-bottom:0; }
+#manuscript .opening-mark img { max-height:112px; }
+@media(max-width:600px) {
+  .leaf-content .opening-mark { height:86px; margin-bottom:13px; }
+  .is-opening .leaf-content h2 { font-size:26px; }
+  .is-opening .leaf-content h3 { font-size:23px; }
+  .is-opening .leaf-content p { margin-bottom:11px; }
+}
+@media(max-width:600px) and (max-height:740px) {
+  .leaf-content .opening-mark { height:65px; margin-bottom:10px; }
+}
+.is-opening .leaf-content .trust-row { display:grid; grid-template-columns:1fr 1fr; gap:8px 14px; padding:0; list-style:none; margin:20px 0 0; }
+.is-opening .trust-row li { border-top:1px solid #80613f44; padding-top:5px; }
+.leaf-content .opening-mark-breather { height:190px; margin-block:18px 30px; }
+@media(max-width:600px) { .leaf-content .opening-mark-breather { height:160px; } }
