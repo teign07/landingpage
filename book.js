@@ -193,7 +193,19 @@
   function removeDuplicateIds(node) {
     node.removeAttribute('id');
     node.querySelectorAll('[id]').forEach(child => child.removeAttribute('id'));
-    node.querySelectorAll('img').forEach(img => { img.draggable = false; });
+    node.querySelectorAll('img').forEach(img => {
+      img.draggable = false;
+      // Reserve screenshot geometry while its lazy image is still on the way.
+      // Otherwise pagination can put two unloaded pictures on the same leaf.
+      if (img.closest('figure') && /\/screens\/|\/samples\/pagewright-/.test(img.getAttribute('src') || '')) {
+        const width = Number(img.getAttribute('width'));
+        const height = Number(img.getAttribute('height'));
+        if (width > 0 && height > 0) {
+          img.style.aspectRatio = `${width} / ${height}`;
+          img.style.width = `min(100%, calc(var(--figure-height, 290px) * ${width / height}))`;
+        }
+      }
+    });
     return node;
   }
   function makeLeaf(chapter, continuation = false) {
