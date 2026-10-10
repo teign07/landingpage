@@ -77,6 +77,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="./book.css?v=54">
+    <link rel="stylesheet" href="./image-viewer.css?v=1">
+    <script src="./image-viewer.js?v=1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#manuscript">Skip to the pages</a>
@@ -90,7 +92,7 @@
           <nav class="binding-tabs" aria-label="Book bookmarks"><a href="#glow" aria-haspopup="dialog" aria-expanded="false" title="The Book’s menu: how it works, privacy, reading options, and the invite" class="tab-glow" aria-label="Glow, the Book’s menu">Glow</a><a href="#contents" aria-haspopup="dialog" aria-expanded="false" title="Jump to a chapter" class="tab-contents">Contents</a><a href="#capture" aria-haspopup="dialog" aria-expanded="false" class="tab-capture" aria-label="Capture, leave a sentence" title="Give the Book a little ink">Capture</a><a href="#body" aria-haspopup="dialog" aria-expanded="false" title="Printed Books, editions, gifts, and prices" class="tab-body" aria-label="Body, printed Books and editions">Body</a><a href="#place" aria-haspopup="dialog" aria-expanded="false" title="The Academy, the Stacks, and real places" class="tab-place" aria-label="Place, the Academy and your world">Place</a><a href="#radio-player" aria-haspopup="dialog" aria-expanded="false" title="Listen to the Book’s stations while you read" class="tab-radio" aria-label="Radio, play the Book’s stations">Radio</a></nav>
         </div>
         <div class="reading-controls"><button type="button" id="previous-page" aria-label="Previous page">←</button><span id="page-position" aria-live="polite" aria-atomic="true">The cover</span><button type="button" id="next-page" aria-label="Next page">→</button></div>
-        <div class="reading-footnotes"><p id="turn-hint">Drag a page corner, or use the arrows.</p><button id="book-sound-toggle" type="button" aria-pressed="true" aria-label="Mute Book sounds" hidden>♪ Sound on</button></div>
+        <div class="reading-footnotes"><p id="turn-hint">Drag a page corner, or use the arrows. Tap a picture to look closer.</p><button id="book-sound-toggle" type="button" aria-pressed="true" aria-label="Mute Book sounds" hidden>♪ Sound on</button></div>
         <aside class="desk-note making-note"><!-- slip:start --><p>A <span class="nowrap">Faerie-tale</span> book series of your life, made on your iPhone.</p><span class="desk-rule"></span><p>Free digital books, paid physical.</p><!-- slip:end --></aside>
       </div>
       <article id="manuscript" aria-label="The complete public edition"><section id="frontispiece" data-chapter="The cover" data-kind="title"><div class="title-page"><p class="imprint">A Book about your actual life</p><img class="cover-plate" src="./assets/book/outer-stacks-threshold.webp" width="1536" height="1024" alt="At dusk, a reader carrying groceries steps from a rain-wet street into the glowing, impossible library of the Outer Stacks"><h1>ReEnchanted</h1><p class="title-subtitle">There’s a Faerie tale<br>hiding in your ordinary life.</p><p class="title-invitation">I could be your Book. I’d like that.</p><a class="ink-button" href="#about">Open me <span aria-hidden="true">↗</span></a><p class="imprint title-imprint">For iPhone &amp; iPad · The digital Book is free</p></div></section><section id="about" data-chapter="A Book with character">
@@ -1511,7 +1513,7 @@
     <script src="./feast-leaf.js?v=3"></script>
     <script src="./book-day.js?v=3"></script>
     <script src="./book-souvenir.js?v=2" defer></script>
-    <script src="./book.js?v=49" defer></script>
+    <script src="./book.js?v=50" defer></script>
     <script src="./book-atmosphere.js?v=2" defer></script>
     <script src="./contact.js?v=3" defer></script>
   </body>

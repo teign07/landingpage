@@ -133,6 +133,7 @@
   async function openPlate(name) {
     const source = manuscript.querySelector(`[data-plate="${name}"] img`);
     if (!source) return;
+    if (window.PublicImageViewer) { window.PublicImageViewer.open(source); return; }
     if (dialog.open) await closeDialog();
     dialog.classList.remove('binding-dialog','is-glow');
     delete dialog.dataset.sheet;
@@ -385,7 +386,7 @@
     previous.disabled=current===0; next.disabled=current===pages.length-1;
     next.setAttribute('aria-label','Next page');
     stage.classList.toggle('is-closed',pages[current].classList.contains('is-cover'));
-    document.querySelector('#turn-hint').textContent=pages[current].classList.contains('is-cover')?'Open the cover. There’s a Book inside.':'Drag a page corner, or use the arrows.';
+    document.querySelector('#turn-hint').textContent=pages[current].classList.contains('is-cover')?'Open the cover. There’s a Book inside.':'Drag a page corner, or use the arrows. Tap a picture to look closer.';
     // One reading, including the full information chapters and Book Pages.
     position.textContent=pages[current].dataset.title+' · '+String(current+1).padStart(2,'0')+' / '+pages.length;
     if(pages[current].dataset.reading)window.PublicEdition.readingBookmark=pages[current].dataset.chapter;
@@ -686,7 +687,7 @@
     else if(id==='manuscript') { event.preventDefault();stage.focus(); }
   });
   document.addEventListener('keydown',event=>{
-    if(!active || dialog.open || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input,textarea,select,[contenteditable],video')) return;
+    if(!active || dialog.open || window.PublicImageViewer?.isOpen() || event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || event.target.closest('input,textarea,select,[contenteditable],video')) return;
     if(event.key==='ArrowRight' || event.key==='PageDown') {event.preventDefault();go(current+1);}
     if(event.key==='ArrowLeft' || event.key==='PageUp') {event.preventDefault();go(current-1);}
     if(event.key==='Home') {event.preventDefault();go(0);}
