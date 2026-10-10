@@ -29,7 +29,7 @@
   }
   function eligible(source) {
     return source instanceof HTMLImageElement && source.getAttribute('src') &&
-      !source.closest('#image-viewer, .book-atmosphere, .room-pixie, [inert]') &&
+      !source.closest('#image-viewer, .book-atmosphere, .room-pixie, .monthly-cover-face, .is-cover, [data-kind="cover"], [inert]') &&
       !source.classList.contains('leaf-watermark') &&
       (!source.closest('button') || source.closest('[data-plate]'));
   }
